@@ -22,10 +22,12 @@ hook) on a MovieLens a hundred times bigger, so finish HW0 first. Aim to have Pa
 > below: the Claude account and the install page, the submission target, GroupLens's permission
 > for the checked-in zip, the laptop fallback, the model pin for cold sessions, and whether HW1
 > adopts `RECORD.md` (its repo currently ships DECISIONS.md and REFLECTION.md and uses ML-10M).
-> Windows: the tools were written to be Windows-safe (no shell features, explicit UTF-8, LF line
-> endings pinned by `.gitattributes`, `claude` located through PATH, backslash paths normalized in
-> the hook) but were tested only on Linux; run Part 0 through `cold_session.py warmup` on one
-> Windows laptop, in Git Bash, before Sep 10. The session-start hook fetches this template from
+> Windows: WSL2 (Ubuntu) is required, per your Sep 5 decision, so Windows students run the
+> exact Linux path tested here; native Windows, PowerShell, and Git Bash are unsupported. The
+> install page must cover the WSL2 steps (Store install, reboot, virtualization enabled in
+> firmware, Ubuntu username and password, VS Code WSL extension, repo under the Ubuntu home).
+> Worth one dry run on a Windows laptop before Sep 10 anyway, mainly for the Claude Code login
+> inside WSL2 on the course account type. The session-start hook fetches this template from
 > GitHub each time `claude` starts (silent when offline), and `sync_upstream.py` merges fixes you
 > push to the template's `main`; that only works if every student can read the template, so either
 > keep it public, add the class as read-only collaborators, or use GitHub Classroom
@@ -109,12 +111,18 @@ Sep 5 from the canonical files because files.grouplens.org served an expired cer
 
 ### Part 0. Setup (in class Thu Sep 10, plus up to 40 minutes at home)
 
+**Windows: this assignment runs inside WSL2, not in PowerShell, cmd, or Git Bash.** Install
+WSL2 with Ubuntu (Microsoft Store, then reboot), then do every install and every command in
+this brief inside the Ubuntu terminal, and keep your repo in the Linux filesystem (under your
+Ubuntu home folder, not under `/mnt/c/...`). Edit files with VS Code and its WSL extension,
+which opens the folder inside Ubuntu. The tools, the hooks, and the cold sessions were tested
+on Linux; WSL2 is that same environment. On a Mac, Terminal is fine as it is.
+
 Before class, following the page on Moodle **[DECIDE: install-and-login page, posted by Mon
-Sep 8; which Claude account students use; which terminal to use on Windows]**: install `uv`,
-`git`, Claude Code, and a plain-text editor such as VS Code (turn off any AI autocomplete in it
+Sep 8, including the WSL2 steps; which Claude account students use]**: install `uv`, `git`,
+Claude Code, and VS Code (with the WSL extension on Windows; turn off any AI autocomplete in it
 for Part 1); log in to Claude Code, and log in to GitHub from the terminal so that a private
-repo can be cloned and pushed (`gh auth login`, or the method on the install page). On Windows
-use Git Bash for every command in this brief; on a Mac, Terminal. Then:
+repo can be cloned and pushed (`gh auth login`, or the method on the install page). Then:
 
 1. Create your private repo from this template **[DECIDE: GitHub Classroom link, or "Use this
    template" as a private repo and add the instructor's GitHub handle as collaborator]** and
@@ -458,8 +466,12 @@ Per the syllabus, a reported access problem never costs you points.
 - `git push` or `git clone` asks for a password: GitHub no longer accepts account passwords;
   log in with `gh auth login` (or the method on the install page) and try again.
 - GitHub is down at the deadline: email me a zip of the repo without `data/`.
-- Your laptop cannot run `uv` or Python 3.13: tell me by Fri Sep 11 **[DECIDE: lab machine,
-  Codespace, or loaner]**.
+- On Windows and something behaves differently from this brief (paths that start with `C:` or
+  `/c/`, `uv` not found, the hooks never firing): you are not in WSL2. Open the Ubuntu terminal,
+  keep the repo under your Ubuntu home, and start again from `git clone`.
+- Your laptop cannot run WSL2 (virtualization disabled and locked, or an old Windows) or cannot
+  run `uv` or Python 3.13: tell me by Fri Sep 11 **[DECIDE: lab machine, Codespace, or
+  loaner]**.
 
 ## FAQ
 
@@ -482,6 +494,9 @@ your repo.
 **Claude says the template has updates.** Say yes and it runs `uv run python
 sync_upstream.py` for you, or run it yourself. Your files are never overwritten; see "How this
 repo works".
+
+**Can I use PowerShell or Git Bash on Windows instead of WSL2?** No. The assignment was tested
+on Linux, and WSL2 is Linux; anything else is unsupported and I cannot help you debug it.
 
 **`claude` keeps asking permission for `git log` and `ls`.** The repo pre-approves the
 read-only commands it runs at the start of every session (`.claude/settings.json`); if you

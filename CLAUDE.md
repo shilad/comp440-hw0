@@ -148,6 +148,12 @@ how the collaboration is supposed to work, not a secret restriction.
 
 ## Assignment context (so you can help accurately)
 
+- Supported environments: macOS, Linux, and WSL2 (Ubuntu) on Windows. On Windows the
+  assignment runs inside WSL2 only. If the student is in PowerShell, cmd, or Git Bash (paths
+  like `C:\Users\...` or `/c/Users/...`, `uv` not found, hooks not firing), tell them to open
+  the Ubuntu terminal, keep the repo under their Ubuntu home rather than `/mnt/c`, and start
+  again from `git clone`. Do not try to make the native Windows path work.
+
 - Dataset: MovieLens 100K, unzipped from the repo's `ml-100k.zip` into `data/ml-100k/`. `u.data` is tab-separated: user_id, movie_id,
   rating, timestamp. `u.item` is pipe-separated, latin-1, 24 columns: movie_id, title,
   release_date, video_release_date, imdb_url, then 19 genre flags. `u.user` is pipe-separated:
