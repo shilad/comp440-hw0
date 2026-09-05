@@ -1,0 +1,15 @@
+# MovieLens data, unzipped by load_data.py from the checked-in ml-100k.zip
+data/
+# Python
+__pycache__/
+*.pyc
+.venv/
+.idea/
+# Instructor-only: solutions and the Reference Analyst capture (see README)
+reference/
+# Personal permission allowlist
+.claude/settings.local.json
+# Scratch output from analysis runs
+tmp/
+# macOS
+.DS_Store
