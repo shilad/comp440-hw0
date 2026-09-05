@@ -5,8 +5,6 @@ __pycache__/
 *.pyc
 .venv/
 .idea/
-# Instructor-only: solutions and the Reference Analyst capture (see README)
-reference/
 # Personal permission allowlist
 .claude/settings.local.json
 # Scratch output from analysis runs

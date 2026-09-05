@@ -21,7 +21,7 @@ automatically; the cold sessions are in `cold/`. Fill every line.
 
 ## 3. What I checked, and how (one line per check, naming the function)
 
-- README counts (part2_checks.py::row0_readme_counts):
+- README counts (part2_checks.py::<function>):
 - Check 2:
 - Check 3:
 

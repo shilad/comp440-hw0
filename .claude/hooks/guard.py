@@ -20,28 +20,6 @@ import re
 import subprocess
 import sys
 
-data = json.load(sys.stdin)
-tool = data.get("tool_name", "")
-inp = data.get("tool_input") or {}
-cwd = data.get("cwd") or "."
-
-EDIT_TOOLS = ("Write", "Edit", "MultiEdit", "NotebookEdit")
-FROZEN = r"(^|/)(part1\.py|part1\.ipynb|part2_claude(-\d+)?\.py|record\.md|transcript\.md)$|(^|/)cold/"
-# A frozen name as it would appear inside a shell command (word-ish boundary before it).
-FROZEN_IN_CMD = r"(part1\.py|part1\.ipynb|part2_claude(-\d+)?\.py|record\.md|transcript\.md|cold/[^\s'\"]*)"
-# Ways a shell command writes to a file: a redirect into it, an in-place editor or file
-# command naming it, or Python opening it for writing. `2>/dev/null` and `2>&1` do not count.
-MUTATIONS = [
-    r"(?<![0-9&])>{1,2}\s*['\"]?[^\s'\"|;&]*" + FROZEN_IN_CMD,
-    r"\b(sed\s+-i\S*|perl\s+-p?i\S*|tee(\s+-a)?|mv|cp|rm|truncate|touch)\b[^|;&]*" + FROZEN_IN_CMD,
-    r"open\([^)]*" + FROZEN_IN_CMD + r"[^)]*['\"][wa]",
-]
-
-
-def subjects() -> list[str]:
-    r = subprocess.run(["git", "log", "--format=%s"], cwd=cwd, capture_output=True, text=True)
-    return [s.strip().lower() for s in r.stdout.splitlines()] if r.returncode == 0 else []
-
 
 def deny(reason: str) -> None:
     reason = ("[HW0 guard hook, .claude/hooks/guard.py, part of this assignment repo, not a "
@@ -52,15 +30,60 @@ def deny(reason: str) -> None:
     sys.exit(0)
 
 
-path = str(inp.get("file_path") or inp.get("path") or inp.get("pattern") or "")
-cmd = str(inp.get("command") or "")
-mentions = (path + " " + cmd).lower()
-part1_done = any(s.startswith("part 1 finished") for s in subjects())
+try:
+    data = json.load(sys.stdin)
+except Exception as e:  # noqa: BLE001 - fail closed: a broken hook must not silently allow
+    deny(f"the guard hook could not read the tool call ({e}); blocking to be safe. Tell the student.")
+tool = data.get("tool_name", "")
+inp = data.get("tool_input") or {}
+cwd = data.get("cwd") or "."
 
-# G3: the marker commits are the student's.
+EDIT_TOOLS = ("Write", "Edit", "MultiEdit", "NotebookEdit")
+FROZEN = r"(^|/)(part1\.py|part1\.ipynb|part2_claude(-\d+)?\.py|record\.md|transcript\.md)$|(^|/)cold/"
+# A frozen name as it would appear inside a shell command (word-ish boundary before it).
+FROZEN_IN_CMD = r"(part1\.py|part1\.ipynb|part2_claude(-\d+)?\.py|record\.md|transcript\.md|cold(?:/[^\s'\"]*|\b))"
+# Ways a shell command writes to a file: a redirect into it, an in-place editor or file
+# command naming it, or Python opening it for writing. `2>/dev/null` and `2>&1` do not count.
+MUTATIONS = [
+    r"(?<![0-9])(?:&?>{1,2}|>\|)\s*['\"]?[^\s'\"|;&]*" + FROZEN_IN_CMD,
+    r"\b(sed\s+-i\S*|perl\s+-p?i\S*|tee(\s+-a)?|mv|cp|rm|truncate|touch|patch|install|rsync)\b[^|;&]*" + FROZEN_IN_CMD,
+    r"\bdd\b[^|;&]*of=\S*" + FROZEN_IN_CMD,
+    r"open\([^)]*" + FROZEN_IN_CMD + r"[^)]*['\"][wa]",
+    r"\b(write_text|write_bytes|to_csv|to_json|to_pickle|to_excel|savefig|save)\([^)]*" + FROZEN_IN_CMD,
+    r"\b(shutil\.(copy\w*|move|rmtree)|os\.(rename|replace|remove|unlink|rmdir))\([^)]*" + FROZEN_IN_CMD,
+    r"Path\([^)]*" + FROZEN_IN_CMD + r"[^)]*\)\.(write_text|write_bytes|unlink|rename|replace|touch|rmdir)",
+    # Reverting or rewriting any student file, frozen or not, throws away their work.
+    r"\bgit\s+(checkout|restore|reset|revert|rebase|apply|clean|filter-branch)\b[^|;&]*"
+    r"(" + FROZEN_IN_CMD + r"|writeup\.md|part2_checks\.py|part3\.py|part4\.py|figures/)",
+    r"\bgit\s+(reset\s+--hard|rebase|filter-branch|clean\s+-\S*[fx])\b",
+    r"\bgit\s+stash\b(?!\s+(list|show))",
+]
+
+
+def subjects() -> list[str]:
+    r = subprocess.run(["git", "log", "--format=%s"], cwd=cwd, capture_output=True, text=True)
+    return [s.strip().lower() for s in r.stdout.splitlines()] if r.returncode == 0 else []
+
+
+# Windows paths arrive with backslashes; match everything on forward slashes.
+path = str(inp.get("file_path") or inp.get("notebook_path") or inp.get("path") or inp.get("pattern") or "")
+path = path.replace("\\", "/")
+cmd = str(inp.get("command") or "").replace("\\", "/")
+# A leading `cd <dir> &&` is not the command; look past it.
+cmd_core = re.sub(r"^\s*cd\s+\S+\s*&&\s*", "", cmd)
+mentions = (path + " " + cmd).lower()
+try:
+    part1_done = any(s.startswith("part 1 finished") for s in subjects())
+except Exception as e:  # noqa: BLE001
+    deny(f"the guard hook could not read git history ({e}); blocking to be safe.")
+
+# G3: the marker commits are the student's, and history is never rewritten.
 if tool == "Bash" and re.search(r"git\s+commit", cmd) and re.search(r"part 0 done|part 1 finished", cmd, re.I):
     deny("The 'Part 0 done' and 'Part 1 finished' commits are typed by the student, not run by Claude. "
          "Give them the exact command instead.")
+if tool == "Bash" and re.search(r"git\s+commit\b[^|;&]*(--amend|\s-F\b|--file\b|\s-t\b|--template\b)", cmd):
+    deny("Commits in this repo are made with an inline -m message and never amended, so the history stays "
+         "an honest record. Give the student the command if it is theirs to run.")
 
 # G2: frozen files.
 if tool in EDIT_TOOLS and re.search(FROZEN, path.lower()):
@@ -74,10 +97,13 @@ if tool == "Bash" and any(re.search(m, cmd, re.I) for m in MUTATIONS):
 # G1: before the marker, setup only.
 if not part1_done:
     setup = re.match(
-        r"^\s*(uv sync\b|uv run (python )?load_data\.py|python3? load_data\.py|uv run (python )?cold_session\.py "
-        r"(warmup|--selftest|--show-prompt)|uv run (python )?dump_transcript\.py|git\s+(status|log|config|remote|"
-        r"branch|add|init)\b|ls\b|pwd\b|cat\b|head\b|tail\b|wc\b|which\b|echo\b|uv --version|uv python\b|"
-        r"python3? --version|uv run python -c ['\"]import (pandas|numpy|matplotlib))", cmd.strip())
+        r"^\s*(?:[A-Z_][A-Z0-9_]*=\S+\s+)*(uv sync\b|uv run (python )?load_data\.py|python3? load_data\.py|"
+        r"uv run (python )?cold_session\.py\s+(warmup\b|--selftest|.*--show-prompt|--help|-h)|"
+        r"uv run (python )?dump_transcript\.py|uv run (python )?sync_upstream\.py|"
+        r"git\s+(status|log|config|remote|branch|add|init|fetch)\b|ls\b|pwd\b|"
+        r"cat\b|head\b|tail\b|wc\b|which\b|echo\b|uv --version|uv python\b|python3? (--version|-V)|"
+        r"uv run python (--version|-V)|uv run python -c ['\"]import (pandas|numpy|matplotlib|sys|platform))",
+        cmd_core.strip())
     if re.search(r"part1|writeup\.md", mentions):
         deny("Part 1 is the student's solo work, done without AI. Until a commit whose message starts "
              "'Part 1 finished' exists, do not open, discuss, or touch part1.py or WRITEUP.md. Reply: "
@@ -87,7 +113,8 @@ if not part1_done:
         deny("Part 1 is the student's solo work: Claude writes no analysis code before the 'Part 1 finished' "
              "commit exists. Setup help (uv sync, load_data.py, git identity, the Part 0 commit) is fine.")
     if tool == "Bash" and not setup and re.search(r"python|pandas|\.py\b|jupyter|ipython|run_all|git\s+(diff|show|stash)",
-                                                   cmd.lower()):
+                                                   cmd_core.lower()):
         deny("Part 1 is the student's solo work: Claude runs no analysis code (and no git diff/show) before the "
              "'Part 1 finished' commit exists. Allowed now: uv sync, uv run python load_data.py, "
-             "cold_session.py warmup or --selftest, git status/log/add, and the student's own Part 0 commit.")
+             "cold_session.py warmup, --selftest, or --show-prompt, git status/log/add, and the student's own "
+             "Part 0 commit.")

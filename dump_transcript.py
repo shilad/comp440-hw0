@@ -11,12 +11,15 @@ Two modes, chosen automatically:
   Manual mode:          run `uv run python dump_transcript.py` yourself.
                         Scans ~/.claude/projects/ for sessions whose recorded
                         working directory is this repo. Use this if the hook
-                        wasn't approved, or to pull in a partner's sessions
-                        before committing.
+                        wasn't approved, or to pull in your own sessions from
+                        another machine before committing.
+
+After writing, the file is committed by itself ("Auto-commit TRANSCRIPT.md"), so
+the record is always in the history; the student never has to remember it.
 
 TRANSCRIPT.md is merged, not rebuilt: sessions found locally are regenerated;
-sections for sessions only present in the existing file (e.g., a partner's,
-committed from another machine) are preserved.
+sections for sessions only present in the existing file (e.g., committed from
+another machine of yours) are preserved.
 
 What is recorded: everything you typed and everything Claude said, plus
 one-line summaries of tool calls. What is omitted: tool output and Claude's
@@ -201,7 +204,7 @@ def main():
         session_files = sessions_from_scan()
 
     # Start from sections already in TRANSCRIPT.md (preserves sessions we
-    # can't see locally, e.g. a partner's committed from another machine).
+    # can't see locally, e.g. ones committed from another machine).
     sections: dict[str, tuple[str, str]] = {}
     if OUTPUT.exists():
         existing = OUTPUT.read_text(encoding="utf-8")
@@ -230,6 +233,28 @@ def main():
     with open(OUTPUT, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
     print(f"Wrote {OUTPUT.name}: {len(sections)} session(s).")
+    auto_commit()
+
+
+def auto_commit() -> None:
+    """Commit TRANSCRIPT.md by itself, so the record is never left uncommitted. Quiet on any
+    failure (no git, no identity, a merge in progress): the file is still written."""
+    import subprocess
+
+    def git(*args):
+        return subprocess.run(["git", *args], cwd=REPO_ROOT, capture_output=True, text=True)
+
+    if git("rev-parse", "--is-inside-work-tree").stdout.strip() != "true":
+        return
+    if (REPO_ROOT / ".git" / "MERGE_HEAD").exists():
+        return
+    if not git("config", "user.name").stdout.strip() or not git("config", "user.email").stdout.strip():
+        return
+    if git("add", "--", OUTPUT.name).returncode != 0:
+        return
+    if not git("diff", "--cached", "--quiet", "--", OUTPUT.name).returncode:
+        return  # nothing staged for it
+    git("commit", "-q", "-m", "Auto-commit TRANSCRIPT.md", "--", OUTPUT.name)
 
 
 if __name__ == "__main__":

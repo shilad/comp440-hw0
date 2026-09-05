@@ -20,7 +20,7 @@ current working directory). Three files matter:
 - u.user: one user per line, pipe-separated: user id | age | gender | occupation |
   zip code.
 
-Neither file has a header row. I can run Python 3 with pandas, numpy, and matplotlib.
+None of the three files has a header row. I can run Python 3 with pandas, numpy, and matplotlib.
 You cannot run code or read files in this conversation; answer in text, and include
 any code you would want me to run.
 ```

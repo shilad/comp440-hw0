@@ -26,6 +26,13 @@ from pathlib import Path
 
 import pandas as pd
 
+# Windows consoles are not always UTF-8; never let a stray character crash a student's run.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 REPO_ROOT = Path(__file__).resolve().parent
 DATA_DIR = REPO_ROOT / "data"
 ML_DIR = DATA_DIR / "ml-100k"
@@ -94,6 +101,17 @@ def readme_text() -> str:
 
 
 if __name__ == "__main__":
+    # First, the repo itself: your work must live in your own repo, not in the template.
+    sys.path.insert(0, str(REPO_ROOT))
+    try:
+        import sync_upstream
+        kind, why = sync_upstream.origin_state()
+    except Exception:  # noqa: BLE001
+        kind, why = "ok", "?"
+    if kind == "template":
+        sys.exit("Repo check failed: " + why)
+    if kind == "missing":
+        print("Repo check: " + why + "\n")
     ratings, movies, users = load_ratings(), load_movies(), load_users()
     print(readme_text())
     print("=" * 72)
@@ -112,3 +130,5 @@ if __name__ == "__main__":
         ok &= got[k] == want
         print(f"  {mark} {k}: README says {want:,}, data has {got[k]:,}")
     print("All README counts match." if ok else "Some counts do not match the README. Look into it before Part 1.")
+    if kind == "ok":
+        print(f"Repo check: origin is {why} (your own repo, not the template).")

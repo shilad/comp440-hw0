@@ -4,8 +4,8 @@
 **Out Thu Sep 10 · Due Thu Sep 17, 8:00am Central**
 
 Budget about five and a half hours. HW1 goes out Tue Sep 15, before this is due; nothing in
-HW1 is due before HW0, and HW1 uses this same repo shape, rules, and record on a MovieLens a
-hundred times bigger, so finish HW0 first. Aim to have Parts 1–3 done by Mon Sep 14.
+HW1 is due before HW0, and HW1 uses the same tooling (uv, git, Claude Code, the transcript
+hook) on a MovieLens a hundred times bigger, so finish HW0 first. Aim to have Parts 1–3 done by Mon Sep 14.
 
 > **Instructor notes (delete before publishing).** Decisions taken as defaults so the brief
 > reads whole; each is one edit to change. Part 1(d) threshold and the shrinkage constant are
@@ -20,7 +20,18 @@ hundred times bigger, so finish HW0 first. Aim to have Parts 1–3 done by Mon S
 > it cannot run, you run it), which four trial captures on Sep 5 showed produces runnable
 > scripts plus a recalled and false claim that titles are unique. Still marked `[DECIDE: ...]`
 > below: the Claude account and the install page, the submission target, GroupLens's permission
-> for the checked-in zip, the laptop fallback, and the model pin for cold sessions.
+> for the checked-in zip, the laptop fallback, the model pin for cold sessions, and whether HW1
+> adopts `RECORD.md` (its repo currently ships DECISIONS.md and REFLECTION.md and uses ML-10M).
+> Windows: the tools were written to be Windows-safe (no shell features, explicit UTF-8, LF line
+> endings pinned by `.gitattributes`, `claude` located through PATH, backslash paths normalized in
+> the hook) but were tested only on Linux; run Part 0 through `cold_session.py warmup` on one
+> Windows laptop, in Git Bash, before Sep 10. The session-start hook fetches this template from
+> GitHub each time `claude` starts (silent when offline), and `sync_upstream.py` merges fixes you
+> push to the template's `main`; that only works if every student can read the template, so either
+> keep it public, add the class as read-only collaborators, or use GitHub Classroom
+> **[DECIDE]**. Push template fixes as ordinary commits; never rewrite the template's history
+> after students have copied it. `TRANSCRIPT.md` is committed automatically after every session
+> ("Auto-commit TRANSCRIPT.md"), so expect those commits in students' histories.
 
 ## Purpose
 
@@ -36,8 +47,8 @@ dataset?" depends on how you combine many people's judgments. "What is the most 
 decide the word means and where you look for it: in the labels someone attached, in what the
 crowd actually did, or in the words of the titles. Those are the first big ideas of this course
 and the opening problems of HW1. The point of HW0 is not a polished analysis. It is evidence
-that you can direct an AI, verify it, and know when not to trust it, on data you will use
-again next week. If your Python is rusty, Part 1 is your refresher; if it is not, Part 1 will
+that you can direct an AI, verify it, and know when not to trust it, on the kind of data you
+will use again next week. If your Python is rusty, Part 1 is your refresher; if it is not, Part 1 will
 take you twenty minutes.
 
 This repo's `CLAUDE.md` tells Claude how to behave here. Read it; it is a description of how
@@ -55,7 +66,8 @@ pipe-separated, latin-1 encoded), and `u.user` (user id, age, gender, occupation
 pipe-separated). Users are anonymous integers. The dataset is public and released for research
 and teaching (cite Harper and Konstan, 2015, "The MovieLens Datasets: History and Context").
 The README inside the zip is our ground truth: 100,000 ratings, 943 users, 1,682 movies, every
-user with at least 20 ratings. Two things worth knowing before you count anything: nine titles
+user with at least 20 ratings. Because the data is public and anonymized, Claude may read it,
+here or in the cold sessions. Two things worth knowing before you count anything: nine titles
 carry accented characters, so reading `u.item` as UTF-8 fails (`load_data.py` handles it), and
 18 titles appear twice under different movie ids.
 
@@ -69,13 +81,24 @@ Sep 5 from the canonical files because files.grouplens.org served an expired cer
 
 - **Files you write:** `part1.py`, `part2_checks.py`, `part3.py`, `part4.py`, `WRITEUP.md`,
   `RECORD.md`. Claude may help with the code in Parts 2–4; the prose is yours.
-- **Files the tools write:** `part2_claude.py` and `cold/` (by `cold_session.py`),
-  `figures/` (by your scripts), `TRANSCRIPT.md` (by a hook, every time a Claude Code session in
-  this folder ends). You never edit those.
+- **Files the tools write:** `cold/` and `part2_claude.py` (by `cold_session.py`), `figures/`
+  (by your scripts), `TRANSCRIPT.md` (by a hook, every time a Claude Code session in this folder
+  ends; the hook also commits it by itself, so the record is always in your history). You
+  never edit `cold/` or `TRANSCRIPT.md`; `part2_claude.py` stays unchanged except for import
+  or path fixes, each announced by a `# Fix:` line at the top.
 - **Two commit messages you type yourself:** `Part 0 done` and `Part 1 finished`. Everything
   after that gets ordinary messages. Commit as you go; your history is part of the submission.
 - **`uv run python run_all.py`** runs every script from a clean slate and checks the
   submission. It is the first thing the grader runs.
+- **Your repo, not the template.** Everything happens in your own private copy of this
+  template; `origin` must be your repo. `load_data.py` refuses to run in the template itself,
+  and `cold_session.py` and `run_all.py` refuse without your own `origin`.
+- **Template fixes.** If I fix something in the template during the week, Claude tells you at
+  the start of your next session (a hook fetches the template's `upstream` remote), and
+  `uv run python sync_upstream.py` merges the fix as an ordinary merge commit. Template files
+  take the template's version; your files are never overwritten. If the template changed a
+  file that is yours (say, a label in `WRITEUP.md`), your version stays and the change lands
+  as a patch under `tmp/upstream/` for you to apply by hand.
 - **Work in this directory.** Sessions started elsewhere are not captured. The cold sessions
   are the one exception, and `cold_session.py` handles them.
 - `.claude/hooks/guard.py` blocks Claude from the things the rules say it must not do (touch
@@ -87,20 +110,38 @@ Sep 5 from the canonical files because files.grouplens.org served an expired cer
 ### Part 0. Setup (in class Thu Sep 10, plus up to 40 minutes at home)
 
 Before class, following the page on Moodle **[DECIDE: install-and-login page, posted by Mon
-Sep 8; which Claude account students use]**: install `uv`, `git`, and Claude Code, and log in.
-Then:
+Sep 8; which Claude account students use; which terminal to use on Windows]**: install `uv`,
+`git`, Claude Code, and a plain-text editor such as VS Code (turn off any AI autocomplete in it
+for Part 1); log in to Claude Code, and log in to GitHub from the terminal so that a private
+repo can be cloned and pushed (`gh auth login`, or the method on the install page). On Windows
+use Git Bash for every command in this brief; on a Mac, Terminal. Then:
 
 1. Create your private repo from this template **[DECIDE: GitHub Classroom link, or "Use this
    template" as a private repo and add the instructor's GitHub handle as collaborator]** and
-   `git clone` it. If git does not know you yet: `git config --global user.name "Your Name"`
-   and `git config --global user.email "you@macalester.edu"`.
-2. `uv sync`, then `uv run python load_data.py`. Expect the README and four `OK` lines.
+   `git clone` it. If git does not know you yet:
+
+   ```
+   git config --global user.name "Your Name"
+   git config --global user.email "you@macalester.edu"
+   ```
+
+2. `uv sync`, then `uv run python load_data.py`. Expect the README, four `OK` lines, and a
+   "Repo check" line naming your own repo as `origin`.
 3. `uv run python cold_session.py --selftest`. Expect `PASS`. This proves the cold sessions
    really are cold on your machine.
-4. Start `claude` in the repo. Approve the two hooks when it asks (they write `TRANSCRIPT.md`
-   and enforce the rules). Type `hello`; it should tell you Part 0 is where you are.
-5. Fill the five header lines of `WRITEUP.md` (title, name, HW0, date, and either "Using
-   Claude" or "Opt-out path"). Then, yourself: `git add -A && git commit -m "Part 0 done"`.
+4. In your editor, not in Claude, fill the five header lines of `WRITEUP.md` (title, name,
+   HW0, date, and either "Using Claude" or "Opt-out path"). Claude will not open `WRITEUP.md`
+   until Part 1 is done, so the header is yours to type. Then, yourself:
+
+   ```
+   git add -A
+   git commit -m "Part 0 done"
+   ```
+
+5. Start `claude` in the repo. It first asks you to trust the folder and to approve the two
+   hooks from `.claude/settings.json` (they write `TRANSCRIPT.md` and enforce the rules); say
+   yes to both. Type `hello`; it should run `git log`, see your commit, and tell you Part 1 is
+   next.
 
 In class we run `uv run python cold_session.py warmup` together: it asks a cold Claude how many
 ratings are exactly 5 stars, and you check it against a one-liner of your own. If you have not
@@ -139,29 +180,39 @@ git commit -m "Part 1 finished"
 That commit is the marker. Claude will not touch Part 1 before it exists, and
 `cold_session.py` will not run. After it, you may ask Claude to explain pandas concepts and
 error messages, and it may read your `part1.py`; it will never edit it, because Part 1 is
-graded as it was at that commit. If you mistyped the message, repair it with
-`git commit --allow-empty -m "Part 1 finished"`.
+graded as it was at that commit. Two repairs, both before you ask Claude anything: if you
+mistyped the message, `git commit --allow-empty -m "Part 1 finished"`; if you forgot
+`git add part1.py`, add it and commit again with the same message (Part 1 is graded from the
+first marker commit that contains it). If `part1.py` turns out not to run, do not fix it after
+the marker; say what broke in the stuck-notes, and `run_all.py` will report the crash and carry
+on.
 
 ### Part 2. Claude second, then reconcile (about 75 minutes)
 
 Run `uv run python cold_session.py part2`. It starts a fresh Claude outside this repo with the
-file description from `FILES.md` and the four questions, word for word, and nothing else: no
-`CLAUDE.md`, no tools, no data, no memory of your work. It saves the whole exchange as
-`cold/part2.md`, copies Claude's script unchanged to `part2_claude.py`, and commits both.
+file description from `FILES.md` and the four questions, word for word, wrapped in one sentence
+asking for a single script (`--show-prompt part2` prints it), and nothing else: no `CLAUDE.md`,
+no tools, no data, no memory of your work. It saves the whole exchange as `cold/part2.md` (plus
+`cold/part2.jsonl`, the raw event stream that `run_all.py` re-renders the readable file from),
+copies Claude's script unchanged to `part2_claude.py`, and commits all three.
 
 Run `uv run python part2_claude.py` as given. Fix only import or path errors, by hand, each
 with a `# Fix:` line at the top of the file, and say so in `WRITEUP.md`. If it crashes for any
 other reason, do not fix it: for the rows it did not reach, Claude's answer is the last line of
 the traceback, the verdict is FAILS with the mechanism you diagnose (an encoding crash is a
-data trap), and the evidence is the traceback plus your own check. You may ask Claude in the
-repo to explain the error.
+data trap), and the evidence is the traceback plus your own check; `run_all.py` reports the
+crash and carries on. You may ask Claude in the repo to explain the error, and to walk you
+through what its cold script does line by line; the check and the words in the table are yours.
 
 Now build the reconciliation table in `WRITEUP.md`, one row per item, with these columns:
 *question · mine · Claude's · match? · verdict on Claude's answer · mechanism if it fails ·
 evidence (`part2_checks.py::function`)*.
 
 - **Row 0 is the README.** Both your counts and Claude's have to match 100,000 / 943 / 1,682 /
-  at least 20 ratings per user. If either does not, that is your first divergence to run down.
+  at least 20 ratings per user. Your side is what `load_data.py` printed, recomputed by a
+  function in `part2_checks.py`; Claude's side is what `part2_claude.py` printed for (a), and
+  CANNOT DETERMINE for any number it did not print. If either side does not match, that is your
+  first divergence to run down.
 - **Rows (a)–(d)** are the four questions. A verdict is **HOLDS**, **FAILS**, or **CANNOT
   DETERMINE**. Every FAILS needs a function in `part2_checks.py` that computes the deciding
   evidence and a named mechanism: *code bug*; *data trap* (duplicate titles in `u.item`, an
@@ -186,7 +237,7 @@ not to quote from memory; watch for it anyway. If Claude gave you a number no sc
 it goes in the table as FAILS with mechanism "recalled rather than computed," or in the record
 as something you could not verify.
 
-### Part 3. Two questions with no right answer (about 60 minutes)
+### Part 3. Two questions with no right answer (about 80 minutes: 30 for 3a, 30 for 3b, 20 for the cold sessions)
 
 **3a. The best movie** (about 30 minutes). "What is the best movie in this dataset?" has no
 single answer, because it depends on how you combine 943 people's judgments. Choose a rule and
@@ -226,8 +277,9 @@ three transfer to adjectives with no flag:
   Dead, Scream, ...). Crude, and worth trying once to see what it misses. (For "most 90s":
   release year is in `u.item`, but "most 90s" is not "released in the 90s"; say what it is.)
 
-Write your adjective on the `**My adjective:**` line and your definition, in one sentence
-precise enough that a classmate could code it, on the `**My definition:**` line; commit. Show
+Write your adjective on the `**My adjective:**` line (the same word you will type after
+`most`) and your definition, in one sentence precise enough that a classmate could code it, on
+the `**My definition:**` line; commit. Show
 the top 5 under your definition and the top 5 under one other definition for the same
 adjective, and say whether they agree. Then, in at most 150 words: what your definition
 captures, what it misses, and where you think "___-ness" actually lives in this dataset: in
@@ -237,7 +289,7 @@ in Alignment (whose labels count).
 
 **Ask Claude cold, for both.** `uv run python cold_session.py best`, then `uv run python
 cold_session.py most <your adjective>`. Each starts a fresh Claude outside this repo with the
-file description and nothing else, and asks the question exactly as written in bold above. For
+file description and nothing else, and asks the question exactly as quoted above. For
 each, record in a short paragraph which rule or definition Claude used, whether it told you it
 had made a choice, and whether its answer came from code you can run or from memory (find the
 code that prints the film; if there is none, it was recalled). If Claude's "most ___" film is
@@ -262,12 +314,19 @@ sample of anyone, and I grade the honesty of the limitation, not the finding.
 
 ### Part 5. Collaboration record (about 30 minutes, written by you)
 
-Fill in every field of `RECORD.md`. Claude cannot write to it; the hook blocks it. Then, from a
-fresh clone of your repo: `uv sync`, `uv run python load_data.py`, `uv run python run_all.py`,
-and fix anything it fails. If the transcript hook was declined at some point, run
-`uv run python dump_transcript.py`. Commit, push, submit. One last question to carry into
-HW1, which asks the same kinds of questions of ten million ratings: what in your scripts breaks
-when the table is a hundred times bigger?
+Fill in every field of `RECORD.md`. Claude cannot write to it; the hook blocks it. Then:
+
+1. In your working folder: if the transcript hook was ever declined, run
+   `uv run python dump_transcript.py`. Run `uv run python sync_upstream.py` so you have the
+   latest template fixes, then `uv run python run_all.py`, and fix anything it fails. Commit
+   and push.
+2. In a different folder, clone your repo fresh (`git clone <your repo url> hw0-check`), then
+   inside it run `uv sync`, `uv run python load_data.py`, and `uv run python run_all.py`. It
+   has to pass there; if it does not, fix it in your working folder, push again, and repeat.
+3. Submit the repo URL (below).
+
+One last question to carry into HW1, which asks the same kinds of questions of ten million
+ratings: what in your scripts breaks when the table is a hundred times bigger?
 
 ## Required files and commit order
 
@@ -275,10 +334,10 @@ when the table is a hundred times bigger?
 |---|---|---|
 | `WRITEUP.md` | the header, Part 1 answers and stuck-notes, the reconciliation table, 3a, 3b, the cold paragraphs, Part 4 | you (Claude may paste computed tables and the figure link) |
 | `part1.py` | your solo code | you, before the marker |
-| `cold/part2.md`, `part2_claude.py` | the second analyst's Part 2 session and its script, unchanged | `cold_session.py` |
+| `cold/part2.md`, `cold/part2.jsonl`, `part2_claude.py` | the second analyst's Part 2 session (readable and raw) and its script, unchanged except for `# Fix:` lines | `cold_session.py` |
 | `part2_checks.py` | one function per reconciliation row that computes the deciding evidence | you specify, Claude may code |
 | `part3.py` | the two top-10s and the two top-5s | you and Claude |
-| `cold/best.md`, `cold/most-<adjective>.md` | Claude's cold answers to the Part 3 questions | `cold_session.py` |
+| `cold/best.md`, `cold/most-<adjective>.md` (and their `.jsonl`) | Claude's cold answers to the Part 3 questions | `cold_session.py` |
 | `part4.py`, `figures/part4.png` | your question's plot and its `check()` | you and Claude |
 | `RECORD.md` | the eight-field collaboration record | you |
 | `TRANSCRIPT.md` | every Claude Code session in this folder | the Stop hook |
@@ -296,6 +355,9 @@ Part 2 capture, then everything else.
   (`part2_checks.py::function`, `part3.py`, `part4.py`), or from a capture you cite.
 - Complete every field of the record, including one thing you could not verify (or a justified
   "none") and any fix you made to Claude's code.
+- Say what Claude wrote: `TRANSCRIPT.md` is the record of every in-repo session, and a
+  `# Claude:` comment above any function Claude wrote (or one line at the top of the file if all
+  of it is Claude's) is the label a grader can see without reading the transcript.
 
 **Allowed**
 
@@ -304,7 +366,11 @@ Part 2 capture, then everything else.
 - Part 4: writing or debugging code, suggesting questions from the menu, critiquing your plot,
   proposing limitations. You write the interpretation.
 - Coding a rule or a definition you have already written on its line in `WRITEUP.md`.
-- Asking Claude to critique a paragraph you already wrote, if you say so in the record.
+- Letting Claude read the three ML-100K files (public, anonymized), your own code, and your own
+  prose.
+- Asking Claude to check the form of a paragraph you already wrote (the word cap, whether every
+  number has a source, whether the limitation is there), if you say so in the record. Feedback
+  on the reasoning is not allowed; see below.
 - Asking Claude in the repo to run `cold_session.py` for you.
 
 **Prohibited**
@@ -327,8 +393,9 @@ Part 2 capture, then everything else.
 
 The eight fields are in `RECORD.md`: tool and access; what I asked Claude to do; what I
 checked, and how; what I accepted, rejected, or changed, and why; consequential decisions I
-made myself; one thing I could not verify; what I learned, with hours; people who helped. HW1
-reuses the same fields.
+made myself; one thing I could not verify; what I learned, with hours; people who helped. They
+are the syllabus's account of AI contributions, and later assignments ask for the same kind of
+record.
 
 ## Deliverables and how to submit
 
@@ -345,7 +412,7 @@ reuses the same fields.
 
 | Criterion | Weight | Full credit looks like |
 |---|---|---|
-| **Part 1: You first** (the refresher) | 20 | All four questions attempted with your own code that runs; (a)–(c) correct; (d) correct or off only by a defensible reading of the spec; any unfinished question has a specific stuck-note (what you tried, where it broke); the `Part 1 finished` commit exists, contains `part1.py`, and the record attests no AI before it. |
+| **Part 1: You first** (the refresher) | 20 | All four questions attempted with your own code that runs; (a)–(c) correct; (d) correct or off only by a defensible reading of the spec; any unfinished question has a specific stuck-note (what you tried, where it broke); `part1.py` as of the `Part 1 finished` commit is non-empty and unchanged afterwards, and the record attests no AI before it. |
 | **Part 2: Claude second and reconciliation** | 25 | `cold/part2.md` present and `part2_claude.py` differs from it only by `# Fix:` lines; row 0 matches the README and says so; a row per question with a verdict; every FAILS has a mechanism and an evidence function that computes the deciding number rather than asserting it; stuck-note questions are explained in your own words and checked; one "could not verify" claim with a reason (or a justified "none"). A wrong verdict with a sound evidence function earns most of the row; an all-HOLDS table with evidence behind every row earns the line. |
 | **Part 3: Two questions with no right answer** | 25 | (a) A rule stated precisely; a defense of at most 150 words naming one gain and one loss; top-10 shown under it and under one alternative; two or three sentences on which films moved and why. (b) An adjective and a one-sentence definition of "most ___" a classmate could code; top 5 under it and under a rival definition, with whether they agree; a reflection of at most 150 words that names what the definition captures and misses and says where "___-ness" lives in the data. Claude's cold answers to both, each with its rule, whether it disclosed the choice, and computed vs recalled. Full credit does not depend on which adjective or definition you chose. |
 | **Part 4: Your own question** | 15 | A one-sentence question about the collective of raters; a plot (not a table) with labeled axes and a title that answers it; at most 150 words of interpretation in your own words with at least one explicit limitation and a sentence on what evidence would change your mind; a `check()` that recomputes one plotted number by a different route and matches (or explains the mismatch). |
@@ -363,8 +430,9 @@ do the same repo with a second analyst that is not an AI you operate: my Referen
 pack, which is Claude's cold answers to the Part 2 and Part 3 questions, captured once by me
 with the same tool, unchanged, errors and all. I send it to you privately on request;
 `uv run python cold_session.py --import reference-analyst.zip` installs it into `cold/` and
-`part2_claude.py`. For your adjective I run one more capture when you tell me what it is. You
-run Claude's script as given, build the same reconciliation table, adjudicate divergences with
+`part2_claude.py`. **[DECIDE: the pack's "most ___" capture is for horror; either that is the
+adjective opt-out students report on, or I run one capture per opt-out adjective on request.]**
+You run Claude's script as given, build the same reconciliation table, adjudicate divergences with
 the same evidence functions, and complete the same record (field 2 becomes "what the Reference
 Analyst claimed"; field 6 becomes a claim in that capture you could not verify). For Part 4 you
 use documentation, the pandas reference, Slack, and office hours; the `check()` is still
@@ -387,6 +455,8 @@ Per the syllabus, a reported access problem never costs you points.
   when. If an outage lasts more than about half a day during Sep 10–17, I extend the deadline
   for everyone by 48 hours **[DECIDE: 24 or 48]**, without spending your late-homework pass; a
   student-specific access failure reported before the deadline gets the same extension.
+- `git push` or `git clone` asks for a password: GitHub no longer accepts account passwords;
+  log in with `gh auth login` (or the method on the install page) and try again.
 - GitHub is down at the deadline: email me a zip of the repo without `data/`.
 - Your laptop cannot run `uv` or Python 3.13: tell me by Fri Sep 11 **[DECIDE: lab machine,
   Codespace, or loaner]**.
@@ -403,6 +473,19 @@ or that capture already exists (use `--again` and say in the record which one yo
 **I committed Part 1 and Claude still refuses.** Check `git log --oneline` for a message that
 starts with `Part 1 finished`. If yours does not, `git commit --allow-empty -m "Part 1
 finished"`.
+
+**`load_data.py` or `run_all.py` says `origin` is the template, or is missing.** You are
+working in a clone of the template itself (or in an unzipped download). Create your own
+private repo from the template, clone that, and copy your files over; your work belongs in
+your repo.
+
+**Claude says the template has updates.** Say yes and it runs `uv run python
+sync_upstream.py` for you, or run it yourself. Your files are never overwritten; see "How this
+repo works".
+
+**`claude` keeps asking permission for `git log` and `ls`.** The repo pre-approves the
+read-only commands it runs at the start of every session (`.claude/settings.json`); if you
+declined the project settings on first launch, run `claude` again and accept them.
 
 **Claude refused to pick my rule or my adjective for me.** Working as intended. Choosing is the
 assignment.

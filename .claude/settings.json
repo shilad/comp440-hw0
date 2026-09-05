@@ -1,5 +1,31 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git log:*)",
+      "Bash(git status:*)",
+      "Bash(ls:*)",
+      "Bash(uv sync)",
+      "Bash(uv run python load_data.py)",
+      "Bash(uv run python cold_session.py:*)",
+      "Bash(uv run python run_all.py)",
+      "Bash(uv run python part2_checks.py)",
+      "Bash(uv run python part3.py)",
+      "Bash(uv run python part4.py)",
+      "Bash(uv run python sync_upstream.py:*)"
+    ]
+  },
   "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "uv run python sync_upstream.py --hook",
+            "timeout": 40
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
       {
         "matcher": "Write|Edit|MultiEdit|NotebookEdit|Bash|Read|Grep|Glob",

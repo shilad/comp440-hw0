@@ -25,6 +25,10 @@ Other commands:
     --interactive best ...                              open the cold session yourself and paste the prompt
     --selftest                                          prove the cold session ignores a CLAUDE.md and has no tools
     --import reference-analyst.zip                      install the instructor's Reference Analyst captures
+
+Instructor-only flags (they are not hidden, just not for students): --captured-by instructor
+skips the preconditions so the Reference Analyst pack can be made from a bare template, and
+--with-tools runs the cold session with tools for experiments; captures say which was used.
 """
 
 from __future__ import annotations
@@ -34,6 +38,7 @@ import hashlib
 import json
 import os
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -42,7 +47,16 @@ import uuid
 import zipfile
 from pathlib import Path
 
+# Windows consoles are not always UTF-8; never let a stray character crash a student's run.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 REPO = Path(__file__).resolve().parent
+sys.path.insert(0, str(REPO))
+CLAUDE = shutil.which("claude") or "claude"  # on Windows the npm shim is claude.cmd; which() finds it
 COLD = REPO / "cold"
 FILES = REPO / "FILES.md"
 PART2_FILE = REPO / "part2_claude.py"
@@ -113,9 +127,14 @@ def build_prompt(kind: str, adj: str) -> str:
     return file_description() + "\n\n" + q
 
 
+def norm_adj(adj: str) -> str:
+    """Compare adjectives loosely: case, quotes, stray punctuation, and spacing do not matter."""
+    return " ".join(re.sub(r"[^a-z0-9' ]+", " ", adj.lower()).replace("'", "").split())
+
+
 def capture_name(kind: str, adj: str) -> str:
     if kind == "most":
-        return "most-" + re.sub(r"[^a-z0-9]+", "-", adj.lower()).strip("-")
+        return "most-" + re.sub(r"[^a-z0-9]+", "-", norm_adj(adj)).strip("-")
     return kind
 
 
@@ -144,7 +163,7 @@ def ancestor_claude_mds(start: Path) -> list[str]:
 
 def claude_version() -> str:
     try:
-        r = subprocess.run(["claude", "--version"], capture_output=True, text=True)
+        r = subprocess.run([CLAUDE, "--version"], capture_output=True, text=True)
     except FileNotFoundError:
         r = None
     if r is None or r.returncode != 0:
@@ -163,7 +182,7 @@ def cold_env() -> dict:
 def run_cold(prompt: str, cwd: Path, with_tools: bool = False) -> tuple[list[dict], list[str], str]:
     """Run one print-mode session. Returns (events, command, session_id)."""
     sid = str(uuid.uuid4())
-    cmd = ["claude", "-p", "--session-id", sid, "--no-session-persistence",
+    cmd = [CLAUDE, "-p", "--session-id", sid, "--no-session-persistence",
            "--setting-sources", "", "--output-format", "stream-json", "--verbose", "--max-turns", "30"]
     if with_tools:
         cmd += ["--permission-mode", "acceptEdits", "--allowedTools", "Bash", "Read", "Write", "Edit", "Glob", "Grep"]
@@ -178,8 +197,10 @@ def run_cold(prompt: str, cwd: Path, with_tools: bool = False) -> tuple[list[dic
             events.append(json.loads(line))
         except json.JSONDecodeError:
             pass
-    if r.returncode != 0 or not events:
-        die(f"claude -p failed (exit {r.returncode}):\n{r.stderr.strip()[-1500:]}\n\n"
+    res = result_event(events)
+    if r.returncode != 0 or not events or res.get("is_error"):
+        why = str(res.get("result") or "").strip()
+        die(f"claude -p failed (exit {r.returncode}). {why}\n{r.stderr.strip()[-1200:]}\n\n"
             f"If print mode is not available on your account, use --show-prompt and --interactive instead.")
     return events, cmd, sid
 
@@ -248,18 +269,56 @@ def write_capture(name: str, header: dict, events: list[dict]) -> Path:
 
 def rerender_from_jsonl(raw: Path) -> str:
     """Rebuild the readable capture from the .jsonl alone (run_all.py checks this matches)."""
-    lines = raw.read_text(encoding="utf-8").splitlines()
+    text = raw.read_text(encoding="utf-8")  # universal newlines: the hash is the same on Windows
+    lines = text.splitlines()
     header = json.loads(lines[0])
     if header.get("type") != HEADER_TYPE:
         raise ValueError(f"{raw} does not start with a capture header")
     header.pop("type")
     events = [json.loads(l) for l in lines[1:] if l.strip()]
-    header["jsonl_sha256"] = hashlib.sha256(raw.read_bytes()).hexdigest()
+    header["jsonl_sha256"] = hashlib.sha256(text.encode("utf-8")).hexdigest()
     return render(header, events)
 
 
+def fences(reply: str) -> list[tuple[str, str]]:
+    """Every fenced block in a reply as (info string, body), scanned line by line so a block
+    with a different tag never swallows its neighbors."""
+    out, info, body = [], None, []
+    for line in reply.splitlines():
+        if line.startswith("```"):
+            if info is None:
+                info, body = line[3:].strip().lower(), []
+            else:
+                out.append((info, "\n".join(body) + "\n"))
+                info = None
+        elif info is not None:
+            body.append(line)
+    return out
+
+
+def code_blocks(reply: str) -> list[str]:
+    """The Python code in a reply: fences tagged python/py, or, if there are none, untagged
+    fences that compile as Python and look like code. Output and shell blocks are left out."""
+    blocks = fences(reply)
+    tagged = [b for info, b in blocks if info in ("python", "py", "python3")]
+    if tagged:
+        return tagged
+    out = []
+    looks_like_code = re.compile(r"^\s*(import\s|from\s+\w+\s+import|print\(|def\s|for\s|\w+\s*=[^=])", re.M)
+    for info, b in blocks:
+        if info:
+            continue
+        try:
+            compile(b, "<reply>", "exec")
+        except SyntaxError:
+            continue
+        if looks_like_code.search(b):
+            out.append(b)
+    return out
+
+
 def extract_part2_code(reply: str, session_id: str, when: str) -> str:
-    blocks = re.findall(r"```(?:python|py)?[ \t]*\n(.*?)```", reply, re.DOTALL)
+    blocks = code_blocks(reply)
     head = (f"# Claude, unchanged. Extracted by cold_session.py from cold/part2.md "
             f"(session {session_id}, {when}).\n"
             f"# Fixes (import or path errors only), one per line, starting '# Fix:':\n\n")
@@ -270,14 +329,14 @@ def extract_part2_code(reply: str, session_id: str, when: str) -> str:
 
 
 def commit_paths(paths: list[Path], message: str) -> None:
-    rel = [str(p.relative_to(REPO)) for p in paths]
+    rel = [p.relative_to(REPO).as_posix() for p in paths]
     name = git("config", "user.name", check=False).strip()
     email = git("config", "user.email", check=False).strip()
     if not name or not email:
         print("Files written but not committed: git does not know who you are yet. Run\n"
               "    git config --global user.name \"Your Name\"\n"
               "    git config --global user.email \"you@example.edu\"\n"
-              f"then: git add {' '.join(rel)} && git commit -m \"{message}\"")
+              f"then\n    git add {' '.join(rel)}\n    git commit -m \"{message}\"")
         return
     git("add", "--", *rel)
     git("commit", "-q", "-m", message, "--", *rel)
@@ -288,6 +347,13 @@ def commit_paths(paths: list[Path], message: str) -> None:
 
 def preconditions(kind: str, adj: str) -> dict:
     snap: dict = {}
+    try:
+        import sync_upstream
+        problem = sync_upstream.origin_problem()
+    except Exception:  # noqa: BLE001 - the origin check must not be the thing that breaks
+        problem = None
+    if problem:
+        die("Repo check: " + problem)
     if kind == "warmup":
         return snap
     m = marker_commit()
@@ -305,7 +371,7 @@ def preconditions(kind: str, adj: str) -> dict:
     if kind == "most":
         got = head_writeup_line("My adjective")
         definition = head_writeup_line("My definition")
-        if not got or got.lower() != adj.lower():
+        if not got or norm_adj(got) != norm_adj(adj):
             die(f"WRITEUP.md at HEAD says `**My adjective:** {got or ''}`; you asked for '{adj}'. "
                 f"Write your adjective and definition on their lines, commit, then run this again.")
         if not definition:
@@ -320,6 +386,7 @@ def do_capture(kind: str, adj: str, again: bool, captured_by: str, with_tools: b
     name = next_free(capture_name(kind, adj), again)
     prompt = build_prompt(kind, adj)
     print("=" * 72 + "\nPROMPT (this is all Claude gets):\n" + prompt + "\n" + "=" * 72)
+    print("Asking Claude. This takes a minute or two, and nothing prints until it answers.")
     version = claude_version()
     tmp = Path(tempfile.mkdtemp(prefix="hw0-cold-"))
     try:
@@ -333,7 +400,7 @@ def do_capture(kind: str, adj: str, again: bool, captured_by: str, with_tools: b
         "name": name,
         "captured_at": when,
         "captured_by": captured_by,
-        "command": " ".join(cmd[:2] + ["--session-id", "<id>"] + cmd[4:]),
+        "command": shlex.join(cmd[:2] + ["--session-id", "<id>"] + cmd[4:]),
         "cwd": "a fresh temporary directory outside the repo (deleted afterwards)",
         "claude_version": version,
         "models": ", ".join((res.get("modelUsage") or {}).keys()) or "n/a",
@@ -371,16 +438,20 @@ def do_selftest() -> None:
         events, cmd, sid = run_cold("Reply with exactly the word pong and nothing else.", tmp)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
-    reply = reply_text(events).strip().strip(".").lower()
+    reply = reply_text(events).strip().lower()
     res = result_event(events)
-    ok_reply = reply == "pong"
+    ok_canary = "canary" not in reply
+    ok_reply = "pong" in reply
     ok_sid = res.get("session_id") == sid
     ok_tools = not tool_calls(events)
-    print(f"reply: {reply!r} (want 'pong'): {'ok' if ok_reply else 'FAIL, the CLAUDE.md canary leaked'}")
+    print(f"reply: {reply[:60]!r}")
+    print(f"the CLAUDE.md canary was ignored: {'ok' if ok_canary else 'FAIL, the session is not cold'}")
+    print(f"Claude answered: {'ok' if ok_reply else 'FAIL, no pong in the reply'}")
     print(f"session id matched: {'ok' if ok_sid else 'FAIL'}")
     print(f"no tool calls: {'ok' if ok_tools else 'FAIL'}")
-    print("PASS" if ok_reply and ok_sid and ok_tools else "FAIL: tell the instructor, and use --interactive for now.")
-    sys.exit(0 if ok_reply and ok_sid and ok_tools else 1)
+    good = ok_canary and ok_reply and ok_sid and ok_tools
+    print("PASS" if good else "FAIL: tell the instructor, and use --interactive for now.")
+    sys.exit(0 if good else 1)
 
 
 def do_interactive(kind: str, adj: str) -> None:
@@ -390,8 +461,12 @@ def do_interactive(kind: str, adj: str) -> None:
     print("=" * 72 + "\nPaste this as your first message:\n\n" + prompt + "\n" + "=" * 72)
     print(f"\nWhen the session ends, copy Claude's whole reply into cold/{name}.md under a header line\n"
           f"`- captured_by: manual` and commit it. Say 'manual capture' in RECORD.md field 1.\n")
-    subprocess.run(["claude", "--setting-sources", "", "--tools", ""], cwd=tmp, env=cold_env())
-    shutil.rmtree(tmp, ignore_errors=True)
+    try:
+        subprocess.run([CLAUDE, "--setting-sources", "", "--tools", ""], cwd=tmp, env=cold_env())
+    except FileNotFoundError:
+        die("Cannot start `claude`. Is Claude Code installed and on your PATH?")
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
 
 
 def do_import(zip_path: Path) -> None:
@@ -430,12 +505,17 @@ def main(argv: list[str]) -> None:
         do_selftest()
         return
     if "--import" in argv:
-        do_import(Path(argv[argv.index("--import") + 1]))
+        i = argv.index("--import")
+        if i + 1 >= len(argv):
+            die("Give the zip: uv run python cold_session.py --import reference-analyst.zip")
+        do_import(Path(argv[i + 1]))
         return
     captured_by = "student"
     if "--captured-by" in argv:
         i = argv.index("--captured-by")
-        captured_by = argv[i + 1]
+        if i + 1 >= len(argv) or argv[i + 1] != "instructor":
+            die("--captured-by takes exactly one value, instructor; students do not need it.")
+        captured_by = "instructor"
         argv = argv[:i] + argv[i + 2:]
     flags = {a for a in argv if a.startswith("--")}
     args = [a for a in argv if not a.startswith("--")]
