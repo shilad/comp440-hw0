@@ -60,7 +60,10 @@ CLAUDE = shutil.which("claude") or "claude"  # on Windows the npm shim is claude
 COLD = REPO / "cold"
 FILES = REPO / "FILES.md"
 PART2_FILE = REPO / "part2_claude.py"
-MODEL = os.environ.get("HW0_COLD_MODEL")  # [DECIDE: pin a model so every capture is comparable]
+# Pinned so every capture is comparable across students and days. HW0_COLD_MODEL and
+# HW0_COLD_EFFORT override them (instructor experiments only).
+MODEL = os.environ.get("HW0_COLD_MODEL", "claude-sonnet-5")
+EFFORT = os.environ.get("HW0_COLD_EFFORT", "low")
 
 QUESTIONS = {
     "warmup": "How many ratings in this dataset are exactly 5 stars?",
@@ -190,6 +193,8 @@ def run_cold(prompt: str, cwd: Path, with_tools: bool = False) -> tuple[list[dic
         cmd += ["--tools", ""]
     if MODEL:
         cmd += ["--model", MODEL]
+    if EFFORT:
+        cmd += ["--effort", EFFORT]
     r = subprocess.run(cmd, input=prompt, capture_output=True, text=True, cwd=cwd, env=cold_env())
     events = []
     for line in r.stdout.splitlines():
