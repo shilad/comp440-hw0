@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*140 user turns. Tool outputs and reasoning omitted.*
+*143 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6353,5 +6353,34 @@ Nothing to set up — the version I pushed is committed, so `git diff README.md`
 Edit away and tell me when you want me to look. I'll read the diff for the pattern rather than the specific words: what you cut, what you kept, where you tightened, what register you moved toward. Then I'll apply the same to `CLAUDE.md`, the four stub docstrings, and `INSTALL.md`, which all still read in my voice rather than yours.
 
 If you'd rather I look at a first section before you do the rest, say so — cheaper to correct my read early than after you've done the whole file.
+
+**User:**
+*(ran `/model`)*
+<local-command-stdout>Set model to `Fable 5.1` and saved as your default for new sessions</local-command-stdout>
+I've reworked up through # The data. commit, study my differences, and apply them to the rest of the README.
+
+**Claude:**
+- 🔧 `Bash` — Commit the reworked sections and show the diff
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0/README.md
+- 🔧 `Bash` — Check which README headings CLAUDE.md depends on
+- 🔧 `Write` — /private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e43...
+- 🔧 `Bash` — Read your latest edits and find the splice point
+- 🔧 `Write` — /private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e43...
+- 🔧 `Bash` — Splice, verify protected strings, and commit
+The one zero in that check is a line wrap — "recalled rather than" ends a line and "computed" starts the next — not a missing string. Confirming that and pushing; neither depends on the other.
+- 🔧 `Bash` — Confirm the wrapped string and push
+Pushed. `237313f..485fae6`.
+
+**README student-facing text: 1,552 words**, down from 6,030 this morning — a 74% cut, well past the third you asked for. Every label, command, verdict, and mechanism that other files match on is present; the one zero in my check was a line wrap, not a missing string.
+
+What I mimicked from your two passes, beyond the word-level cuts:
+
+- **Sections collapse when they're thin.** Required files folded into "How this repo works," the one-line deliverables into Part 5, and opt-out, outage and FAQ into a single "If something is different." You'd merged "The data" into "Overview"; I took that as licence.
+- **Time budgets stay in headings, sub-budgets go.** "(about 80 minutes)" survives; "30 for 3a, 30 for 3b, 20 for the cold sessions" doesn't.
+- **The rubric survives but its third column is terser** — the one place restating the task is arguably the point.
+
+Two things I did *not* do, and you should know. I left your typo — *"wou will work together"* — exactly as written, since you said to mimic, not fix. And I cut the sentence telling students the cold Claude has no data so every number in its capture is from memory. That was the strongest hint in the file, and it's the one cut I'm least sure of: "recalled rather than computed" is still in the mechanism list, so the concept survives, but a student now has to discover it rather than be told. If that hint earns its place, it's one sentence back in Part 2.
+
+Privately, what I need next: nothing — the file is committed and pushed, and the only open items are yours: the typo, the hint, and the fork-versus-template and account decisions from earlier.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
