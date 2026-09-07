@@ -15,12 +15,17 @@ and three conversions for when you want pandas:
     movies_df = movies_to_pandas(movies)       # one True/False column per genre
     users_df = users_to_pandas(users)
 
+or all six at once:
+
+    ratings, ratings_df, movies, movies_df, users, users_df = load_all()
+
 A DataFrame is one way of holding the same data, not the data itself: groupby, merge, and
 sort live there, and the records are what it is built from.
 """
 
 from __future__ import annotations
 
+import subprocess
 import sys
 import zipfile
 from dataclasses import dataclass
@@ -31,6 +36,7 @@ import pandas as pd
 REPO = Path(__file__).resolve().parent
 ZIP = REPO / "ml-100k.zip"            # checked into the repo
 ML_DIR = REPO / "data" / "ml-100k"    # where the zip unpacks to
+TEMPLATE = "shilad/comp440-hw0"       # your work goes in your own repo, never in this one
 
 # The 19 genres, in the order u.item lists its flags.
 GENRES = ["unknown", "Action", "Adventure", "Animation", "Children's", "Comedy", "Crime",
@@ -62,6 +68,21 @@ class User:
     gender: str           # "M" or "F"
     occupation: str
     zip_code: str         # a string: zip codes have leading zeros, and some are not numbers
+
+
+def warn_if_template() -> None:
+    """Your work belongs in your own repo. Warn if `origin` is still the assignment template."""
+    r = subprocess.run(["git", "remote", "get-url", "origin"], cwd=REPO, capture_output=True, text=True)
+    if r.stdout.strip().removesuffix(".git").endswith(TEMPLATE):
+        print(f"Warning: `origin` is the assignment template ({TEMPLATE}). Work in your own repo.")
+
+
+def load_all() -> tuple:
+    """All six: records for looping and reading, DataFrames for grouping and joining."""
+    warn_if_template()
+    ratings, movies, users = read_ratings(), read_movies(), read_users()
+    return (ratings, ratings_to_pandas(ratings), movies, movies_to_pandas(movies),
+            users, users_to_pandas(users))
 
 
 def unzip_if_needed() -> None:
@@ -139,4 +160,5 @@ def users_to_pandas(users: list[User]) -> pd.DataFrame:
 
 if __name__ == "__main__":
     unzip_if_needed()
+    warn_if_template()
     print(f"{len(read_ratings()):,} ratings, {len(read_movies()):,} movies, {len(read_users()):,} users")

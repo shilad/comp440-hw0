@@ -6,12 +6,11 @@
       "Bash(ls:*)",
       "Bash(uv sync)",
       "Bash(uv run python load_data.py)",
-      "Bash(uv run python cold_session.py:*)",
       "Bash(uv run python run_all.py)",
-      "Bash(uv run python part2_checks.py)",
-      "Bash(uv run python part3.py)",
-      "Bash(uv run python part4.py)",
-      "Bash(uv run python sync_upstream.py:*)"
+      "Bash(uv run python human_part1.py)",
+      "Bash(uv run python human_part2.py)",
+      "Bash(uv run python human_part3.py)",
+      "Bash(uv run python claude_answers_1_2_3.py)"
     ]
   },
   "hooks": {
@@ -20,8 +19,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "uv run python sync_upstream.py --hook",
-            "timeout": 40
+            "command": "git fetch upstream --quiet 2>/dev/null; git log --oneline HEAD..upstream/main 2>/dev/null",
+            "timeout": 30
           }
         ]
       }

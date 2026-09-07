@@ -1,163 +1,129 @@
 # HW0 writeup
 
-**Title:**
-**Name:**
-**Assignment:** COMP 440 HW0, Fall 2026
-**Date:**
-**Claude:** Using Claude / Opt-out path (delete one)
+**Name:** XXXX
+**Date:** XXXX
 
-Every number below comes from a file in this repo; say which file and function produced it.
-Prose limits are limits: graders stop reading at the cap. Keep the bold labels exactly as they
-are, on their own lines; `cold_session.py` looks for them.
+Replace every XXXX. Every number you give comes from a script in this repo; say which one.
 
-## Part 1: You first (solo, no AI)
+## Part 1. Basic rating statistics
 
-Code: `part1.py`. One sentence of explanation per answer, with the numbers.
-
-**Timer started:**
+Code: `human_part1.py`. One or two sentences per answer, with the numbers.
 
 **(a) How many ratings, users, and movies are there, and how are ratings distributed across 1–5 stars?**
 
->
+XXXX
 
 **(b) What is the median number of ratings per user, and how many users have 100 or more ratings?**
 
->
+XXXX
 
-**(c) Join ratings to titles. Which 10 movies have the most ratings?**
+**(c) Which 10 movies have the most ratings?**
 
->
+XXXX
 
-**(d) Among movies with at least 20 ratings, which 10 have the highest mean rating? Show title, mean, and count.**
+**(d) Among movies with at least 20 ratings, which 10 have the highest mean rating?**
 
->
+XXXX
 
-**Stuck-notes (what I tried, where it broke), or "none":**
+**Anything you got stuck on (what you tried, where it broke), or "none":**
 
->
+XXXX
 
-**Part 1 finished:**
+## Part 2. The best movie
 
-## Part 2: Claude second, then reconcile
+Code: `human_part2.py`.
 
-Claude's code, run as given: `part2_claude.py` (captured in `cold/part2.md`).
+**My rule:** XXXX
 
-**Fixes to Claude's code (import or path errors only), or "none":**
+**Alternative rule:** XXXX
 
->
+**Top 10 under each rule:**
 
-**Reconciliation table.** Verdicts are on Claude's answer: HOLDS, FAILS, or CANNOT DETERMINE.
-Every row, HOLDS included, names the function in `part2_checks.py` that computes its deciding
-evidence. Every FAILS also names a mechanism (code bug / data trap / different reading of the
-spec / statistical misreading / recalled rather than computed).
+XXXX
 
-| Question | Mine | Claude's | Match? | Verdict | Mechanism if FAILS | Evidence (part2_checks.py::function) |
-|---|---|---|---|---|---|---|
-| 0. README counts: 100,000 / 943 / 1,682 / every user at least 20 ratings (write "not printed" in Claude's column for a number its script never printed; a number that was never printed cannot hold or fail, which is what CANNOT DETERMINE is for, and the verdict is still yours) | | | | | | |
-| (a) | | | | | | |
-| (b) | | | | | | |
-| (c) | | | | | | |
-| (d) | | | | | | |
+**Why my rule, in at most 150 words. Name one thing it gains and one thing it loses:**
 
-**Same method? Did the two scripts compute the answers the same way (join key, filter, tie-break, title vs id)? Name one difference, or what you compared to conclude there is none:**
+XXXX
 
->
+**What moved between the two lists, and why:**
 
-**Part 1 stuck questions, explained in my own words and checked (or "none"):**
+XXXX
 
-*If your stuck-note was about what a word in the question means, your check has to settle the reading, not show that the two readings agree here: name the reading the data supports and the printed line you read it from.*
+## Part 3. The most ___ movie
 
->
+Code: `human_part3.py`.
 
-**One thing Claude said that I could not verify, and why:**
+**My adjective:** XXXX
 
->
+**My definition** (one sentence, precise enough that a classmate could code it)**:** XXXX
 
-## Part 3: Two questions with no right answer
+**Rival definition** (same adjective, different idea)**:** XXXX
 
-### 3a. The best movie
+**Top 5 under each definition:**
 
-**My rule:**
+XXXX
 
-**Alternative rule:**
+**What your definition captures, what it misses, and where "___-ness" lives in this data — the
+genre labels, what the crowd did, or the words in the titles. At most 150 words:**
 
-**Defense (at most 150 words: one thing my rule gains, one thing it loses; name the `part3.py` function that printed any number you quote):**
+XXXX
 
->
+## Part 4. Claude's answers
 
-Top 10 under each rule (code: `part3.py`):
+Claude answers the same three questions in `claude_answers_1_2_3.py`, without seeing your code
+or your answers.
 
-| Rank | My rule | Alternative rule |
-|---|---|---|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
-| 6 | | |
-| 7 | | |
-| 8 | | |
-| 9 | | |
-| 10 | | |
+**Did its numbers for Part 1 match yours? If not, which, and what did you find?**
 
-**What moved between my two top-10s, and why (two or three sentences: name at least one film that is on one list and not the other, and say what my rule rewards that the alternative does not):**
+XXXX
 
->
+## Part 5. Comparing the best movie
 
-### 3b. The most ___ movie
+**Claude's rule:**
 
-**My adjective:**
+XXXX
 
-**My definition:**
+**Did Claude say it was making a choice, or present its rule as the answer?**
 
-**Rival definition:**
+XXXX
 
-Top 5 under each definition (code: `part3.py`):
+**Where your two top-10 lists differ, and why:**
 
-| Rank | My definition | Rival definition |
-|---|---|---|
-| 1 | | |
-| 2 | | |
-| 3 | | |
-| 4 | | |
-| 5 | | |
+XXXX
 
-**Do they agree?**
+**Whose rule is better for what, in at most 150 words. You may conclude yours, its, or neither:**
 
->
+XXXX
 
-**Reflection (at most 150 words): what my definition captures and what it misses; name the `part3.py` function that printed any number you quote:**
+## Part 6. Comparing the most ___ movie
 
->
+**Claude's definition:**
 
-**Where "___-ness" lives in this dataset (the labels in u.item, the crowd's behavior in u.data, or the text of the titles), and why:**
+XXXX
 
->
+**Is Claude's film in either of your top 5s? If not, that is a third definition — name it:**
 
-### Claude, cold
+XXXX
 
-**Best movie (cold/best.md):** which rule Claude used; whether it said it was making a choice; whether the film came from code you can run or from memory, and how you know.
+**What Claude's definition sees that yours does not, and the reverse. At most 150 words:**
 
->
+XXXX
 
-**Most ___ movie (cold/most-<adjective>.md):** the same three things.
+## Working with Claude
 
->
+**What you asked Claude for during Parts 1–3** (debugging and installing only — say what you
+got stuck on)**:**
 
-**Third definition, if any (Claude's film is in neither of my top 5s):**
+XXXX
 
->
+**Something Claude said that you could not verify, and why. Or "none," and how you checked:**
 
-## Part 4: Your own question
+XXXX
 
-**Question:**
+**What you would do differently next time, in 3–5 sentences:**
 
-**Plot:** `figures/part4.png` (code: `part4.py`; labeled axes and a title)
+XXXX
 
-**Interpretation (at most 150 words, my own words, at least one explicit limitation, one sentence on what evidence would change my mind; name the `part4.py` function that printed any number you quote):**
+**Hours spent:** XXXX
 
->
-
-**Independent check:** what `part4.py`'s `check()` recomputes, by what different route, and whether it printed MATCH or MISMATCH (and why, if MISMATCH).
-
->
+**Anyone who helped you, or "no one":** XXXX

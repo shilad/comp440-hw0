@@ -21,14 +21,15 @@ Sep 15 and builds on this, so finish HW0 first.
 > scripts plus a recalled and false claim that titles are unique. Still marked `[DECIDE: ...]`
 > below: the Claude account and the install page, the submission target, GroupLens's permission
 > for the checked-in zip, the laptop fallback, the model pin for cold sessions, and whether HW1
-> adopts `RECORD.md` (its repo currently ships DECISIONS.md and REFLECTION.md and uses ML-10M).
+> adopts a collaboration record (its repo currently ships DECISIONS.md and REFLECTION.md and
+> uses ML-10M). HW0's record is now the last section of `WRITEUP.md`; `RECORD.md` is gone.
 > Windows: WSL2 (Ubuntu) is required, per your Sep 5 decision, so Windows students run the
 > exact Linux path tested here; native Windows, PowerShell, and Git Bash are unsupported. The
 > install page must cover the WSL2 steps (Store install, reboot, virtualization enabled in
 > firmware, Ubuntu username and password, VS Code WSL extension, repo under the Ubuntu home).
 > Worth one dry run on a Windows laptop before Sep 10 anyway, mainly for the Claude Code login
 > inside WSL2 on the course account type. The session-start hook fetches this template from
-> GitHub each time `claude` starts (silent when offline), and `sync_upstream.py` merges fixes you
+> GitHub each time `claude` starts (silent when offline), and Claude merges fixes you
 > push to the template's `main`; that only works if every student can read the template, so either
 > keep it public, add the class as read-only collaborators, or use GitHub Classroom
 > **[DECIDE]**. Push template fixes as ordinary commits; never rewrite the template's history
@@ -45,7 +46,7 @@ Sep 15 and builds on this, so finish HW0 first.
 ## Overview:
 
 You and Claude will independently look at the same 100,000 ratings and answer identical questions without help from each other. 
-Afterward, wou will work together to compare your findings. 
+Afterward, you will work together to compare your findings. 
 
 
 In this assignment you will analyze the [MovieLens 100K](https://grouplens.org/datasets/movielens/100k/) dataset, which contains 100,000 ratings of 1–5 stars that 943
@@ -53,154 +54,115 @@ anonymous people gave 1,682 movies in 1997–98.
 `load_data.py` unzips the checked-in `ml-100k.zip` and reads them  into plain records, with a pandas conversion for each.
 This work will feed into HW1, where you analyze a much larger and more complex dataset.
 
+## How this activity will work
 
-## How this repo works
+1. You complete parts 1, 2 and 3 on your own (`human_part1.py`, `human_part2.py`,
+   `human_part3.py`). You can ask Claude for debugging and install help, but nothing else.
+2. Claude answers the same three questions on its own (in `claude_answers_1_2_3.py`), without
+   seeing your code or your answers.
+3. You and Claude work through the differences together.
 
-- Two commit messages you type yourself: `Part 0 done` and `Part 1 finished`. Commit as you go,
-  in this order: `Part 0 done`, then `Part 1 finished`, then the Part 2 capture, then everything else.
-- Claude may help with the code in Parts 2–4; the prose is yours.
-- `uv run python run_all.py` runs the whole assignment.
-- Work in your own private copy, never the template. When I fix the template,
-  `uv run python sync_upstream.py` merges the fix.
-- Files you write: `WRITEUP.md`, `RECORD.md`, `part1.py`, `part2_checks.py`, `part3.py`, `part4.py`,
-  `figures/part4.png`. Files the tools write, which you leave alone: `cold/`, `part2_claude.py`
-  (except `# Fix:` lines), `TRANSCRIPT.md`.
+You write your answers in `WRITEUP.md`. Claude records the transcript of your sessions to share
+with Shilad.
 
 ## The task
 
 ### Part 0. Setup (in class Thu Sep 10)
 
-Before class, follow `INSTALL.md`. Then:
+0. Complete `INSTALL.md`.
+1. Fork and clone this repo **[DECIDE: fork, template button, or GitHub Classroom]**.
+2. `git remote add upstream https://github.com/shilad/comp440-hw0`
+3. `uv sync`, then `uv run python run_all.py`.
+4. Start `claude` and approve the hooks.
+5. Fill your name and the date in `WRITEUP.md`, and ask Claude to commit them.
 
-1. Make your own private copy of this template ("Use this template," private) and clone it.
-2. `uv sync`, then `uv run python load_data.py`.
-3. `uv run python cold_session.py --selftest`.
-4. Fill the five header lines of `WRITEUP.md` and commit: `git add -A && git commit -m "Part 0 done"`.
-5. Start `claude` and approve the hooks.
+Tell me on `#comp440-f26` by Fri Sep 11 if anything does not work.
 
-In class we run `uv run python cold_session.py warmup` together. Also complete the Background
-Survey and join `#comp440-f26` on Slack. Tell me by Fri Sep 11 if anything does not work.
+### Parts 1–3. Your answers (no Claude, except for debugging)
 
-### Part 1. You first (45 minutes, no Claude)
+Each script says what it must produce. Write your answers in `WRITEUP.md`.
 
-Set a timer, write the start time on the `**Timer started:**` line of `WRITEUP.md`, and close
-`claude`. Answer the four questions in `part1.py` with your own code, and explain each answer
-in `WRITEUP.md`:
+**Part 1, `human_part1.py`** — basic statistics: how much data there is, how ratings are spread,
+which movies got the most ratings, and which rate highest among movies with at least 20 ratings.
 
-- (a) How many ratings, users, and movies are there, and how are ratings distributed across
-  1–5 stars?
-- (b) What is the median number of ratings per user, and how many users have 100 or more
-  ratings?
-- (c) Join ratings to titles. Which 10 movies have the most ratings?
-- (d) Among movies with at least 20 ratings, which 10 have the highest mean rating? Show title,
-  mean, and count.
+**Part 2, `human_part2.py`** — the best movie. There is no single answer: it depends on how you
+combine 943 people's judgments. Choose a rule, defend it, and show what a different rule would
+have crowned instead.
 
-No AI of any kind until the timer runs out, autocomplete included. If you get stuck, leave a
-`# STUCK (d): what I tried / where it broke` note in `part1.py` and in `WRITEUP.md`;
-`part1.py` must still run.
+**Part 3, `human_part3.py`** — the most ___ movie. Pick an adjective — anything you can define.
+Nothing in the data answers this directly, so you decide what the word means, then compute it.
 
-Then write `**Part 1 finished:** <date and time>` in `WRITEUP.md` and commit:
+Ask Claude for help installing things and for help when something breaks. Not for the analysis,
+the rule, the adjective, or the definition. Those are what you are being graded on.
+
+When all three run and your Part 1–3 answers are written, ask Claude to check them over. It
+will run your scripts, tell you what is missing, and help you fix what does not work. Then
+commit:
 
 ```
-git add part1.py WRITEUP.md
-git commit -m "Part 1 finished"
+git add human_part1.py human_part2.py human_part3.py WRITEUP.md
+git commit -m "Parts 1-3 finished"
 ```
 
-Part 1 is graded as it stood at that commit.
+Parts 1–3 are graded as they stood at that commit.
 
-### Part 2. Claude second, then reconcile (about 75 minutes)
+### Part 4. Claude's turn
 
-`uv run python cold_session.py part2` asks a fresh Claude the same four questions and saves
-its script as `part2_claude.py`. Run it as given; fix only import or path errors, each marked
-with a `# Fix:` line.
+Ask Claude to answer the same three questions. It starts a separate session in an empty
+directory holding only the data, the loader, and an empty `claude_answers_1_2_3.py` — no
+access to your code, your answers, or your conversation. It gets the questions from
+`questions.md`, word for word, so that every student's Claude is asked the same thing.
 
-Then fill the reconciliation table in `WRITEUP.md`. The verdict on each of Claude's answers is
-HOLDS, FAILS, or CANNOT DETERMINE; a number never printed cannot hold or fail. Every row names
-its evidence function in `part2_checks.py`. Every FAILS names a mechanism: *code bug*, *data
-trap*, *a different reading of the spec*, *statistical misreading*, or *recalled rather than
-computed*.
+Read what it wrote before you go on.
 
-For the **same method?** line, have Claude show the two scripts' loading, join, filter, and
-grouping lines side by side.
+### Parts 5–6. Working through the differences
 
-### Part 3. Two questions with no right answer (about 80 minutes)
+**Part 5** — the best movie. What rule did Claude choose? Did it tell you it was choosing, or
+present its answer as *the* answer? Where do your two lists differ, and why? Then decide whose
+rule is better, and for what. You are allowed to conclude that Claude's is.
 
-**3a. The best movie.** Choose a rule (`part3.py` lists the options), state it on the
-`**My rule:**` line of `WRITEUP.md`, and commit. Defend it in at most 150 words, and show the
-top 10 under it and under an `**Alternative rule:**`.
+**Part 6** — the most ___ movie. Same questions for your adjective. If Claude's film is in
+neither of your top 5s, it used a third definition you had not thought of: name it.
 
-**3b. The most ___ movie.** Pick an adjective, anything you can define, and decide what it
-means (`part3.py` has a menu worked for *horror*). Write it on the `**My adjective:**` line and
-a one-sentence definition a classmate could code on the `**My definition:**` line; commit. Show
-the top 5 under it and under a `**Rival definition:**`, and reflect in at most 150 words on
-what your definition captures and misses.
+Claude can compute anything you ask it to here. The judgments are yours.
 
-**Ask Claude cold, for both:** `uv run python cold_session.py best`, then
-`uv run python cold_session.py most <your adjective>`. For each, write a short paragraph: which
-rule or definition Claude used, whether it said it was choosing, and whether its film came from
-code you can run or from memory.
+Finally, answer the last few questions in `WRITEUP.md`, commit, push, and submit your repo URL
+on Moodle by **Thu Sep 17, 8:00am Central**.
 
-### Part 4. Your own question (about 45 minutes)
-
-Ask one descriptive question about these raters (`part4.py` has a menu, or bring your own) and
-write it on the `**Question:**` line. Make the plot `part4.py` describes, and interpret it in
-at most 150 words of your own, with at least one limitation and one sentence on what evidence
-would change your mind.
-
-### Part 5. Collaboration record and submission (about 30 minutes)
-
-Fill every field of `RECORD.md`. Ask Claude to review the submission with you. Then commit,
-push, and check that a fresh clone runs: `git clone <your repo url> hw0-check`, then `uv sync`
-and `uv run python run_all.py` inside it. Submit the repo URL on Moodle by
-**Thu Sep 17, 8:00am Central**.
-
-One question to carry into HW1: what in your scripts breaks when the table is a hundred times
+One question to carry into HW1: what in your scripts breaks when the data is a hundred times
 bigger?
 
 ## Claude rules
 
-**Required.** Claude's Part 2 and Part 3 answers come only from `cold_session.py`; `cold/` is
-committed unedited; `part2_claude.py` runs as given, any fix marked `# Fix:`. Every number in
-your prose comes from a script you name. A `# Claude:` comment sits above any function Claude
-wrote.
+**Yours alone:** the analysis in Parts 1–3, and every judgment in `WRITEUP.md` — the rule, the
+adjective, the definitions, and what you conclude in Parts 5 and 6. Claude does not draft,
+edit, or give feedback on any of it.
 
-**Prohibited.** Any AI in Part 1. Claude drafting, editing, or giving feedback on the graded
-reasoning: verdicts and mechanisms, the defense, the definition and reflection, the
-interpretation, the record. Train/test splits, error metrics, or recommender code. Sharing
-code, captures, or transcripts with classmates. A public repo.
+**Claude's alone:** `claude_answers_1_2_3.py` and `questions.md`. Neither is edited by anyone.
+
+**Also:** no AI at all in the analysis for Parts 1–3, autocomplete included. Every number in
+your writeup comes from a script you can name. Do not share code or answers with classmates —
+talking through approaches is fine, and name anyone who helped. Keep your repo private.
 
 ## Rubric
 
-| Criterion | Weight | Full credit |
+| Part | Weight | Full credit |
 |---|---|---|
-| **Part 1: You first** | 20 | Your own code, and it runs; correct answers, or (d) off by a defensible reading; specific stuck-notes; `part1.py` unchanged after the marker. |
-| **Part 2: Claude second and reconciliation** | 25 | Every row has a verdict and an evidence function; every FAILS a mechanism; a real same-method line. |
-| **Part 3: Two questions with no right answer** | 25 | A rule and a definition precise enough to code; a defense and reflection within 150 words; cold paragraphs that say which rule Claude used and whether its film was computed or recalled. |
-| **Part 4: Your own question** | 15 | A plot that answers your question; an interpretation within 150 words with a limitation; a `check()` that matches or explains why not. |
-| **Part 5: Record, setup, and repo hygiene** | 15 | Specific record fields; `TRANSCRIPT.md` and `cold/` unedited; a fresh clone runs; commits in order; survey and Slack done. |
+| **1. Basic statistics** | 20 | Your own code, and it runs; correct answers, with anything you got stuck on written down. |
+| **2. The best movie** | 20 | A rule precise enough to code, defended with what it gains and loses, and an alternative that shows what changes. |
+| **3. The most ___ movie** | 20 | A definition a classmate could code, a rival definition, and an honest account of what yours misses. |
+| **4. Claude's turn** | 5 | Claude's answers committed unedited. |
+| **5–6. Working through the differences** | 30 | You say what Claude chose and whether it admitted choosing; you explain where the answers diverge; you reach a judgment and defend it. |
+| **Working with Claude** | 5 | Honest answers about what you asked for and what you could not verify. |
 | | **100** | |
 
 ## If something is different
 
-**You would rather not use Claude.** Talk with me by Fri Sep 11; there is no grade effect. You
-then use my Reference Analyst pack as the second analyst:
-`uv run python cold_session.py --import reference-analyst.zip`. Part 4 is done without AI.
+**You would rather not use Claude.** Talk to me by Fri Sep 11; there is no grade effect.
 
-**Claude, or something else, is down.** A reported access problem never costs you points.
+**Claude, or something else, is down.** A reported problem never costs you points — post in
+`#comp440-f26` or email me. An outage of more than about half a day extends the deadline by 48
+hours.
 
-- `claude` is missing or print mode is refused: `uv run python cold_session.py --interactive
-  best` opens a cold session by hand.
-- Claude or your course account is down: post in `#comp440-f26` or email me, and use the
-  Reference Analyst pack for Parts 2 and 3. An outage of more than about half a day extends
-  the deadline by 48 hours.
-- You declined the transcript hook: run `uv run python dump_transcript.py` before committing.
-- GitHub is down at the deadline: email me a zip of the repo without `data/`.
-- Your laptop cannot run the tools: tell me by Fri Sep 11.
-
-**`cold_session.py` refuses to run.** It says why; usually a line in `WRITEUP.md` is empty or
-not committed. To ask again, add `--again` and say in the record which capture you used.
-
-**You mistyped the marker message.** `git commit --allow-empty -m "Part 1 finished"`.
-
-**Claude refused to pick your rule or adjective, or to look at Part 1 before the marker.**
-Working as intended; choosing is the assignment.
+**Claude refuses to pick your rule or adjective, or to help with the analysis.** Working as
+intended; choosing is the assignment.

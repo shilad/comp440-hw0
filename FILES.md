@@ -1,9 +1,6 @@
-# The data, described for Claude
+# The data files
 
-This is what the cold Claude gets, verbatim, at the top of every question `cold_session.py`
-asks (run `uv run python cold_session.py --show-prompt best` to see the whole prompt). It says
-what the files are and where they live. It does not say how many rows they have: counting is
-part of the work. Do not edit it; every student and the Reference Analyst ask the same question.
+What the three MovieLens files hold. `load_data.py` reads all three.
 
 ```
 The MovieLens 100K dataset from GroupLens is in data/ml-100k/ (relative to the
@@ -20,7 +17,5 @@ current working directory). Three files matter:
 - u.user: one user per line, pipe-separated: user id | age | gender | occupation |
   zip code.
 
-None of the three files has a header row. I can run Python 3 with pandas, numpy, and matplotlib.
-You cannot run code or read files in this conversation; answer in text, and include
-any code you would want me to run.
+None of the three files has a header row.
 ```
