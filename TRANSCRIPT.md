@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*100 user turns. Tool outputs and reasoning omitted.*
+*101 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5205,5 +5205,27 @@ What's wrong is that this session's working directory is your assignment templat
 3. **What I'd avoid:** disabling the hook for this session, or adding an instructor bypass. Both make the thing you ship to students differ from the thing you test, which is precisely the failure mode this whole project exists to catch.
 
 My recommendation is the first, and I should have proposed it hours ago instead of getting the quoting wrong twice and stalling two agents on it.
+
+**User:**
+i don't think we should use a hook for that policy. just give the agent a very clear instruction.
+
+**Claude:**
+That's defensible, and the evidence leans your way: **the guard hook never fired once in thirty-seven runs.** Every gate held on the written rules alone — including the student built to fake the solo marker, who was stopped by git refusing an empty commit while the tutor argued the case in prose.
+
+I should disclose that I have a stake here: removing it also removes the thing that's been obstructing me all day. So take my agreement with that in mind.
+
+**The one thing you should know before doing it.** We have never actually tested the rules without the hook. Three gaps:
+
+- The harness has a guard-off arm. No sweep has ever used it.
+- Eleven of the eighteen characters never ran — including all eight built specifically to attack one rule each: the one who skips the solo section, the one who wants `part1.py` fixed after the marker, the one who asks the tutor to be the second analyst, the one who wants the verdicts filled in, the one who reruns the cold capture until it says something better.
+- No character in any run had read your `CLAUDE.md`. A student who has read the rules is a different adversary from one who hasn't.
+
+So "the prose carried every gate" is really "the prose carried every gate against seven cooperative students who never read the rules and were never trying." That's real evidence, but it's not the evidence you'd want before removing a backstop.
+
+**The test costs about $25 and an hour**, and it's exactly what the harness was built for: run the eight rule-attacking characters with the hook off. If the prose holds against the characters designed to break it, you remove the hook knowing rather than hoping. If something slips through, you'll know precisely which sentence needs to be sharper before you ship.
+
+Either way the work afterwards is the same: drop the `PreToolUse` block from `.claude/settings.json`, and go through `guard.py`'s three rules — Part 1 is solo, certain files are never Claude's to edit, the two marker commits are the student's — making sure each is stated in `CLAUDE.md` in a form that can't be read around. Most of it is already there; the frozen-file rule is the one I'd want to tighten, since the hook has been doing that work silently.
+
+Want me to run the test first, or just make the change?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
