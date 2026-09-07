@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*155 user turns. Tool outputs and reasoning omitted.*
+*156 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6690,5 +6690,28 @@ I also flagged two files that went stale in the last hour. `RECORD.md`, which yo
 Your `RECORD.md` edits are otherwise good and ahead of the README — fields 3 and 4 now split *where the answers differed* from *where they agreed and what you did before believing it*. That second one is the better question, and it's the one thing my simulations never once saw a student do unprompted: agreement was always free.
 
 Next from me: `README.md` and `WRITEUP.md` rebuilt for the six parts, with stub questions to answer.
+
+**User:**
+holy crap - sync_upstream seems WAY to complicated. can we just check if the upstream has changed perioidcally and then invoke claude to reconcile if it does? the upstream is a constant.
+
+**Claude:**
+- 🔧 `Bash` — Check what sync_upstream actually does
+275 lines and 15 functions to do what three git commands and a sentence of judgment can do. You're right.
+
+Most of that complexity exists to encode judgment as rules: which files are the student's and must be protected, how to generate a patch when a template change collides with their work, and how to merge two histories that share no ancestor. Claude can just look at the diff and decide.
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Replace sync_upstream.py with a check plus a rule", "message": "Anot...
+Sent. Two git commands in the hook, one rule in `CLAUDE.md`, file deleted. The only thing I kept is the check that `origin` isn't the template itself — three lines inline in `load_data.py`, because a student working directly in the template is a real failure worth catching early.
+
+**One decision this now forces, which you've deferred twice today.** The simple merge only works cleanly if students **fork**, because a fork shares history with the template. "Use this template" creates an unrelated history — which is precisely what 60 of those 275 lines existed to paper over. Your Part 0 says fork, so the simplification depends on that.
+
+But a GitHub fork of a public repo **cannot be private**, and your assignment tells students to keep theirs private because the MovieLens data can't be redistributed.
+
+The three ways out:
+
+- **Fork a public template.** Simple sync, but student repos are public. The data redistribution concern is real but arguably thin — the zip is already public in your template.
+- **Template button, private repos.** Unrelated histories, so template updates need Claude to cherry-pick rather than merge — a bit more work for it, but no extra code.
+- **GitHub Classroom.** Private repos with proper history, at the cost of setup.
+
+Worth settling now, since it's the last thing holding up Part 0 and it's the third time it's come round.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
