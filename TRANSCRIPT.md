@@ -5934,5 +5934,24 @@ Sent. The rule now says Claude checks by looking and reports what it found — `
 And it names the upgrade explicitly: the checker asked whether a cell was non-empty; Claude can ask whether the answer makes sense. One line telling it to read the table for sense rather than for filled cells is worth more than every shape check that just went away.
 
 So the trade is narrower than I made it sound. You lose determinism — the checker gave the same answer every time, and a reviewer might miss something once. You gain the ability to catch contradictions, which is the failure that actually showed up in the runs.
+Two agents are writing the same files — my fault for restarting the work rather than confirming the first was dead. Checking actual state before I assign ownership.
+- 🔧 `Bash` — Check current file state after both agents
+- 🔧 `SendMessage` — {"to": "readme-edit", "summary": "Stand down; readme2 owns these files now", "message": "Stop edi...
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "You own all the files; delete run_all.py", "message": "**You own `R...
+Sorted — one owner, and the collision was mine to cause: the first agent reported idle twice saying nothing was pending, so I started a second, and then the first picked up my queued instructions and resumed the same job.
+
+Progress is real regardless. The README is down to **3,715 student-facing words** from 6,030, `INSTALL.md` exists, and all three stubs are written — so the relocation is doing what the prose-cutting couldn't. The 2,100 target now looks reachable.
+
+Still to land: deleting `run_all.py` and its eight references, and replacing the `CLAUDE.md` rule with Claude reviewing the submission by looking.
+
+Where the assignment ends up, structurally:
+
+- **INSTALL.md** — machine setup, written once, reused by HW1
+- **README.md** — what the student must decide, about a third of its original length
+- **Four script stubs** — what each must produce, read when you open the file
+- **WRITEUP.md and RECORD.md** — the labelled slots, unchanged
+- **No hook, no checker** — the rules hold because Claude follows them, and the submission is right because Claude checked it with the student
+
+That last line is the whole bet, and it's now the only thing standing where two mechanical backstops used to be.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
