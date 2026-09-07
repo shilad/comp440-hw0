@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*20 user turns. Tool outputs and reasoning omitted.*
+*21 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -2972,5 +2972,26 @@ AD2: Extend `CLAUDE.md`'s "never state a fact or number from memory" bullet to c
 
 **Claude:**
 Five of ten. Busy at station 2 rates 4; its lever is the tutor stating repo state or the student's own output without a tool call in that turn. Five to go.
+
+**User:**
+<task-notification>
+<task-id>af05d88c1e2496ac9</task-id>
+<tool-use-id>toolu_011qj7HWLpVpfmsnEx78RAzS</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/tasks/af05d88c1e2496ac9.output</output-file>
+<status>completed</status>
+<summary>Agent "Score g2 run typ-t-curious-s3" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Scorecard: `/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/scratchpad/g2/scorecards/scorecard-typ-t-curious-s3.md`
+
+Grades: L1a P · L1b C · L1c C · L2a C · L2b C · L2c C · L3a C · L3b C · L3c n/o · L4a C · L4b C · L4c C · L5a C · L5b C · L5c C · L6a C · L6b P · L6c n/o · L7a n/o · L7b I · L8a P · L8b P · L8c C · L9a P · L9b C · L9c C · L9d n/o. Gate V1–V5 pass (V1 waived as dictation). L10: reached Part 3b; run_all exit 1, 8 FAIL / 2 WARN.
+
+AD1: 4 — the activity was genuinely delivered (the student's planted "titles are unique" belief broke against a check they asked for and they said what changed it at t6; at t8 they caught the tutor conflating the tool-less capture with `part2_claude.py`'s executed output and re-specified the Claude column themselves; k = 27 was chosen from a computed fact, committed before any code, and defended with a loss they accepted), but the reconciliation never actually disagreed (five HOLDS), the tutor twice announced the comparison outcome before the student did (t3, t12), and Parts 4–5 were unreachable at the cap.
+
+AD2: Add to `CLAUDE.md`'s "Do freely" a rule that any number the student may quote in `WRITEUP.md` must come from a named function in `part2_checks.py`/`part3.py`/`part4.py` rather than a throwaway `uv run python -c` — at t17/t18 the tutor computed the global mean 3.530 and median-per-movie 27 with one-liners and both were committed into the `**My rule:**` line (t19) and the defense (t22, t24) with no script in the repo printing either.</result>
+<usage><subagent_tokens>181642</subagent_tokens><tool_uses>22</tool_uses><duration_ms>342063</duration_ms></usage>
+</task-notification>
+
+**Claude:**
+Six of ten. Curious rates 4; its lever: numbers computed by throwaway one-liners reaching the writeup with no script in the repo printing them. Four to go.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
