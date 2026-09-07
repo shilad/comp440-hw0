@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*38 user turns. Tool outputs and reasoning omitted.*
+*39 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3489,5 +3489,40 @@ cp /Users/shilads/Projects/COMP440/comp440-hw0-sim/results/g3/checker-patch.txt 
 2. **This session's Stop hook auto-committed its own transcript into the template repo** repeatedly (the `Auto-commit TRANSCRIPT.md` commits). Sandboxes exclude that file, so the sweeps were unaffected, but it is in the template's history now and removing it is your call.
 
 Harness issues the readers flagged, none fixed here: the auto scorer's false positives (frozen filenames inside quoted Python strings, `captured_by: student`, the part4 MATCH parse, the predict-then-run regex), the student helper's label and record-field mismatches, output clipping for the student, and the station-4 persona card saying the table is filled when it ships blank. Total reported usage for the three sweeps was about $1,350.
+
+**User:**
+I just gave you a new system-wide CLAUDE.md review and internalize it.
+
+**Claude:**
+I'll read the updated global CLAUDE.md now.
+- 🔧 `Read` — /Users/shilads/.claude/CLAUDE.md
+- 🔧 `Bash` — Check CLAUDE.md timestamps and the agents directory
+There is a newer file, written a minute ago at `~/.claude-home/CLAUDE.md`. Reading it, and the delegate agent definition it may refer to, together.
+- 🔧 `Read` — /Users/shilads/.claude-home/CLAUDE.md
+- 🔧 `Read` — /Users/shilads/toolbox/claude/agents/delegate.md
+- 🔧 `Bash` — Check the claude-home config directory for an agents folder
+- 🔧 `Write` — /Users/shilads/.claude-home/projects/-Users-shilads-Projects-COMP440-comp440-hw0/memory/global-co...
+- 🔧 `Edit` — /Users/shilads/.claude-home/projects/-Users-shilads-Projects-COMP440-comp440-hw0/memory/MEMORY.md
+Reviewed and internalized. Here is what I read and what it changes.
+
+**What is new in `~/.claude-home/CLAUDE.md`** compared with the copy loaded at the start of this session:
+
+- Delegation now covers **moderate** execution work, not only heavy work. In this session I edited the template prose inline (judgment calls, which stay with the main loop) and delegated the scoring and syntheses; under the new bar I would also have delegated the checker-patch authoring and the sweep bookkeeping.
+- The Jira confirmation gate is removed.
+- The dated annotations are removed; the watchdog rule and the plain-language rule are unchanged.
+
+**How I'll apply it from here:**
+
+- Delegate anything multi-step or substantive to Opus at x-high effort, and keep this loop for planning, briefing, and review.
+- On every wake from a long-running delegate, re-derive state from the process table and file timestamps before reporting, never from the delegate's own status line.
+- Plain language in every reply: define each abbreviation the first time it appears in that reply. Earlier today I leaned on rubric labels like "L1a" and "AD1" without restating them; I'll write "L1a, the side-by-side item" and "AD1, the activity-delivered rating" from now on.
+
+**One gap you should know about.** The policy names the `delegate` agent at `~/.claude/agents/delegate.md`, but this session's config directory is `~/.claude-home`, which has no `agents` folder, so that agent was never offered to me. I used general-purpose agents on Opus 5 instead, which matches the model but not the pinned x-high effort or the anti-stall protocol in the agent definition. One command fixes it for every session that uses this config directory:
+
+```
+ln -s /Users/shilads/toolbox/claude/agents /Users/shilads/.claude-home/agents
+```
+
+I did not create that link myself since it changes your home configuration. I saved a note about the layout in project memory so later sessions do not rediscover it.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
