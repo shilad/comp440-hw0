@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*128 user turns. Tool outputs and reasoning omitted.*
+*129 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6131,5 +6131,25 @@ The run-all shape is clear now — one entry point that unzips, loads, prints th
 What would you like to clarify on the data model question?
 
 For context on why I asked: the loaders currently hand back pandas DataFrames and everything downstream assumes it — the four questions are phrased as joins and group-bys, the stubs are written against DataFrames, `CLAUDE.md` tells the tutor to explain pandas and joins, and the "Part 1 is your pandas refresher" line in the Purpose section. Dataclasses would be a nicer data model to look at, and the duplicate-title trap survives either way, but it changes what the assignment teaches and how it connects to HW1's ten million ratings.
+
+**User:**
+do you give the students pandas code?
+
+**Claude:**
+Let me answer precisely rather than from impression.
+- 🔧 `Bash` — Check how much pandas the student is actually handed
+**Almost none.** Here's the exact picture:
+
+**What students are given:** `load_data.py`, written by you, which contains the only pandas the template ships — three `pd.read_csv` calls handling the tab separator, the pipe separator, and the latin-1 encoding. Students never write that, and it's arguably the fiddliest part.
+
+**What students get in `part1.py`:** three assignments and four comments. That's it — the loader calls, then `print("== (a) ==")` and the question as a comment, four times. Every line of analysis is theirs.
+
+**The three new stubs contain no pandas at all** — no import, no `pd.` call. They carry requirements in their docstrings and empty named functions.
+
+So the assignment doesn't teach pandas or demonstrate it. It hands over loaded data and asks four questions whose phrasing implies pandas — "join ratings to titles," "the median number of ratings per user" — and leaves the student to work out how. The word "pandas" appears in the README as an assumption about what they'll use, and in `CLAUDE.md` as something the tutor may explain on request after the marker.
+
+Which means switching to dataclasses is a smaller change to the *template* than I implied — you'd rewrite `load_data.py` and the type comments in `part1.py`, and nothing else in the shipped code. The real cost is elsewhere: the four questions read as pandas operations, `CLAUDE.md` tells the tutor to explain joins and group-bys, and a student who solves (c) and (d) with dictionaries and loops meets the duplicate-title trap differently than one who uses `merge`.
+
+That's the honest trade. What would you like to clarify?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
