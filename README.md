@@ -15,7 +15,8 @@ Sep 15 and builds on this, so finish HW0 first.
 > three-day late pass, and opt-out by talking with you follow the Sep 5 syllabus; the design doc
 > and the earlier confirmation said 2%, 10:00am, and 48 hours, so switch back with one edit if
 > HW0 is the exception. Grading is the rubric as written;
-> `run_all.py` is the gate either way. The cold sessions run without tools (Claude writes code
+> `run_all.py` is the entry point, not a gate; Claude reviews the submission with the
+> student. The cold sessions run without tools (Claude writes code
 > it cannot run, you run it), which four trial captures on Sep 5 showed produces runnable
 > scripts plus a recalled and false claim that titles are unique. Still marked `[DECIDE: ...]`
 > below: the Claude account and the install page, the submission target, GroupLens's permission
@@ -48,7 +49,8 @@ Every session leaves a trace: `TRANSCRIPT.md` for sessions here, `cold/` for col
 MovieLens 100K (GroupLens Research, University of Minnesota; cite Harper and Konstan, 2015,
 "The MovieLens Datasets: History and Context"): 100,000 ratings of 1–5 stars that 943
 anonymous people gave 1,682 movies in 1997–98, every user with at least 20 ratings. `FILES.md`
-describes the three files; `load_data.py` unzips the checked-in `ml-100k.zip` and loads them.
+describes the three files; `load_data.py` unzips the checked-in `ml-100k.zip` and reads them
+into plain records, with a pandas conversion for each.
 Before you count: nine titles carry accents, so reading `u.item` as UTF-8 fails
 (`load_data.py` handles it), and 18 titles appear twice under different movie ids. The data
 is public, so Claude may read it; your repo stays private, because the dataset may not be
@@ -64,7 +66,8 @@ files.grouplens.org served an expired certificate.]**
   says what it must produce; each label in `WRITEUP.md` says what goes under it. `CLAUDE.md`
   states the rules; nothing enforces them. If Claude edits what it should not have, git has
   the old version; say so in `RECORD.md`.
-- **`uv run python run_all.py`** runs every script in order from a clean slate.
+- **`uv run python run_all.py`** runs the whole assignment: it unzips the data, says how much
+  there is, and calls `part1()` through `part4()`; a part you have not written yet says so.
 - **`origin` is your own private copy,** never the template; the tools refuse otherwise. When
   I fix the template, Claude tells you at session start, and `uv run python sync_upstream.py`
   merges it without touching your files (a change to one of them waits as a patch under
@@ -179,8 +182,8 @@ not a sample of anyone, and I grade the honesty of the limitation, not the findi
 Fill every field of `RECORD.md`; Claude does not write there. Then ask Claude to review the
 submission with you: it walks through what must be committed, filled in, and running, and
 stops at the first thing missing. Commit, push, and prove the fresh clone runs:
-`git clone <your repo url> hw0-check`, then `uv sync`, `uv run python load_data.py`, and
-`uv run python run_all.py` inside it. Submit the repo URL (below).
+`git clone <your repo url> hw0-check`, then `uv sync` and `uv run python run_all.py` inside
+it. Submit the repo URL (below).
 
 One question to carry into HW1, which asks the same things of ten million ratings: what in your
 scripts breaks when the table is a hundred times bigger?
@@ -216,7 +219,7 @@ contributions, and later assignments ask for the same.
 
 ## Deliverables and how to submit
 
-One private repo from this template, with every script running on a fresh clone. Submit the
+One private repo from this template, with `run_all.py` running on a fresh clone. Submit the
 repo URL via HW0 on Moodle **[DECIDE: Moodle assignment URL]** by **Thu Sep 17, 8:00am
 Central**. The late-homework pass works as usual: once in the semester, up to three days, tell
 me before the deadline.
@@ -229,7 +232,7 @@ me before the deadline.
 | **Part 2: Claude second and reconciliation** | 25 | Every row has a verdict and an evidence function that computes rather than asserts; every FAILS a mechanism; a real same-method line. |
 | **Part 3: Two questions with no right answer** | 25 | A rule and a definition precise enough to code; defense and reflection within 150 words, naming what is gained and lost; cold paragraphs that say which rule Claude used, whether it said so, and computed or recalled. |
 | **Part 4: Your own question** | 15 | A plot that answers a one-sentence question; an interpretation within 150 words with a limitation and what would change your mind; a `check()` that matches or explains why not. |
-| **Part 5: Record, setup, and repo hygiene** | 15 | Specific record fields; `TRANSCRIPT.md` and `cold/` unedited; every script runs on a fresh clone; commits in order; survey and Slack done. |
+| **Part 5: Record, setup, and repo hygiene** | 15 | Specific record fields; `TRANSCRIPT.md` and `cold/` unedited; `run_all.py` runs on a fresh clone; commits in order; survey and Slack done. |
 | | **100** | |
 
 A record that says "checked, fine" with no method earns partial credit at most.

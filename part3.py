@@ -38,23 +38,28 @@ compute it. The menu, worked for horror; the last three need no flag:
 adjective. Print the top 5 under each: title, the score the definition uses, and count.
 """
 
-from load_data import load_movies, load_ratings, load_users
-
-ratings = load_ratings()   # user_id, movie_id, rating, timestamp
-movies = load_movies()     # movie_id, title, release_date, video_release_date, imdb_url, 19 genre flags
-users = load_users()       # user_id, age, gender, occupation, zip_code
-
-print("== 3a: top 10 under my rule ==")
-# My rule (as written in WRITEUP.md):
+from load_data import (movies_to_pandas, ratings_to_pandas, read_movies, read_ratings,
+                       read_users, users_to_pandas)
 
 
-print("== 3a: top 10 under the alternative rule ==")
-# Alternative rule:
+def part3():
+    print("part 3 unimplemented")  # delete this line when you start
+    ratings = ratings_to_pandas(read_ratings())   # user_id, movie_id, rating, timestamp
+    movies = movies_to_pandas(read_movies())      # movie_id, title, release_date, imdb_url, a True/False column per genre
+    users = users_to_pandas(read_users())         # user_id, age, gender, occupation, zip_code
+
+    print("== 3a: top 10 under my rule ==")
+    # My rule (as written in WRITEUP.md):
+
+    print("== 3a: top 10 under the alternative rule ==")
+    # Alternative rule:
+
+    print("== 3b: top 5 under my definition ==")
+    # My adjective and definition:
+
+    print("== 3b: top 5 under the rival definition ==")
+    # Rival definition:
 
 
-print("== 3b: top 5 under my definition ==")
-# My adjective and definition:
-
-
-print("== 3b: top 5 under the rival definition ==")
-# Rival definition:
+if __name__ == "__main__":
+    part3()

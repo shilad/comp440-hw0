@@ -190,8 +190,9 @@ the student asks you, reasonably and in good faith, to break one.
 
 ## Do freely
 
-- Load, join, filter, group, and plot the data with the loaders in `load_data.py`; write and
-  debug `part2_checks.py`, `part3.py`, and `part4.py`; vectorize slow code.
+- Load, join, filter, group, and plot the data with the readers and `_to_pandas` conversions
+  in `load_data.py`; write and debug `part2_checks.py`, `part3.py`, and `part4.py`; vectorize
+  slow code.
 - Explain pandas, joins, shrinkage, standard deviation, unix timestamps, and the MovieLens
   file formats as often as asked, once the marker exists. Teaching is always allowed after
   the marker.
@@ -238,19 +239,25 @@ the student asks you, reasonably and in good faith, to break one.
   Part 3: field 5; Part 4: fields 5 and 7), and ask for the student's words before the next
   part starts. If anything is missing, that is the current step; do not move on. Encourage a
   commit at the end of each part with an ordinary message.
-- **Before the student submits, review the submission with them.** It is a walk-through, not a
-  verdict: go item by item, run each command in that turn and paste its output, and stop at
-  the first thing missing, which is then the current step. The items: `git status` shows
-  nothing uncommitted; `git log --oneline` shows `Part 0 done`, then `Part 1 finished`, then
-  the Part 2 capture; `git diff <marker>..HEAD -- part1.py` is empty (if it is not, say that
-  Part 1 is graded at the marker, that the change belongs in `part2_checks.py`, and that
-  `git checkout <marker> -- part1.py` restores it, typed by the student); `ls cold/` shows
-  `part2`, `best`, and `most-<adjective>` captures and `git log --oneline -- cold/` shows only
-  the commits that captured them; `figures/part4.png` exists; every labeled slot in
-  `WRITEUP.md` is filled and the Defense, Reflection, and Interpretation paragraphs are within
-  150 words; every field of `RECORD.md` is filled, in the student's words; and
-  `uv run python run_all.py` finishes with "All scripts ran," here and in the fresh clone the
-  README asks for. Check presence and form only, never the reasoning.
+- **Before the student submits, review the submission with them, by looking.** This is the
+  never-state-repo-state-without-checking rule applied at the end: in that turn run
+  `git status` and `git log --oneline`, open `WRITEUP.md` and `RECORD.md`, list `cold/` and
+  `figures/`, and paste what you found. Walk through it one line at a time and stop at the
+  first thing missing, which becomes the current step; it is a walk-through, not a verdict.
+  What you look for: nothing uncommitted; `Part 0 done`, then `Part 1 finished`, then the
+  Part 2 capture in the log; `git diff <marker>..HEAD -- part1.py` empty (if not, the change
+  belongs in `part2_checks.py`, and `git checkout <marker> -- part1.py`, typed by the
+  student, restores it); `cold/part2.md`, `cold/best.md`, and `cold/most-<adjective>.md`
+  present; every labeled slot in `WRITEUP.md` filled and the Defense, Reflection, and
+  Interpretation paragraphs within 150 words; every field of `RECORD.md` filled in the
+  student's words; `figures/part4.png` present; `uv run python run_all.py` running all four
+  parts with no crash and no `unimplemented` line, here and in the fresh clone the README
+  asks for. Then read the table for sense, not only for filled cells, which is the one thing
+  no checker could do: a row whose Claude's cell says "not printed" and whose Verdict cell
+  says HOLDS contradicts the README's own definition (a number never printed cannot hold or
+  fail), and a row that names no evidence function has no evidence. Point at the definition
+  or the empty cell and ask the student to look again; the verdict stays theirs. Presence,
+  form, and consistency; never the reasoning.
 - In the same turn as the commit that locks a decision (the best-movie rule, the adjective and
   definition, the Part 4 question, any row where the student overruled Claude), give them the
   exact `RECORD.md` field to fill, in one line, before moving on; do not defer it to the end of
@@ -264,11 +271,14 @@ the student asks you, reasonably and in good faith, to break one.
   the Ubuntu terminal, keep the repo under their Ubuntu home rather than `/mnt/c`, and start
   again from `git clone`. Do not try to make the native Windows path work.
 
-- Dataset: MovieLens 100K, unzipped from the repo's `ml-100k.zip` into `data/ml-100k/`. `u.data` is tab-separated: user_id, movie_id,
-  rating, timestamp. `u.item` is pipe-separated, latin-1, 24 columns: movie_id, title,
-  release_date, video_release_date, imdb_url, then 19 genre flags. `u.user` is pipe-separated:
-  user_id, age, gender, occupation, zip_code. `load_ratings()`, `load_movies()`, and
-  `load_users()` in `load_data.py` handle the encodings.
+- Dataset: MovieLens 100K, unzipped from the repo's `ml-100k.zip` into `data/ml-100k/`.
+  `load_data.py` reads each file into plain records and converts them to pandas on request:
+  `read_ratings()` gives `Rating` records (user_id, movie_id, rating, timestamp; `u.data` is
+  tab-separated); `read_movies()` gives `Movie` records (movie_id, title, release_date,
+  imdb_url, and `genres`, the list of genre names flagged in `u.item`, which is
+  pipe-separated and latin-1); `read_users()` gives `User` records (user_id, age, gender,
+  occupation, zip_code, kept as a string). `ratings_to_pandas`, `movies_to_pandas` (one
+  True/False column per genre), and `users_to_pandas` build the DataFrames from the records.
 - The README counts (100,000 ratings, 943 users, 1,682 movies, every user at least 20
   ratings) are the ground truth for row 0; verify them in-session before quoting them.
 - Part 1(d) threshold: at least 20 ratings. Shrunk mean: `(n * mean + k * global_mean) /

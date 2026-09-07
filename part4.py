@@ -22,16 +22,13 @@ import matplotlib
 matplotlib.use("Agg")  # draw to a file, never a window
 import matplotlib.pyplot as plt
 
-from load_data import load_movies, load_ratings, load_users
-
-ratings = load_ratings()   # user_id, movie_id, rating, timestamp
-movies = load_movies()     # movie_id, title, release_date, video_release_date, imdb_url, 19 genre flags
-users = load_users()       # user_id, age, gender, occupation, zip_code
+from load_data import (movies_to_pandas, ratings_to_pandas, read_movies, read_ratings,
+                       read_users, users_to_pandas)
 
 FIGURE = Path(__file__).resolve().parent / "figures" / "part4.png"
 
 
-def plot():
+def plot(ratings, movies, users):
     """The one plot that answers the question; saves FIGURE."""
     fig, ax = plt.subplots()
     # draw on ax here, then label it
@@ -39,14 +36,14 @@ def plot():
     ax.set_ylabel("")
     ax.set_title("")
     if not ax.has_data():
-        print("plot(): not written yet")
+        print("plot(): nothing drawn yet")
         return
     FIGURE.parent.mkdir(exist_ok=True)
     fig.savefig(FIGURE, dpi=150, bbox_inches="tight")
     print(f"saved figures/{FIGURE.name}")
 
 
-def check():
+def check(ratings, movies, users):
     """One plotted number, recomputed by a different route. Prints MATCH or MISMATCH with both."""
     plotted = None      # the value as the plot computed it
     recomputed = None   # the same value by another route
@@ -57,6 +54,15 @@ def check():
     print(f"check(): plotted = {plotted}, recomputed = {recomputed} -> {word}")
 
 
+def part4():
+    print("part 4 unimplemented")  # delete this line when you start
+    ratings = ratings_to_pandas(read_ratings())   # user_id, movie_id, rating, timestamp
+    movies = movies_to_pandas(read_movies())      # movie_id, title, release_date, imdb_url, a True/False column per genre
+    users = users_to_pandas(read_users())         # user_id, age, gender, occupation, zip_code
+
+    plot(ratings, movies, users)
+    check(ratings, movies, users)
+
+
 if __name__ == "__main__":
-    plot()
-    check()
+    part4()

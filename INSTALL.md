@@ -19,10 +19,11 @@ not supported.
    account passwords, so this is how `git clone` and `git push` authenticate.
 3. **uv**: `curl -LsSf https://astral.sh/uv/install.sh | sh`, then open a new terminal.
 4. **Claude Code**: `curl -fsSL https://claude.ai/install.sh | bash`, then run `claude` and log
-   in **[DECIDE: which Claude account students use]**.
+   in **[DECIDE: which Claude account students use]**. It needs a Pro, Max, Team, or
+   Enterprise account; a free claude.ai account will not work.
 5. **VS Code**, with the WSL extension on Windows. Turn off any AI autocomplete; some
    assignments have solo parts.
 
-You are done when `git --version`, `gh auth status`, `uv --version`, and `claude --version`
+You are done when `git --version`, `gh auth status`, `uv --version`, and `claude doctor`
 all answer, and `claude` opens logged in. A command that is "not found" right after installing
 usually needs a new terminal.
