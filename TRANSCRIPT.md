@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*151 user turns. Tool outputs and reasoning omitted.*
+*152 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6628,5 +6628,21 @@ That's simpler and stronger than what's there now: isolation by *what's in the r
 One consequence worth naming, because it changes a lesson. Right now Claude has no data, so its numbers come from memory — and catching a recalled number is one of the things students learn. Give it the dataset and tools and its numbers will be correct. The comparison stops being "did Claude make something up" and becomes "you chose this rule, Claude chose that one, why, and which is better." That's the more interesting question and it's where you moved Parts 5 and 6 anyway. It also fixes the thing my simulations kept hitting: the deterministic questions never disagreed, so building the comparison on them taught nothing.
 
 Confirming that's what you want before I set it up: **Claude gets the data and can run code.**
+
+**User:**
+and would this likely work okay in windows, too?
+
+**Claude:**
+Yes — because your Windows students aren't really on Windows. Your `INSTALL.md` already requires WSL2 with Ubuntu and rules out PowerShell and Git Bash, so they're running Linux and this is the same code path everyone else takes.
+
+Two things to get right, both small:
+
+**Put the temp directory on the Linux side.** Python's `tempfile.mkdtemp()` gives you `/tmp/...` inside WSL2, which is fine. The trap is only if something lands under `/mnt/c`, where file I/O is slow and inotify doesn't work — the same reason your install file already tells them to keep the repo in their Ubuntu home.
+
+**Copy the data rather than linking it.** Sixteen megabytes, instantly, and it guarantees the room contains exactly what you put there. Symlinks are the thing that gets weird across the WSL boundary.
+
+The existing tool already resolves the `claude` binary with `shutil.which`, which handles the native-Windows `.cmd` shim if anyone ever runs it outside WSL2 — worth keeping, costs a line.
+
+So: same code, all three platforms, no branching.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
