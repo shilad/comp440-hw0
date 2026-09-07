@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*54 user turns. Tool outputs and reasoning omitted.*
+*55 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3855,5 +3855,22 @@ One student, one sitting, including the three separate no-tools calls the assign
 The simulated students **hit their message limits rather than finishing the homework** — most reached Part 3 or 4 of six. A student completing the whole assignment would plausibly run about double these numbers, so roughly $3.50 on Sonnet or $8.70 on Opus. That is my extrapolation from where the runs stopped, not a measurement, but it still fits inside one window on either model.
 
 And the $20 figure is your approximation, not something I verified against the plan's actual accounting.
+
+**User:**
+can you review the simulated students. what was realistic? what was not?
+
+**Claude:**
+This is a real analysis job, so I'll delegate it.
+- 🔧 `Agent` — Review realism of the simulated students
+Running. It's reading the persona definitions, the fully-composed prompts each character actually received, a spread of the thirty transcripts, and the graders' notes on behaviour that struck them as off — plus the measured drift in message length between early and late turns.
+
+I asked it to answer four things beyond the obvious catalogue of hits and misses:
+
+- **Whether the typing mechanism distorted behaviour.** The simulated students cannot edit files. They emit bracketed commands that the harness executes for them. A real student just types in their editor, and I want to know what that substitution changed.
+- **Whether they were too competent.** Several graders noted students catching the tutor's arithmetic errors, demanding to see the command behind a number, and diagnosing their own broken definitions. That is impressive behaviour for characters written as ordinary B-students, and if it is unrealistic it flatters the assignment.
+- **Which real students never appeared at all** — and what their absence hides.
+- **Which of the three rounds' conclusions to discount**, ranked, naming the finding, the artifact behind it, and which direction the bias runs.
+
+That last one is the point of the exercise. Three rounds of edits to your assignment were driven by these thirty runs, and any finding that rests on behaviour a real undergraduate would not produce is a change you made for a reason that does not exist.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
