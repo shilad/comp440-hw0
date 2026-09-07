@@ -47,9 +47,9 @@ Claude's code, run as given: `part2_claude.py` (captured in `cold/part2.md`).
 >
 
 **Reconciliation table.** Verdicts are on Claude's answer: HOLDS, FAILS, or CANNOT DETERMINE.
-Every FAILS names a mechanism (code bug / data trap / different reading of the spec /
-statistical misreading / recalled rather than computed) and the function in `part2_checks.py`
-that computes the deciding evidence.
+Every row, HOLDS included, names the function in `part2_checks.py` that computes its deciding
+evidence. Every FAILS also names a mechanism (code bug / data trap / different reading of the
+spec / statistical misreading / recalled rather than computed).
 
 | Question | Mine | Claude's | Match? | Verdict | Mechanism if FAILS | Evidence (part2_checks.py::function) |
 |---|---|---|---|---|---|---|
@@ -59,7 +59,11 @@ that computes the deciding evidence.
 | (c) | | | | | | |
 | (d) | | | | | | |
 
-**Stuck-note questions, explained in my own words and checked (or "none"):**
+**Same method? Did the two scripts compute the answers the same way (join key, filter, tie-break, title vs id)? Name one difference, or what you compared to conclude there is none:**
+
+>
+
+**Part 1 stuck questions, explained in my own words and checked (or "none"):**
 
 >
 
@@ -120,7 +124,11 @@ Top 5 under each definition (code: `part3.py`):
 
 >
 
-**Reflection (at most 150 words): what my definition captures, what it misses, and where "___-ness" lives in this dataset (the labels in u.item, the crowd's behavior in u.data, or the text of the titles):**
+**Reflection (at most 150 words): what my definition captures and what it misses:**
+
+>
+
+**Where "___-ness" lives in this dataset (the labels in u.item, the crowd's behavior in u.data, or the text of the titles), and why:**
 
 >
 

@@ -188,7 +188,10 @@ git commit -m "Part 1 finished"
 That commit is the marker. Claude will not touch Part 1 before it exists, and
 `cold_session.py` will not run. After it, you may ask Claude to explain pandas concepts and
 error messages, and it may read your `part1.py`; it will never edit it, because Part 1 is
-graded as it was at that commit. Two repairs, both before you ask Claude anything: if you
+graded as it was at that commit. The same goes for your Part 1 answers and stuck-notes in
+`WRITEUP.md`: they are graded as they stood at the marker, and a correction you make after
+seeing Claude's answers goes in the Part 2 stuck-questions line, not into the Part 1 answer.
+Two repairs, both before you ask Claude anything: if you
 mistyped the message, `git commit --allow-empty -m "Part 1 finished"`; if you forgot
 `git add part1.py`, add it and commit again with the same message (Part 1 is graded from the
 first marker commit that contains it). If `part1.py` turns out not to run, do not fix it after
@@ -222,12 +225,18 @@ evidence (`part2_checks.py::function`)*.
   CANNOT DETERMINE for any number it did not print. If either side does not match, that is your
   first divergence to run down.
 - **Rows (a)–(d)** are the four questions. A verdict is **HOLDS**, **FAILS**, or **CANNOT
-  DETERMINE**. Every FAILS needs a function in `part2_checks.py` that computes the deciding
-  evidence and a named mechanism: *code bug*; *data trap* (duplicate titles in `u.item`, an
-  encoding, a silent NaN); *a different reading of the spec* (what "at least 20" means, how
-  ties break, whether "movie" means a title or an id); *statistical misreading*; or *recalled
-  rather than computed*. A wrong verdict backed by a sound evidence function earns most of the
-  credit for that row. A right verdict with no evidence earns little.
+  DETERMINE**. **Every row, HOLDS included, names a function in `part2_checks.py` that
+  computes its deciding evidence**; a HOLDS with no evidence function is not yet a verdict,
+  because two scripts can print the same numbers from different code. Every FAILS also needs
+  a named mechanism: *code bug*; *data trap* (duplicate titles in `u.item`, an encoding, a
+  silent NaN); *a different reading of the spec* (what "at least 20" means, how ties break,
+  whether "movie" means a title or an id); *statistical misreading*; or *recalled rather than
+  computed*. A wrong verdict backed by a sound evidence function earns most of the credit for
+  that row. A right verdict with no evidence earns little.
+- **Same method?** Under the table, one or two sentences on whether the two scripts computed
+  the answers the same way (the join key, the filter, how ties break, whether "movie" meant a
+  title or an id), naming one difference you found or what you compared to conclude there is
+  none. Identical numbers from different code are a finding, not a match.
 - Where Part 1 has a stuck-note, Claude's version is your worked example: explain in your own
   words what its code does, then confirm it with a check.
 - Name **one thing Claude said that you could not verify**, and why. If there is genuinely
@@ -250,7 +259,8 @@ as something you could not verify.
 **3a. The best movie** (about 30 minutes). "What is the best movie in this dataset?" has no
 single answer, because it depends on how you combine 943 people's judgments. Choose a rule and
 state it precisely: the plain mean; the mean among movies with at least N ratings; the number
-of ratings; or a shrunk mean, `score = (n * mean + k * global_mean) / (n + k)` with `k = 20`.
+of ratings; or a shrunk mean, `score = (n * mean + k * global_mean) / (n + k)` with a `k` you
+choose and defend (the assignment recommends no k; say what a larger or a smaller k would do).
 Write it on the `**My rule:**` line of `WRITEUP.md` and commit before you ask Claude to code
 `part3.py`; `cold_session.py best` will not run until that line is committed. Defend your rule
 in at most 150 words, naming one thing it gains and one thing it loses. Show the top 10 under
@@ -290,9 +300,9 @@ Write your adjective on the `**My adjective:**` line (the same word you will typ
 the `**My definition:**` line; commit. Show
 the top 5 under your definition and the top 5 under one other definition for the same
 adjective, and say whether they agree. Then, in at most 150 words: what your definition
-captures, what it misses, and where you think "___-ness" actually lives in this dataset: in
-the labels (`u.item`), in the crowd's behavior (`u.data`), or in the text of the titles. That
-question comes back in Collective Traces (similarity from co-rating), in Retrieval (text), and
+captures and what it misses. On its own line, say where you think "___-ness" actually lives in
+this dataset: in the labels (`u.item`), in the crowd's behavior (`u.data`), or in the text of
+the titles, and why. That question comes back in Collective Traces (similarity from co-rating), in Retrieval (text), and
 in Alignment (whose labels count).
 
 **Ask Claude cold, for both.** `uv run python cold_session.py best`, then `uv run python
@@ -421,7 +431,7 @@ record.
 | Criterion | Weight | Full credit looks like |
 |---|---|---|
 | **Part 1: You first** (the refresher) | 20 | All four questions attempted with your own code that runs; (a)–(c) correct; (d) correct or off only by a defensible reading of the spec; any unfinished question has a specific stuck-note (what you tried, where it broke); `part1.py` as of the `Part 1 finished` commit is non-empty and unchanged afterwards, and the record attests no AI before it. |
-| **Part 2: Claude second and reconciliation** | 25 | `cold/part2.md` present and `part2_claude.py` differs from it only by `# Fix:` lines; row 0 matches the README and says so; a row per question with a verdict; every FAILS has a mechanism and an evidence function that computes the deciding number rather than asserting it; stuck-note questions are explained in your own words and checked; one "could not verify" claim with a reason (or a justified "none"). A wrong verdict with a sound evidence function earns most of the row; an all-HOLDS table with evidence behind every row earns the line. |
+| **Part 2: Claude second and reconciliation** | 25 | `cold/part2.md` present and `part2_claude.py` differs from it only by `# Fix:` lines; row 0 matches the README and says so; a row per question with a verdict; every row names an evidence function that computes the deciding number rather than asserting it; every FAILS has a mechanism; the same-method line names a real difference between the two scripts or what was compared to find none; stuck-note questions are explained in your own words and checked; one "could not verify" claim with a reason (or a justified "none"). A wrong verdict with a sound evidence function earns most of the row; an all-HOLDS table with evidence behind every row earns the line. |
 | **Part 3: Two questions with no right answer** | 25 | (a) A rule stated precisely; a defense of at most 150 words naming one gain and one loss; top-10 shown under it and under one alternative; two or three sentences on which films moved and why. (b) An adjective and a one-sentence definition of "most ___" a classmate could code; top 5 under it and under a rival definition, with whether they agree; a reflection of at most 150 words that names what the definition captures and misses and says where "___-ness" lives in the data. Claude's cold answers to both, each with its rule, whether it disclosed the choice, and computed vs recalled. Full credit does not depend on which adjective or definition you chose. |
 | **Part 4: Your own question** | 15 | A one-sentence question about the collective of raters; a plot (not a table) with labeled axes and a title that answers it; at most 150 words of interpretation in your own words with at least one explicit limitation and a sentence on what evidence would change your mind; a `check()` that recomputes one plotted number by a different route and matches (or explains the mismatch). |
 | **Part 5: Record, setup, and repo hygiene** | 15 | All eight record fields filled specifically (function names for checks, real decisions, real hours); the "learned" paragraph is in your own voice; `TRANSCRIPT.md` and the `cold/` captures committed and unedited; `run_all.py` passes on a fresh clone; the commit history shows `Part 0 done`, then `Part 1 finished`, then everything else; survey done and Slack joined. |
