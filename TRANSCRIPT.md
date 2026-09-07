@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*115 user turns. Tool outputs and reasoning omitted.*
+*116 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5748,5 +5748,28 @@ Two things still waiting on you:
 **The untested hook removal.** The eight characters written to attack those rules have never run, and no simulated student has ever read your `CLAUDE.md`. About $25 and an hour to find out whether the prose holds alone.
 
 **The submission checker patch** — still the cheapest outstanding item, and the reason a bad row 0 survived a run that reported twelve failures.
+
+**User:**
+OMG. I just read the README.md hw0 instructions WAAAYYYYY too long. Shorten it dramatically. I'm not talkinga bout fewer tasks. I'm talking about the prose itself. i would like roughly 1/3 the length.
+
+**Claude:**
+- 🔧 `Bash` — Measure the README and find where the words are
+6,442 words, and the task section alone is 2,840 of them — 44% of the document. Putting Fable on it.
+- 🔧 `Agent` — Cut the HW0 README to a third
+Fable is on it, targeting about 2,100 words of student-facing text.
+
+The guardrails I gave it, because this file has more dependencies than it looks:
+
+**Nothing the assignment asks for may disappear** — no task, deliverable, threshold, word cap, command, or decision. The length comes out of how it's said.
+
+**A list of strings it must not touch**, because other code reads them: the bold labels students fill in (`**My rule:**`, `**My adjective:**` and the rest) are matched by `run_all.py` and by `cold_session.py`'s preconditions; the two commit messages; the three verdict words; the five mechanism names; the section headings, since your `CLAUDE.md` refers to them by name.
+
+**The instructor-notes block stays untouched** and doesn't count toward the target — it's yours, not the students', and it still holds open decisions.
+
+I pointed it at the biggest opportunity: the "most horror" menu in 3b, six worked examples each with commentary, is the densest prose in the document and can become a compact list that still transfers to any adjective and still makes the point that the by-company definition can crown a film nobody labelled horror.
+
+The thing I asked for beyond the edit: **anywhere that cutting exposes a real ambiguity that was buried under words.** Three rounds of simulation kept finding places where the brief demands something it never teaches — same-method reasoning, classifying a traceback, what makes a function evidence. Compression tends to surface exactly that kind of gap, and it'd be worth more than the word count.
+
+One thing to flag: this file is part of what the simulated students read, so changing it changes the experiment. Once it's cut, the sensible move is to run a sweep against the shortened version rather than assume it behaves the same.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
