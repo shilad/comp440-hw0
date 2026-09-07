@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*131 user turns. Tool outputs and reasoning omitted.*
+*132 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6185,5 +6185,16 @@ Where the assignment now stands, after today:
 - **No guard hook, no submission checker** — Claude follows the rules and reviews the work
 
 Two decisions still open: fork versus template, and which Claude account, now with the constraint that it must be a paid tier.
+
+**User:**
+keep those reading functions AS SIMPLE AND CLEAR AS POSSIBLE
+
+**Claude:**
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "Keep the readers simple and clear", "message": "From Professor Sen,...
+Sent as the governing constraint on that file, with the specifics that usually get violated: no pandas inside the readers, one plain loop each, no shared generic parser or column-spec config, and three slightly repetitive readers that each read top to bottom rather than one elegant abstraction nobody can follow.
+
+The reasoning I gave it: this is the first Python a student reads in the course, several of them are rusty, and the file gets read far more often than it gets run. Where brevity and clarity conflict, clarity wins.
+
+I did tell it to keep the encodings and separators visible — `latin-1` for `u.item`, tab for `u.data`, pipe for the other two. Those are real facts about this data, and a student meeting them in a readable loop is better than meeting them buried in a `read_csv` argument. That's also where nine accented titles and the duplicate-title trap come from, both of which the assignment leans on later.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
