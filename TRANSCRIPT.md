@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*57 user turns. Tool outputs and reasoning omitted.*
+*58 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3963,5 +3963,29 @@ Agreed the instruction should not simply be deleted — you want students who me
 All four are good faith. Only the first is currently represented in all thirty runs. The last three are exactly the inadvertent triggers you describe, and they are what actually tests whether your rules protect authorship.
 
 Say the word and I'll put a delegate on pinning the student model plus building the fidelity check, which is the pair that tells you the most for the least work.
+
+**User:**
+The student SHOULD be opus 5. you don't want to simulat estudent behavior by being a dumber model. You want to simulate it by thinking harder about exactly what a student would know and not know, and how they would behave.
+
+**Claude:**
+You're right, and my recommendation was wrong. A weaker model doesn't play a weaker student — it plays a worse actor. It drops the thread, forgets the mechanics, writes incoherently. Real struggling undergraduates are none of those things. They're articulate and socially normal; they just don't know what a shrunk mean is. Keep Opus 5 and spend the effort on the characterization.
+
+So the problem is a craft problem: how do you get a very capable model to hold a limited character honestly? Three things stand out from looking at the cards against the transcripts.
+
+**The cards describe the character but never demonstrate them.** Every card is prose about a person — "things need explaining in plain words, sometimes twice." Not one card contains a single example of what this student's messages actually look like. For holding a ceiling, showing beats telling by a wide margin. Four or five verbatim sample messages per character — one where they're lost, one where they get it, one where they're tired, one where they're wrong and confident — would anchor the register far harder than any amount of description.
+
+**Gaps don't generate behavior; wrong beliefs do.** "You have never heard of a standard deviation" asks the model to suppress something, and suppression leaks. "You think standard deviation and variance are the same thing, and you'd say so confidently" gives it something to *do*. Your harness already proves this works — the two planted false beliefs are the most realistic thing in the whole roster and produced the best moments in all thirty runs. Real students are full of half-wrong models, not empty slots. Every character should carry three or four, not zero or one.
+
+**Nobody modeled how these students handle not knowing.** That's the actual difference between a weak student and a strong one, and it's absent. Does she ask? Bluff and move on? Go quiet and hope it passes? Say "wait, back up"? Nod along and reveal four turns later that she didn't follow? The cards specify what each student knows and never specify what they do at the edge of it — so the model defaults to the competent behavior, which is to reason it out.
+
+Combined with your two earlier ideas, that gives a concrete program:
+
+1. **Inventory what the assignment actually demands** — every concept, mechanic, and piece of vocabulary HW0 requires. One list, derived from the assignment rather than invented per character.
+2. **Place each character on every item**, with four states, not two: solid, shaky, *holds a wrong model*, never met it. The third state is where the realism lives.
+3. **Generate the backstory from that placement** with a strong model, once, then review and freeze it — courses, grades, what stuck, and crucially the worked examples of where understanding stops.
+4. **Specify the edge behavior** — what this person does when they hit something they don't know, and a budget for unprompted insight ("at most one thing per session that nobody pointed you at").
+5. **Check fidelity after each run** — a pass over the student's turns against their own card, flagging anything that exceeded the character. Without it you won't know whether any of this worked, and the current drift measure only compares message lengths.
+
+I'd build 1 and 2 first, since 3 depends on them and they're where the thinking actually is. Want me to put a delegate on it?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
