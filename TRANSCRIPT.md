@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*113 user turns. Tool outputs and reasoning omitted.*
+*114 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5694,5 +5694,29 @@ But the agent found something sharper underneath: the failed-action count is a *
 **On whether a dead action is obvious, its answer was honest rather than flattering.** At the run-card level, yes — a red chip reading "41 actions · 13 never ran" tells you which runs are damaged without opening one. Inside a transcript, only once you reach it: there's no way to jump to the next failure while scrolling a 30-turn page, and no legend distinguishing an action that ran and failed from one that never ran at all.
 
 Both are small additions it deliberately didn't make without asking. Want them?
+
+**User:**
+can you show me the updated transcripts, then?
+
+**Claude:**
+- 🔧 `Bash` — Confirm the rebuilt viewer has the timeline, glosses and flags
+- 🔧 `Bash` — Open the viewer in the browser
+Opened. Seven runs, 1.13 MB.
+
+What's different from the version you saw earlier:
+
+**One stream per turn.** The student's message, then the actions they typed sitting inside that message where they belong, then what the helper handed back, then the tutor's reply with its tool calls still collapsed, then the observer's audit. The separate actions table is gone.
+
+**Each action carries a plain-English line** beside the raw command — *"filled row (a) Evidence with check_a_rating_distribution reference"*, *"committed the Part 1 marker"*. The raw text stays visible, because anyone chasing a finding needs the exact command.
+
+**Failures are flagged**, and there are two distinct kinds now rendered differently: 59 marks for actions that ran and failed, 29 for actions that never ran at all because the parser silently dropped them. The run cards carry the tally, so scanning the rail tells you which runs are damaged before you open one — the curious student's card reads 13 never ran.
+
+Worth looking at, in that light:
+
+- **`p1-t-curious`** — the damage is now visible. Thirteen dropped actions across thirteen turns, and you can watch the retry ladder as they retype under different labels getting no response.
+- **`p1-t-worried`, turns 23 to 29** — the record-label cascade: fail, partial, fail, fail, then success. Five of its last seven turns spent guessing.
+- **`p1-t-busy`, turns 20 and 24** — the tutor explains shrinkage, then the student's graded Defense comes back carrying its phrasing, and the form check runs over it saying "no comment on the reasoning."
+
+Two things it deliberately doesn't do yet: there's no way to jump to the next failure while scrolling a long transcript, and no legend telling you that solid red means an action failed while a dashed outline means it never ran.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
