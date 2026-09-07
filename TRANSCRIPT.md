@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*119 user turns. Tool outputs and reasoning omitted.*
+*120 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5825,5 +5825,28 @@ Sent, with the test I'd want applied to every sentence: *would a reasonably comp
 The two things still fixed are the exact strings other files match on, and the requirements themselves. Everything else is fair game.
 
 Worth noting this cuts the same way as the progressive-disclosure change: a shorter README that trusts the reader, with the mechanical detail sitting in the file where it's needed, is a different assignment to read than the current one. So once it lands, a sweep against the new version tells you whether it still teaches what it did — and specifically whether students who are told *less* still reach Part 3, which none of the seven managed under the current, wordier brief.
+
+**User:**
+Maybe we can have an INSTALL.md?
+
+**Claude:**
+Better name, and it makes the scope right rather than just the label.
+
+**INSTALL.md is machine setup** — WSL2, git, uv, Claude Code, VS Code. Done once ever, not specific to this assignment, and the part no assistant can help with because Claude is one of the things being installed.
+
+**The repo bits** — get your own copy, clone, `uv sync`, `load_data.py`, the selftest — aren't installation. They're the assignment starting, they're a handful of commands, and Claude can walk a student through them once it exists.
+
+That also means INSTALL.md isn't HW0's file. Your README already says HW1 uses the same tooling, so it gets written once and reused, which is an argument for keeping it out of the assignment brief entirely.
+- 🔧 `SendMessage` — {"to": "readme-edit", "summary": "Rename to INSTALL.md and narrow its scope", "message": "Rename ...
+Sent. `INSTALL.md` now ends at "you have a working `claude` and can log in" — probably a list of things to install with a command or link each, plus one line telling Windows students to do all of it inside WSL2 and keep the repo in their Ubuntu home. The five repo commands go back into Part 0 of the README, where a student can either follow them or just ask Claude, which your rules already permit.
+
+That leaves the file structure as:
+
+- **INSTALL.md** — machine setup, written once, reused by HW1
+- **README.md** — the assignment, roughly a third of its current length
+- **part1.py, part2_checks.py, part3.py, part4.py** — each carrying what that script must produce
+- **WRITEUP.md, RECORD.md** — unchanged, the labeled slots other tools match on
+
+Each thing read at the moment it's needed, rather than all of it up front on a bus.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
