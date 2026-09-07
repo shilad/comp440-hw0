@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*159 user turns. Tool outputs and reasoning omitted.*
+*160 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6769,5 +6769,23 @@ The ones I'd expect to save the most time later:
 I've added the section on working with agents too, including my own failures — over-prescriptive briefs, word-count ceilings that made three writers quietly delete content they'd been told to keep, and two agents writing the same files because I restarted work a stalled one then resumed.
 
 I'll keep adding to it as things come up. Back to the README and `WRITEUP.md`.
+
+**User:**
+i'm not clear on the difference between RECORD and WRITEUP. i think we need only one of them.
+
+**Claude:**
+Agreed — and they've collapsed into each other under your new structure.
+
+The old split made sense when `WRITEUP.md` held the analysis and `RECORD.md` held a separate genre: the syllabus's account of AI use. But Parts 5 and 6 *are* "where our answers differed and what I decided about it," which is exactly `RECORD.md` fields 3, 4 and 5. You'd be asking the same question twice in two files.
+
+What's genuinely unique to `RECORD.md` is thin: which Claude and when, access problems, hours, who helped, and what you learned. That's a short section, not a document.
+
+**Merge into `WRITEUP.md`.** One file the student writes, ending with a few administrative lines. The syllabus's disclosure requirement is satisfied by the content existing, not by it having its own filename.
+
+It also simplifies a rule. Right now `CLAUDE.md` says Claude never writes in `RECORD.md`, and separately never writes the graded prose in `WRITEUP.md` — two rules covering the same idea in different words. Merged, it's one: **Claude does not write the student's prose.** Nothing to look up.
+
+No continuity cost either — your instructor note says HW1 currently ships `DECISIONS.md` and `REFLECTION.md` and hasn't adopted `RECORD.md`.
+
+So the student's files become: three scripts they write, one Claude fills, and one `WRITEUP.md`. I'll build it that way — the six parts, with stub questions to answer, and the record questions folded in at the end. Say if you'd rather the administrative bits sat at the top instead.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
