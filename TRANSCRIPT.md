@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*150 user turns. Tool outputs and reasoning omitted.*
+*151 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6616,5 +6616,17 @@ Where that leaves the restructure:
 - `--selftest` stays, and it's the only reason a student can believe any of it
 
 I'll write the README and `WRITEUP.md` to match; the agent is doing the renames and the trim.
+
+**User:**
+Can you launch claude with a commandline prompt from the new directory and give it ONLY the dataset, tools, and stub file?
+
+**Claude:**
+Yes, easily. Make a temp directory, copy in exactly three things — the dataset, `load_data.py`, and the empty `claude_answers_1_2_3.py` — and run `claude -p` there with tools on and `--setting-sources ""`. It never sees the student's code, their answers, their writeup, or your `CLAUDE.md`, because none of those are in the directory. Then copy the filled stub back.
+
+That's simpler and stronger than what's there now: isolation by *what's in the room* rather than by stripping capabilities.
+
+One consequence worth naming, because it changes a lesson. Right now Claude has no data, so its numbers come from memory — and catching a recalled number is one of the things students learn. Give it the dataset and tools and its numbers will be correct. The comparison stops being "did Claude make something up" and becomes "you chose this rule, Claude chose that one, why, and which is better." That's the more interesting question and it's where you moved Parts 5 and 6 anyway. It also fixes the thing my simulations kept hitting: the deterministic questions never disagreed, so building the comparison on them taught nothing.
+
+Confirming that's what you want before I set it up: **Claude gets the data and can run code.**
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
