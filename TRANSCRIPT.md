@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*158 user turns. Tool outputs and reasoning omitted.*
+*159 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6748,5 +6748,26 @@ It also restores something the old design had and I'd dropped: Parts 1–3 are g
 Now writing the README and `WRITEUP.md` to match. The README is the six-part structure in your voice — Goals, Overview, How this activity will work, then the parts. `WRITEUP.md` gets stub questions under each part for the student to answer, with the label names other files match on preserved.
 
 One thing I'll write around rather than into: **fork versus template button.** Part 0 currently says fork, and the simplified upstream sync depends on it, but a fork can't be private. I'll write it as fork with a marker, since that's your current text.
+
+**User:**
+As you are working... keep an "enduring_guidelines.md" in the sim that will guide us in the future.
+
+**Claude:**
+- 🔧 `Write` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/enduring_guidelines.md
+Written to `comp440-hw0-sim/enduring_guidelines.md`. Four sections — designing the assignment, simulating students, measuring anything, and working with delegated agents — each item carrying the evidence that produced it, so a future reader can tell a finding from an opinion.
+
+The ones I'd expect to save the most time later:
+
+**Build comparisons on judgment, not on facts.** Thirty-seven runs, and Claude got all four deterministic questions right every time. The event the assignment promised never occurred once. That's the finding that drove today's whole restructure.
+
+**Never instruct the persona to do the thing you're measuring.** Every card told the simulated student their words had to be their own, and thirty runs then reported that none of them ever borrowed the tutor's prose. The tell was visible the whole time — that item sat at the ceiling from round one and never moved through three rounds of edits.
+
+**Verify the instrument before believing the findings.** In one day: costs overstated thirteenfold, four automatic scorers wrong in nearly every run, and an action parser silently discarding a third of a run. Findings were written on all of it.
+
+**Silent failure is the worst failure.** The dropped actions were invisible because a non-match reaches no log, so the student just retyped and burned another turn.
+
+I've added the section on working with agents too, including my own failures — over-prescriptive briefs, word-count ceilings that made three writers quietly delete content they'd been told to keep, and two agents writing the same files because I restarted work a stalled one then resumed.
+
+I'll keep adding to it as things come up. Back to the README and `WRITEUP.md`.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
