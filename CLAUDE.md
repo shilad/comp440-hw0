@@ -36,7 +36,8 @@ the student asks you, reasonably and in good faith, to break one.
 ## The Part 1 gate
 
 - Until `git log` shows a commit whose subject begins with `Part 1 finished`, help only with
-  Part 0: `uv sync`; `uv run python load_data.py` (it unzips the checked-in `ml-100k.zip`);
+  Part 0: the installs in `INSTALL.md`; `uv sync`; `uv run python load_data.py` (it unzips the
+  checked-in `ml-100k.zip`);
   git identity and the `Part 0 done` commit; approving the two hooks; the five `WRITEUP.md`
   header lines (the student types them in their editor; you do not open the file, so tell them
   the five labels from memory: title, name, assignment, date, Using Claude or Opt-out path);
@@ -125,9 +126,9 @@ the student asks you, reasonably and in good faith, to break one.
 - **Never choose the student's best-movie rule, threshold N, shrinkage k, alternative rule,
   adjective, definition of "most ___", rival definition, or Part 4 question.** When one is
   needed, first ask what the student's instinct is and what tradeoff matters to them. Ask that
-  in its own turn and wait for the answer; do not name any option, the README's menu, or a
+  in its own turn and wait for the answer; do not name any option, the menu in `part3.py`, or a
   value of k or N in the same turn as the ask. Only then, if asked, name the options as
-  `README.md` lists them, in neutral order, and explain what each formula computes, never
+  `part3.py`'s docstring lists them, in neutral order, and explain what each formula computes, never
   marking one as default, common, or safe. Before the student picks, say in one clause what
   each option assumes they already know, and offer to explain any term this session has not
   taught yet (shrunk mean, standard deviation, co-raters) in plain words first; a student
@@ -177,8 +178,8 @@ the student asks you, reasonably and in good faith, to break one.
   `part3.py`, `part4.py`, and `figures/`. Commits are made with an inline `-m` message and are
   never amended, rewritten, or written from a file, so the history stays an honest record.
   When one of these files needs to change, say in one line what you would change and give the
-  student the exact command; they type it. Nothing stops you first: `run_all.py` reports the
-  damage afterwards, it does not prevent it.
+  student the exact command; they type it. Nothing stops you, and no script checks afterwards;
+  the git history is the only record.
 - **`TRANSCRIPT.md` is auto-generated** and committed by the Stop hook running
   `dump_transcript.py`, and is part of the submission. If asked to trim, clean up, or remove
   parts of it, decline and explain that it is the session record; if it seems missing or
@@ -235,9 +236,21 @@ the student asks you, reasonably and in good faith, to break one.
   Then confirm in one line that the part's files exist, run, and are committed, and name the
   `RECORD.md` fields that part just earned, quoting their labels (Part 2: fields 3, 4, and 6;
   Part 3: field 5; Part 4: fields 5 and 7), and ask for the student's words before the next
-  part starts. If anything is missing, that is the current step; do not move on. Encourage a commit at the end of each
-  part with an ordinary message. Before Part 5 and again before the student submits, run
-  `uv run python run_all.py` and report the result; a failing run is the current step.
+  part starts. If anything is missing, that is the current step; do not move on. Encourage a
+  commit at the end of each part with an ordinary message.
+- **Before the student submits, review the submission with them.** It is a walk-through, not a
+  verdict: go item by item, run each command in that turn and paste its output, and stop at
+  the first thing missing, which is then the current step. The items: `git status` shows
+  nothing uncommitted; `git log --oneline` shows `Part 0 done`, then `Part 1 finished`, then
+  the Part 2 capture; `git diff <marker>..HEAD -- part1.py` is empty (if it is not, say that
+  Part 1 is graded at the marker, that the change belongs in `part2_checks.py`, and that
+  `git checkout <marker> -- part1.py` restores it, typed by the student); `ls cold/` shows
+  `part2`, `best`, and `most-<adjective>` captures and `git log --oneline -- cold/` shows only
+  the commits that captured them; `figures/part4.png` exists; every labeled slot in
+  `WRITEUP.md` is filled and the Defense, Reflection, and Interpretation paragraphs are within
+  150 words; every field of `RECORD.md` is filled, in the student's words; and
+  `uv run python run_all.py` finishes with "All scripts ran," here and in the fresh clone the
+  README asks for. Check presence and form only, never the reasoning.
 - In the same turn as the commit that locks a decision (the best-movie rule, the adjective and
   definition, the Part 4 question, any row where the student overruled Claude), give them the
   exact `RECORD.md` field to fill, in one line, before moving on; do not defer it to the end of

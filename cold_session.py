@@ -171,7 +171,7 @@ def claude_version() -> str:
         r = None
     if r is None or r.returncode != 0:
         die("Cannot run `claude --version`. Is Claude Code installed and on your PATH? "
-            "See the setup section of README.md.")
+            "See INSTALL.md.")
     return r.stdout.strip()
 
 
@@ -238,7 +238,7 @@ def result_event(events: list[dict]) -> dict:
 
 
 def render(header: dict, events: list[dict]) -> str:
-    """The readable capture. A pure function of (header, events), so run_all.py can re-render it."""
+    """The readable capture. A pure function of (header, events), so it can be re-rendered from the .jsonl."""
     res = result_event(events)
     calls = tool_calls(events)
     prompt = header["_prompt"]
@@ -273,7 +273,7 @@ def write_capture(name: str, header: dict, events: list[dict]) -> Path:
 
 
 def rerender_from_jsonl(raw: Path) -> str:
-    """Rebuild the readable capture from the .jsonl alone (run_all.py checks this matches)."""
+    """Rebuild the readable capture from the .jsonl alone; a grader can check it matches the .md."""
     text = raw.read_text(encoding="utf-8")  # universal newlines: the hash is the same on Windows
     lines = text.splitlines()
     header = json.loads(lines[0])

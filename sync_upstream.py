@@ -7,8 +7,8 @@ Keep your repo honest and current with the assignment template.
 Two things this does:
 
 1. Your work must live in your own repo (a fork or a copy of the template), never in the
-   template itself. `origin` must not point at the template; load_data.py, cold_session.py,
-   and run_all.py refuse when it does.
+   template itself. `origin` must not point at the template; load_data.py and cold_session.py
+   refuse when it does.
 
 2. The template may get fixes during the week. This script adds the template as a remote
    named `upstream`, fetches it, and merges what changed. Template files (README.md,

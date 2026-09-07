@@ -8,7 +8,7 @@
 
 Every number below comes from a file in this repo; say which file and function produced it.
 Prose limits are limits: graders stop reading at the cap. Keep the bold labels exactly as they
-are, on their own lines; `cold_session.py` and `run_all.py` look for them.
+are, on their own lines; `cold_session.py` looks for them.
 
 ## Part 1: You first (solo, no AI)
 
