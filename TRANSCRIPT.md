@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*118 user turns. Tool outputs and reasoning omitted.*
+*119 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5811,5 +5811,19 @@ So my recommendation:
 **`SETUP.md` keeps the same commands as a fallback list** for when Claude is down. You already have an outage section, so the material exists; it just needs to live in one place.
 
 Two things worth knowing before you commit to it. Setup done by conversation is not reproducible — when a student says "it doesn't work," you won't know what they did, whereas with a checklist you can ask which step failed. And **the Claude-led setup path has never been tested**: no simulated student has ever started from the bare template with the tutor doing Part 0. That's a station the harness supports and no sweep has used, which makes it cheap to find out rather than guess.
+
+**User:**
+you can dramatically siplify things and leave out details. things don't need to be so prescriptive. you can expect students to have some degree of common sense and prefer clarity and brevity of exhaustive detail.
+
+**Claude:**
+That applies to my briefs as much as to the document — I over-specified `SETUP.md` in exactly the way you're describing. Correcting it.
+- 🔧 `SendMessage` — {"to": "readme-edit", "summary": "Governing principle: brevity over exhaustive detail", "message"...
+Sent, with the test I'd want applied to every sentence: *would a reasonably competent student have done this anyway?* If yes, cut it.
+
+`SETUP.md` should now land around 300 words rather than the 800 my brief implied — short enough to read standing up. The README target of about 2,100 stands, and lower is better if nothing's lost.
+
+The two things still fixed are the exact strings other files match on, and the requirements themselves. Everything else is fair game.
+
+Worth noting this cuts the same way as the progressive-disclosure change: a shorter README that trusts the reader, with the mechanical detail sitting in the file where it's needed, is a different assignment to read than the current one. So once it lands, a sweep against the new version tells you whether it still teaches what it did — and specifically whether students who are told *less* still reach Part 3, which none of the seven managed under the current, wordier brief.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
