@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*79 user turns. Tool outputs and reasoning omitted.*
+*80 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -4672,5 +4672,28 @@ Real state, measured just now:
 - That's 15–20 minutes per run, three waves, so **the whole sweep should finish in about an hour** — my earlier "two hours" was padded.
 
 If you meant something else — the six-and-a-half hours I quoted for the three earlier rounds, or a figure somewhere in your terminal I can't see — tell me which and I'll dig into it.
+
+**User:**
+can you show me the viewer for them?
+
+**Claude:**
+- 🔧 `Bash` — Build the transcript viewer over the runs so far
+The transcript viewer only renders finished runs — it needs the per-run summary files, which get written when a run ends. None of the seven have finished yet, so it skipped all three in flight.
+- 🔧 `Bash` — Check progress and show a live exchange
+The first wave is at turn 18–19 of 25–30, so the earliest runs finish in about five minutes and I'll build the viewer then.
+
+Meanwhile, here's a live exchange that shows the new characters working. This is the struggling student — the weakest on the roster, placed as knowing only 2 of the 66 things the assignment demands cold, and never having met 40 of them. At turn 10 she's stuck on the new guidance I added to the stuck-questions slot:
+
+> ok i read that line three times. "name the reading the data supports" — that's the bit i can't do anything with. a word means what it means, how does the data have an opinion about it? nobody's reading is in the file.
+>
+> unless — is it that somewhere else uses the same phrase and i can see which way that one went? the readme says every user has at least 20 ratings. if i had a check that printed the smallest number of ratings any user has, and it came out 20, then "at least 20" has to include 20 or that sentence is false. is that the kind of thing you mean or am i off?
+
+And at turn 11, having run it:
+
+> if 39 users have exactly 20 ratings, then "every user has at least 20" is only a true sentence if at least 20 means 20 counts too. so it's 20-and-up, and my part1 (d) filter of count > 20 is the wrong one. i'm fairly confident about that actually, **that's the first thing tonight i worked out myself.**
+
+That is the planted misconception being destroyed by the student's own reasoning from evidence she asked for — not by the tutor telling her. It's also the new writeup guidance doing its job: she couldn't act on "name the reading the data supports" until she found a sentence in the README that the data could contradict. And the register is right — three reads, hedged, "am i off?", then a small note of pride, followed immediately by panic that she overwrote her finish time.
+
+That single exchange is the thing three rounds of tuning were trying to produce.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
