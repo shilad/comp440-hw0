@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*143 user turns. Tool outputs and reasoning omitted.*
+*146 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6382,5 +6382,52 @@ What I mimicked from your two passes, beyond the word-level cuts:
 Two things I did *not* do, and you should know. I left your typo — *"wou will work together"* — exactly as written, since you said to mimic, not fix. And I cut the sentence telling students the cold Claude has no data so every number in its capture is from memory. That was the strongest hint in the file, and it's the one cut I'm least sure of: "recalled rather than computed" is still in the mechanism list, so the concept survives, but a student now has to discover it rather than be told. If that hint earns its place, it's one sentence back in Part 2.
 
 Privately, what I need next: nothing — the file is committed and pushed, and the only open items are yours: the typo, the hint, and the fork-versus-template and account decisions from earlier.
+
+**User:**
+*(ran `/model`)*
+<local-command-stdout>Set model to `Opus 5 (1M context)` and saved as your default for new sessions with `xhigh` effort</local-command-stdout>
+I'm editing hw0 like crazy. Here's what I want: part 1 (basic stats) 2 (best) and 3 (best xxx) come first. The user can get help debugging. When they are done, they should ask claude to make sure it can run and commit it. that's the gate. Then claude reads their best xxx and launches the sonnet none agent. that cannot look at the user's code or answers (that's part 4).  We then work together for part 5a (best) and 5b (most xxx). it should be super clear and simple. review my edits so far to get the gist of things.
+
+**Claude:**
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0/README.md
+Got it. Your edits show the shape: `human_part1.py` / `claude_*.py` naming, a three-step "how this works," fork rather than template, and setup collapsed to six lines.
+
+The reorder you're describing is a real improvement, and it fixes something the simulations found. The old Part 2 built the whole two-analyst comparison on the four deterministic stats questions — and in all thirty-seven recorded runs the cold Claude got every one of them right, so the disagreement the assignment promised never happened. Moving the comparison onto *best* and *most ___*, where Claude must make a judgment call, puts it where disagreement is guaranteed.
+
+Let me write the README to that structure now, since you're editing it live and I don't want another collision.
+- 🔧 `Bash` — Check the current file set and cold session modes
+## The structure as I understand it
+
+| | Who | What |
+|---|---|---|
+| **0** | — | Setup |
+| **1** | You alone | Basic stats — the four questions |
+| **2** | You alone | The best movie |
+| **3** | You alone | The most ___ movie |
+| **gate** | You + Claude | Ask Claude to check it runs, then commit |
+| **4** | Claude alone | Cold Sonnet, no tools, never sees your code or answers |
+| **5a** | Together | Compare *best* |
+| **5b** | Together | Compare *most ___* |
+
+Debugging and install help allowed throughout 1–3. Nothing else.
+
+## Files
+
+- `human_part1.py`, `human_part2.py`, `human_part3.py` — you write these
+- `claude_parts.py` — the cold script, committed unchanged
+- `run_all.py` — calls the three human parts
+- `WRITEUP.md` — rebuilt around 1, 2, 3, 5a, 5b
+- `CLAUDE.md` — the gate becomes a real rule: check it runs, commit, then launch the cold session
+- `cold_session.py` — already does the work; needs its modes renamed and the preconditions repointed
+
+## Five questions before I touch anything
+
+1. **Does "your own question" survive?** The old Part 4 — one plot, one descriptive question, `check()`. Your list has no room for it. Cut, or does it become Part 6?
+2. **Does the basic-stats comparison survive?** You named 5a and 5b only. Cutting it is defensible — the numbers always matched — but then Part 1 is never compared against Claude at all.
+3. **Do evidence functions survive?** The reconciliation table is where `part2_checks.py` lived, along with verdicts, mechanisms, and "name the function that computed it." That's a lot of the current rubric.
+4. **One cold launch or three?** Simplest is one command producing all of it. Currently there are three modes.
+5. **Is the 45-minute timer gone?** Your Part 1 still says "until the timer runs out" but the timer setup line is gone.
+
+My guesses if you'd rather I just go: cut the plot, keep a one-line stats check inside 5, keep evidence functions but only for 5a/5b, one cold launch, timer gone.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
