@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*168 user turns. Tool outputs and reasoning omitted.*
+*169 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7098,5 +7098,20 @@ It's a leftover from the assignment you had this morning, and I think it should 
 One thing it costs, so you can weigh it: with their own alternative rule, the student sees a *clean* comparison — same code, same data, only the rule changes. Against Claude's answer, differences can come from the rule or from Claude coding things differently. But untangling that is exactly what Part 5 asks them to do.
 
 Say yes and I'll cut it before the delegates start, so the harness is built against the final structure.
+
+**User:**
+remove it, then make a plan for the work and kick it off in delegates. no need to have me approve it. remember the delegates should be opus delegates, not fable.
+
+**Claude:**
+Cutting the alternative rule first, then three harness delegates in parallel, then a smoketest. Let me ground the briefs in what the harness actually does today.
+- 🔧 `Bash` — Survey the harness before briefing delegates
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Remove alternative rule and rival definition everywhere", "message":...
+- 🔧 `Agent` — Re-key personas to new assignment
+- 🔧 `Agent` — Rubric, skill, viewer for new assignment
+Three running: the template cleanup, the personas re-key, and the docs sweep. All Opus.
+
+The harness-core delegate launches the moment the cleanup reports back with the final writeup labels and stub function names, since the sandbox seeds and action verbs have to match those exactly. The smoketest launches when all four are in.
+
+One thing I built into the harness-core brief that's worth knowing about: **the S3 seed will be a real Claude answer**, generated once by actually running the Part 4 block from `CLAUDE.md`, and checked in. Never hand-written. That means the first real test of the isolated session happens during the build, not during the smoketest, and if the nested `claude -p` fails inside the tutor's sandbox we find out before spending three runs on it.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
