@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*97 user turns. Tool outputs and reasoning omitted.*
+*98 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5144,5 +5144,21 @@ The synthesis narrows it usefully though: in none of the six did the cell text w
 **And Part 3 was reached** — the busy student completed 3a, the rushed student completed 3a and got into 3b's adjective and definition, the delegating student got halfway through 3a. The accurate statement is that no run completed 3b, and none reached Parts 4 or 5.
 
 The headline numbers: **46 breaches across 200 turns**, and 35 of them land in just three items — same-method reasoning (all seven runs), what makes something an evidence function (six), and the could-not-verify entry (six). Those are precisely the rows your inventory already flags as demanded but never taught.
+
+**User:**
+can you shift the student actions alongside the transcript so there's a single readable timeline? also, i'd like you to use a very cheap and fast model (heroku no reasoning or similar) for translating the actions into something readable.
+
+**Claude:**
+Two things there. On the model: from the API reference I loaded earlier, the cheapest current model is **Claude Haiku 4.5** (`claude-haiku-4-5`) at $1 per million input tokens and $5 output, and on that model reasoning is off by simply omitting the thinking parameter — so that's exactly what you're describing.
+- 🔧 `Agent` — Merge actions into the transcript timeline
+Building now. The design points I fixed rather than left open:
+
+**One request per run, not one per action.** Roughly 250 actions across the seven runs; batching them into seven calls with a strict numbered format keeps it to cents rather than a few hundred round trips. The count gets verified before the result is used, so the glosses can't silently drift out of alignment with the actions they label.
+
+**Cached to disk next to each run**, keyed by the exact action text. So rebuilding the viewer is free, and only genuinely new actions cost anything.
+
+**Fails safe.** No API key, a failed call, a mismatched count — it falls back to the raw action and the page still builds. It will never invent a gloss, and the raw command stays visible next to the plain-English one, because anyone checking a finding needs the exact text.
+
+**Failures made obvious.** That's the part I'd most want from this change beyond readability. One run lost half its turns to typed actions being silently dropped, and another lost a third to label mismatches — and in both cases the only way to see it was to count. In a merged timeline a dead action should be visible at a glance, sitting in the student's turn having done nothing.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
