@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*129 user turns. Tool outputs and reasoning omitted.*
+*130 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6151,5 +6151,19 @@ So the assignment doesn't teach pandas or demonstrate it. It hands over loaded d
 Which means switching to dataclasses is a smaller change to the *template* than I implied — you'd rewrite `load_data.py` and the type comments in `part1.py`, and nothing else in the shipped code. The real cost is elsewhere: the four questions read as pandas operations, `CLAUDE.md` tells the tutor to explain joins and group-bys, and a student who solves (c) and (d) with dictionaries and loops meets the duplicate-title trap differently than one who uses `merge`.
 
 That's the honest trade. What would you like to clarify?
+
+**User:**
+also create a movies_to_pandas and ratings_to_pandas that convert the data to pandas representations. so in total four helper functions.
+
+**Claude:**
+That settles it — dataclasses are the primary representation, pandas is an explicit conversion. Which is a nice thing to teach in itself: a DataFrame is one *representation* of the data, not the data.
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "run_all.py is redesigned, not deleted", "message": "Design change f...
+Underway. `run_all.py` becomes the single entry point — unzip if needed, read, print the counts, then call each part, with unimplemented ones announcing themselves. One command, and a student sees how far they've got.
+
+**One thing I need from you before it guesses.** There's a third data file, `u.user`, and Part 4 explicitly allows age, gender and occupation with the limitation requirement. You specified four helpers covering movies and ratings. Do you want `read_users()` and `users_to_pandas()` as well — six total — or is dropping the demographic option from Part 4 part of the simplification?
+
+**And a consequence worth knowing about**, because it's the one place this change reaches outside the repo. Part 2 sends a cold Claude the file description from `FILES.md` and asks it to write a script. That Claude has never seen `load_data.py` and never will — so it writes its own `pd.read_csv` calls from scratch, which is exactly why its script's join key differs from the student's and why the duplicate-title trap fires.
+
+That still works with dataclasses. But it means the two analysts will now differ in an additional way — the student may be looping over `list[Movie]` while Claude is running `merge` — which makes the "same method versus same answer" question sharper than it has ever been. That question was already the single most-breached item across every simulated run, and it's the one your assignment demands and never teaches. This change makes it more central, not less.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
