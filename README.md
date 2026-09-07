@@ -86,8 +86,7 @@ Each script says what it must produce. Write your answers in `WRITEUP.md`.
 which movies got the most ratings, and which rate highest among movies with at least 20 ratings.
 
 **Part 2, `human_part2.py`** — the best movie. There is no single answer: it depends on how you
-combine 943 people's judgments. Choose a rule, defend it, and show what a different rule would
-have crowned instead.
+combine 943 people's judgments. Choose a rule and defend it.
 
 **Part 3, `human_part3.py`** — the most ___ movie. Pick an adjective — anything you can define.
 Nothing in the data answers this directly, so you decide what the word means, then compute it.
@@ -121,8 +120,8 @@ Read what it wrote before you go on.
 present its answer as *the* answer? Where do your two lists differ, and why? Then decide whose
 rule is better, and for what. You are allowed to conclude that Claude's is.
 
-**Part 6** — the most ___ movie. Same questions for your adjective. If Claude's film is in
-neither of your top 5s, it used a third definition you had not thought of: name it.
+**Part 6** — the most ___ movie. Same questions for your adjective. If Claude's film is not in
+your top 5, it used a definition you had not thought of: name it.
 
 Claude can compute anything you ask it to here. The judgments are yours.
 
@@ -154,8 +153,8 @@ talking through approaches is fine, and name anyone who helped. Keep your repo p
 | Part | Weight | Full credit |
 |---|---|---|
 | **1. Basic statistics** | 20 | Your own code, and it runs; correct answers, with anything you got stuck on written down. |
-| **2. The best movie** | 20 | A rule precise enough to code, defended with what it gains and loses, and an alternative that shows what changes. |
-| **3. The most ___ movie** | 20 | A definition a classmate could code, a rival definition, and an honest account of what yours misses. |
+| **2. The best movie** | 20 | A rule precise enough to code, defended with what it gains and loses. |
+| **3. The most ___ movie** | 20 | A definition a classmate could code, and an honest account of what it misses. |
 | **4. Claude's turn** | 5 | Claude's answers committed unedited. |
 | **5–6. Working through the differences** | 30 | You say what Claude chose and whether it admitted choosing; you explain where the answers diverge; you reach a judgment and defend it. |
 | **Working with Claude** | 5 | Honest answers about what you asked for and what you could not verify. |

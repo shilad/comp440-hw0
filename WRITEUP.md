@@ -35,17 +35,11 @@ Code: `human_part2.py`.
 
 **My rule:** XXXX
 
-**Alternative rule:** XXXX
-
-**Top 10 under each rule:**
+**Top 10 under my rule:**
 
 XXXX
 
 **Why my rule, in at most 150 words. Name one thing it gains and one thing it loses:**
-
-XXXX
-
-**What moved between the two lists, and why:**
 
 XXXX
 
@@ -57,9 +51,7 @@ Code: `human_part3.py`.
 
 **My definition** (one sentence, precise enough that a classmate could code it)**:** XXXX
 
-**Rival definition** (same adjective, different idea)**:** XXXX
-
-**Top 5 under each definition:**
+**Top 5 under my definition:**
 
 XXXX
 
@@ -101,7 +93,7 @@ XXXX
 
 XXXX
 
-**Is Claude's film in either of your top 5s? If not, that is a third definition — name it:**
+**Is Claude's film in your top 5?**
 
 XXXX
 
