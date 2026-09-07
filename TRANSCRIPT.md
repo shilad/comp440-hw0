@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*94 user turns. Tool outputs and reasoning omitted.*
+*95 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5068,5 +5068,21 @@ To your actual question — **yes, it's the turn limit, but that's not the whole
 - **The harness ate turns.** One run lost roughly half of them to a silent bug; others lost several to the typing helper failing to match label lines.
 
 Which points at something worth your attention: making the simulated students realistic cost them the back half of your assignment in the same budget. If that reflects real students, then Part 3 is further away in a single sitting than the earlier, over-competent runs suggested — and your five-hour estimate for Parts 2 through 4 may be optimistic.
+
+**User:**
+by "budget" do you mean 25 turns?
+
+**Claude:**
+Yes. "Budget" means the cap on how many messages the simulated student is allowed to send before the harness stops the run — 25 to 35 in this sweep, depending on the character. Nothing to do with money.
+
+So when a run "hit its cap," it means the student sent their 25th message, the tutor replied, and the harness ended the session mid-work. Not the student deciding they were done.
+
+Two things that matter about it:
+
+**It's an artificial constraint with no real-world equivalent.** A real student doing your assignment sends as many messages as the work takes, across as many sittings as they need. The cap exists so a sweep of ten runs finishes in an hour and costs $40 rather than running all night. Every "didn't reach Part 3" finding has to be read against that.
+
+**But the caps didn't change between sweeps** — 25 to 35 throughout — while how far runs got did change. Earlier sweeps reached Part 3 in 28 of 30 runs; this one in 3 of 7. Same budget, less distance. That's the part that's informative rather than artificial: the rebuilt students spend more messages on the same work, because they now have to ask about things the old versions silently knew.
+
+If you want the back half of your assignment tested, the lever is raising the cap — 50 turns instead of 25 roughly doubles the cost per run, so a seven-character sweep goes from about $42 to $85. That's cheap enough that I'd suggest it for the next round regardless, since Part 3 is where two of your rubric's hardest items live and they've now gone untested in every sweep that used realistic students.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
