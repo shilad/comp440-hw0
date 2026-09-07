@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*146 user turns. Tool outputs and reasoning omitted.*
+*147 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6429,5 +6429,39 @@ Debugging and install help allowed throughout 1–3. Nothing else.
 5. **Is the 45-minute timer gone?** Your Part 1 still says "until the timer runs out" but the timer setup line is gone.
 
 My guesses if you'd rather I just go: cut the plot, keep a one-line stats check inside 5, keep evidence functions but only for 5a/5b, one cold launch, timer gone.
+
+**User:**
+maybe 5a / 5b becomes 5 and 6 for clarity? no old part 4. no timer. one command. but it should be called claude_parts_1_2_3.py not cold blah blah. thats too jargony. no part2_checks. that's not useful. the WRETUP should be rebuilt, too. Have stub questions in there they can answer.
+
+**Claude:**
+Final shape:
+
+| | Who | File |
+|---|---|---|
+| **0** | — | Setup |
+| **1** | You alone | `human_part1.py` — basic stats |
+| **2** | You alone | `human_part2.py` — the best movie |
+| **3** | You alone | `human_part3.py` — the most ___ movie |
+| **gate** | You + Claude | Claude checks it runs, you commit |
+| **4** | Claude alone | `claude_parts_1_2_3.py` — one command, never sees your work |
+| **5** | Together | Compare *best* |
+| **6** | Together | Compare *most ___* |
+
+Two naming calls I'm making, since "cold" is the same jargon problem: the tool becomes `ask_claude.py` and its output folder `claude_answers/`. Veto either and I'll change it.
+
+Starting with the README and `WRITEUP.md` myself since you're in them, and putting the code renames on an agent.
+- 🔧 `Agent` — Rename and rewire the assignment files
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Simple, direct, short — everywhere", "message": "Governing rule from...
+It earns its place, but only for one reason, and it should be a fraction of its current size.
+
+**The reason:** the tutor Claude has already read the student's code, their answers, and the whole conversation. Telling it "now answer these independently" doesn't make it independent — it just asks it to pretend, and nobody can check. The tool starts a genuinely separate process that has never seen any of it: fresh session, no tools, no `CLAUDE.md`, run outside the repo, given only the file description and the three questions.
+
+That's the whole assignment's premise, and it's the one thing an instruction can't deliver.
+
+Second reason, smaller: the capture is evidence. You and the student can read exactly what was asked and answered. Without it there's only Claude's account of what it would have said.
+
+**But it should shrink hard.** The current file is 537 lines with four question modes, an instructor pack importer, an interactive fallback, re-render verification and `--again`. Under the new structure it needs: one command, ask the three questions, save the answer, write `claude_parts_1_2_3.py`, commit. Maybe sixty lines. Everything else was scaffolding for a structure you've just deleted.
+
+Want me to have it cut that way — one command, no modes, no importer — or keep `--selftest`? That one proves on the student's own machine that the separate session really is isolated, which is the claim the whole assignment rests on.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
