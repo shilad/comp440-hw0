@@ -1,4 +1,4 @@
-# COMP 440, HW0: Working With Data and Claude — Two Analysts, 100,000 Ratings
+# COMP 440, HW0: Working With Data and Claude — An AI and Human Analyst
 
 **Fall 2026 · Individual · 6% of the course grade**
 **Out Thu Sep 10 · Due Thu Sep 17, 8:00am Central**
@@ -35,28 +35,26 @@ Sep 15 and builds on this, so finish HW0 first.
 > after students have copied it. `TRANSCRIPT.md` is committed automatically after every session
 > ("Auto-commit TRANSCRIPT.md"), so expect those commits in students' histories.
 
-## Purpose
+## Goals
 
-Two analysts look at the same 100,000 ratings: you, alone, for 45 minutes, then Claude, cold,
-with the identical questions. You build a table of where you disagree and who is right,
-settled by evidence. Then two questions with no single right answer, which open HW1: the best
-movie, and the most ___ movie. The grade is evidence that you can direct an AI, verify it, and
-know when not to trust it. `CLAUDE.md` tells Claude how to behave in this repo; read it.
-Every session leaves a trace: `TRANSCRIPT.md` for sessions here, `cold/` for cold ones.
+* To refresh your knowledge of Python and data analysis.
+* To get some basic hands-on practice with analyzing ratings data.
+* To verify your Python and Claude environments are operating effectively.
+* To gain some experience with the capabilities, limitations, and interactive experience with Claude.
+
+## Overview:
+
+Two analysts look at the same 100,000 ratings with identical questions: you, alone, and Claude, alone. 
+You and claude will work together to compare your findings. 
+
+This work will feed into HW1, where you analyze a much larger and more complex dataset.
+
 
 ## The data
 
-MovieLens 100K (GroupLens Research, University of Minnesota; cite Harper and Konstan, 2015,
-"The MovieLens Datasets: History and Context"): 100,000 ratings of 1–5 stars that 943
-anonymous people gave 1,682 movies in 1997–98, every user with at least 20 ratings. `FILES.md`
-describes the three files; `load_data.py` unzips the checked-in `ml-100k.zip` and reads them
+[MovieLens 100K](https://grouplens.org/datasets/movielens/100k/) 100,000 ratings of 1–5 stars that 943
+anonymous people gave 1,682 movies in 1997–98.  `load_data.py` unzips the checked-in `ml-100k.zip` and reads them
 into plain records, with a pandas conversion for each.
-Before you count: nine titles carry accents, so reading `u.item` as UTF-8 fails
-(`load_data.py` handles it), and 18 titles appear twice under different movie ids. The data
-is public, so Claude may read it; your repo stays private, because the dataset may not be
-redistributed. **[DECIDE: GroupLens (grouplens-info@cs.umn.edu) has not been asked for
-classroom permission; the zip was rebuilt on Sep 5 from the canonical files because
-files.grouplens.org served an expired certificate.]**
 
 ## How this repo works
 
