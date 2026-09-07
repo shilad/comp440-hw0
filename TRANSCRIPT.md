@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*130 user turns. Tool outputs and reasoning omitted.*
+*131 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6165,5 +6165,25 @@ Underway. `run_all.py` becomes the single entry point — unzip if needed, read,
 **And a consequence worth knowing about**, because it's the one place this change reaches outside the repo. Part 2 sends a cold Claude the file description from `FILES.md` and asks it to write a script. That Claude has never seen `load_data.py` and never will — so it writes its own `pd.read_csv` calls from scratch, which is exactly why its script's join key differs from the student's and why the duplicate-title trap fires.
 
 That still works with dataclasses. But it means the two analysts will now differ in an additional way — the student may be looping over `list[Movie]` while Claude is running `merge` — which makes the "same method versus same answer" question sharper than it has ever been. That question was already the single most-breached item across every simulated run, and it's the one your assignment demands and never teaches. This change makes it more central, not less.
+
+**User:**
+sure read_users() and users_to_pandas()
+
+**Claude:**
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "Six helpers: users included", "message": "Professor Sen's answer: i...
+Six helpers then — read and convert for each of the three files. That keeps the demographic option in Part 4 rather than removing it by omission.
+
+I flagged one trap to preserve while it's rewriting: zip codes have to stay strings. They carry leading zeros and this dataset has non-numeric values like `T8H1N`, so a dataclass with `zip_code: int` would corrupt them. The current loader gets that right with an explicit `dtype`, and it'd be easy to lose in translation.
+
+Where the assignment now stands, after today:
+
+- **INSTALL.md** — machine setup, 212 words, verified against the docs
+- **README.md** — 3,303 student-facing words, down from 6,030
+- **load_data.py** — six helpers, dataclasses primary, pandas by explicit conversion
+- **run_all.py** — one entry point: unzip, load, count, call each part
+- **Four part stubs** — each carrying what it must produce
+- **No guard hook, no submission checker** — Claude follows the rules and reviews the work
+
+Two decisions still open: fork versus template, and which Claude account, now with the constraint that it must be a paid tier.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
