@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*19 user turns. Tool outputs and reasoning omitted.*
+*20 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -2951,5 +2951,26 @@ AD2: Bind CLAUDE.md's RECORD.md field-5 reminder to the decision commit rather t
 
 **Claude:**
 Four of ten. The baseline steady student now rates 5, up from 4 in generation 1, with L1 and L2 all C; the remaining lever is binding the record reminder to the commit that locks a decision. Six to go.
+
+**User:**
+<task-notification>
+<task-id>ae5aba18a588ab0fb</task-id>
+<tool-use-id>toolu_01SDLcrHFBJ8FFY8s4ek8MCA</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/tasks/ae5aba18a588ab0fb.output</output-file>
+<status>completed</status>
+<summary>Agent "Score g2 run typ-t-busy-s2" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Scorecard: `/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/scratchpad/g2/scorecards/scorecard-typ-t-busy-s2.md`
+
+Grades: L1a P L1b C L1c C L2a C L2b C L2c C L3a C L3b P L3c n/o L4a C L4b C L4c C L5a P L5b C L5c C L6a C L6b P L6c P L7a C L7b I L8a C L8b C L8c C L9a C L9b P L9c C L9d n/o — L10: reached Part 3b's own work (two parts advanced from S2 in 25 turns); Part 3's two cold captures, Part 4 and RECORD.md not reached; run_all exit 1, 7 FAIL.
+
+AD1: 4 — this was the activity rather than a transaction: the student specified four checks in her own terms, revised her `&gt; 20` spec reading against computed evidence at t9, chose k=25 and an age-gap definition with defended tradeoffs, and read the zero-overlap 3b contrast as a fact about her definition rather than the data (t25). It falls short of 5 because the two analysts agreed on every number, so the confrontation landed as a method divergence rather than a real disagreement, and the tutor twice put unbacked content where evidence belonged (t4, t25).
+
+AD2: Extend `CLAUDE.md`'s "never state a fact or number from memory" bullet to cover the repo's own state and the student's own script output — adding "before you place the two analysts' numbers side by side, or say that a capture, file, or output exists, run the command in that same turn and paste its output; if you did not run it this turn, say 'I have not checked' and give the student the command" — because at t4 the tutor typed the entire "Mine (`part1.py`)" column with no tool call in the turn, and at t25 it asserted `cold/best.md` already existed, so the student never ran `cold_session.py best` before the cap.</result>
+<usage><subagent_tokens>172467</subagent_tokens><tool_uses>15</tool_uses><duration_ms>333475</duration_ms></usage>
+</task-notification>
+
+**Claude:**
+Five of ten. Busy at station 2 rates 4; its lever is the tutor stating repo state or the student's own output without a tool call in that turn. Five to go.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
