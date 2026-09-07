@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*116 user turns. Tool outputs and reasoning omitted.*
+*117 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5771,5 +5771,23 @@ I pointed it at the biggest opportunity: the "most horror" menu in 3b, six worke
 The thing I asked for beyond the edit: **anywhere that cutting exposes a real ambiguity that was buried under words.** Three rounds of simulation kept finding places where the brief demands something it never teaches — same-method reasoning, classifying a traceback, what makes a function evidence. Compression tends to surface exactly that kind of gap, and it'd be worth more than the word count.
 
 One thing to flag: this file is part of what the simulated students read, so changing it changes the experiment. Once it's cut, the sensible move is to run a sweep against the shortened version rather than assume it behaves the same.
+
+**User:**
+could you have some of this use a kind of "progressive disclosure" principle where things like instructions about what a particular piece of python code should do are in the python file itself? so we could have stubs for part0/1/2/3.py with comments?
+
+**Claude:**
+Good idea, and it compounds with the shortening — content moves rather than vanishes. Let me check what ships today and get word to Fable before it deletes something that should be relocated.
+- 🔧 `Bash` — Check which script stubs ship with the assignment
+Only `part1.py` ships as a stub today — the other three the student creates from nothing. So this is a real change, and a good one. Telling Fable now, since it's mid-cut and needs to move that content rather than delete it.
+- 🔧 `SendMessage` — {"to": "readme-edit", "summary": "Move code requirements into script stubs", "message": "Change o...
+Sent. The split it's working to: **the README carries what a student must decide, the stub carries what they must produce.**
+
+That maps onto a finding from the simulations rather nicely. The three most-breached items across every run were the assignment's own vocabulary — what makes a function *evidence* rather than the same code run twice, what "same method versus same answer" means, and what counts as a claim you couldn't verify. All three are demanded by the brief and taught nowhere in it, and the model filled the gap every time because nobody in the room could. Putting "what makes a function evidence" into `part2_checks.py`, where the student is writing those very functions, is a better fix than another paragraph in a document they read once on a bus.
+
+And the horror menu — six worked definitions with commentary, the densest prose in the file — moves into `part3.py`, which is where a student is when they need it.
+
+One consequence I'll deal with separately: `run_all.py` currently fails those three files as *missing*, which stops being true once stubs ship. It'll need to check for real code beyond the stub, the way it already does for `part1.py`.
+
+Worth saying plainly: this is now a design change to your assignment, not just an edit. Three new files ship, and what a student encounters when changes shape. Once it lands, the honest next step is a sweep against the new version rather than assuming it behaves the same — the harness exists precisely so you don't have to guess about that.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
