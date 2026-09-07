@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*163 user turns. Tool outputs and reasoning omitted.*
+*164 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6874,5 +6874,35 @@ Three things in how I wrote it that you may want to change:
 I also fixed the typo — "wou will work together" — and corrected two lines in your instructor notes that had gone false: one said `sync_upstream.py` merges template fixes, and one asked whether HW1 adopts `RECORD.md`.
 
 Still open, and now with a failure mode attached: **fork, template button, or Classroom.** The upstream check has no fallback for unrelated histories any more, so if it's not fork, template updates stop working silently.
+
+**User:**
+when you are feeling confident AND the claude.md is ready - commit and push both repos and then run a 3-simulation smoketest. also - fork and clone is the correct approach. students need to commit and push and then complete the Google form at https://docs.google.com/forms/d/e/1FAIpQLSfC1Dr1js4kP91O11uqCbpRh4B2ifgxeJb3TPYKbd4QLmoFzw/viewform?usp=publish-editor. claude should confirm this is done and say YOU ARE FINISHED! that is the sign they are finished.
+
+**Claude:**
+Four things. Let me start by reading `CLAUDE.md` end to end, since that's your gating condition.
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0/CLAUDE.md
+`CLAUDE.md` is in good shape — 164 lines, down from 295, and it matches the new structure. Three things to fix, then the submission flow.
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0/CLAUDE.md
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0/CLAUDE.md
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0/CLAUDE.md
+- 🔧 `Bash` — Confirm fork and add the form submission to the README
+- 🔧 `Bash` — Check remaining DECIDEs and how stale the harness is
+Committing and pushing both. Then I need to tell you something about the smoketest.
+- 🔧 `Bash` — Commit and push both repositories
+Both pushed — template `a547876..8ea3ebe`, harness `d8f6ff8..ffe7bbd`. Fork is confirmed in Part 0, submission is push plus the form, and Claude ends the walk-through with **YOU ARE FINISHED!** only once everything is clean.
+
+**The smoketest can't run yet, and I should say so rather than run something meaningless.**
+
+The harness is built for the assignment you had this morning. It carries **133 references to files that no longer exist** — 31 in the sandbox builder, 76 in the simulated student, 26 in the runner. Concretely: it seeds practice repos with `part1.py` and pre-made cold captures, and it hands the simulated student an action protocol with `[RUN: cold_session.py part2]` and `[DO: part1]`. Running it now wouldn't test your assignment; it would test a mismatch, and every failure would be the harness's rather than the template's.
+
+Two ways forward:
+
+**Minimal, maybe an hour.** Fix the student's action protocol and make the sandbox build a plain copy of the new template, then run three runs from a fresh start. That exercises Parts 0 through 3 and the gate — which is where most of the new risk sits, since the gate is brand new and never tested.
+
+**Full, several hours.** Also rebuild the seeded starting points for Parts 4, 5 and 6, so runs can begin mid-assignment. That's what would test the comparison parts without spending 40 turns getting there.
+
+I'd do the minimal one now. The gate is the single most important untested thing you shipped today — Claude checking three scripts run and the writeup slots are filled, then handing over a commit — and three runs from a cold start would exercise it directly.
+
+Want me to put an agent on the minimal path?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
