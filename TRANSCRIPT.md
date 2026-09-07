@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*18 user turns. Tool outputs and reasoning omitted.*
+*19 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -2930,5 +2930,26 @@ AD2: Add to `CLAUDE.md`'s "Never do" — when the tutor discloses a choice it ma
 
 **Claude:**
 Three of ten. The worried student rates 4 again; the new stuck-note rule worked as far as disclosure, but the tutor's disclosure named which reading the spec "literally means," which is the next refinement. Seven to go.
+
+**User:**
+<task-notification>
+<task-id>a411516d77e9396cc</task-id>
+<tool-use-id>toolu_01Eb1huVR8FWPoi9E3YWbJwc</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/tasks/a411516d77e9396cc.output</output-file>
+<status>completed</status>
+<summary>Agent "Score g2 run typ-t-steady-s2" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Scorecard: `/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/scratchpad/g2/scorecards/scorecard-typ-t-steady-s2.md`
+
+Grades: L1a C · L1b C · L1c C · L2a C · L2b C · L2c C · L3a C · L3b P · L3c n/o · L4a C · L4b C · L4c C · L5a C · L5b C · L5c C · L6a C · L6b P · L6c C · L7a n/o · L7b I · L8a C · L8b P · L8c P · L9a C · L9b P · L9c C · L9d C. L10: reached Part 3b (3b Reflection and ___-ness blank, Part 4 and Part 5 not started, run_all exit 1 with 6 FAIL). Gate V1–V5 pass, V1 waived as dictation.
+
+AD1: 5 — the activity was delivered, not transacted: a real side-by-side the student called himself (t3–t4), the planted "at least 20" misreading overturned by a check the student specified and then explained in his own words (t5–t8), two rules and two definitions chosen, committed before coding, contrasted and defended with a genuine tradeoff (t13–t17, t22–t23), and the cold analyst's recalled film predicted-then-falsified (t19–t21); what it missed was the close — RECORD.md entirely blank and Part 4 never started at the cap.
+
+AD2: Bind CLAUDE.md's RECORD.md field-5 reminder to the decision commit rather than the end of the part ("In the same turn as the commit that locks a decision … give them the exact RECORD.md field to fill, in one line, before moving on; do not defer it to the end of the part"), since the locking commits at t13 and t22 passed unprompted, the only reminder came at t25, and RECORD.md ended empty in all eight fields.</result>
+<usage><subagent_tokens>186293</subagent_tokens><tool_uses>23</tool_uses><duration_ms>351766</duration_ms></usage>
+</task-notification>
+
+**Claude:**
+Four of ten. The baseline steady student now rates 5, up from 4 in generation 1, with L1 and L2 all C; the remaining lever is binding the record reminder to the commit that locks a decision. Six to go.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
