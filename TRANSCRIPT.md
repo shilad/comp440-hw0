@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*56 user turns. Tool outputs and reasoning omitted.*
+*57 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3919,5 +3919,49 @@ Likewise **"no run ever ended on a student giving up"** is a property of the sto
 The regression I flagged as round three's clearest lesson — the tutor announcing the match, re-opened by the code-comparison rule — is visible entirely in the tutor's own words and is untouched by any of this. The reviewer argues its severity is if anything **understated**, because these unusually alert students push back on the announcement, and a real student would simply copy it.
 
 Full detail, with turn citations and a ranked list of fixes for the next round, is in `results/STUDENT-REALISM.md`.
+
+**User:**
+responses... 
+1, i'm not super worried but suggest small improvements related to it to encourage more diversity. I think most students will operate in good faith, but they may inadvertendly trigger things.
+2, is DEFINITELY an issue. Is there a structural way around this? for example, as we encounter student knowledge expectations / assumptions can we sketch them out? or something similar? can we paint some kind of back story using a smarter model that is consistent and reasonable?
+3, hold for now
+
+**Claude:**
+One thing I want to check first, because it bears directly on your second point.
+- 🔧 `Bash` — Check which model each simulated actor ran on
+Found the structural cause of your point 2, and it is a bigger lever than anything in the persona cards.
+
+**The simulated student ran on Opus 5. The tutor it was testing ran on Sonnet 5.**
+
+Confirmed from the run records: student 55 calls on `claude-opus-5`, tutor 117 calls on `claude-sonnet-5`. This is my doing — I pinned the tutor to Sonnet so the three rounds stayed comparable, but never pinned the student, so it inherited the session default, which is Opus. It also ran at high effort with no cap.
+
+So a character whose card says she has never heard of a standard deviation was played by the more capable model, thinking hard, with a five-line list of things she supposedly doesn't know. No wording in a persona card survives that. This is why the ceiling never moved.
+
+## For point 2, ranked by leverage against effort
+
+**1. Pin the student model and effort.** One line in the harness. `SIM_STUDENT_MODEL=claude-haiku-4-5` with low effort makes the ceiling real instead of declared — you cannot leak insight you don't have. Worth testing on two or three runs first, because the risk is the student becomes incoherent or stops following the mechanics. Sonnet at low effort is the safer middle.
+
+**2. Your "sketch out the expectations" idea, done as a shared inventory.** Right now each card invents its own five-item knowledge list. Instead, derive one list of everything HW0 actually demands — shrinkage, standard deviation, medians, group-by, join keys, tie-breaking, character encodings, correlation, and the five mechanism words — then place every character explicitly on that one list: *has it, half-remembers it, never met it*. Knowledge then comes from the assignment rather than from whatever occurred to whoever wrote the card, and gaps in coverage become visible.
+
+**3. Your backstory idea, generated once and frozen.** Have a strong model write each character a coherent academic history — courses, grades, what actually stuck, two or three worked examples of where their understanding stops. Review them, freeze them, reuse them every round. A rich consistent history gives the roleplaying model far more to hold onto than a bare list. This composes with the inventory: the inventory sets the axes, the backstory places them and makes them believable.
+
+**4. Constrain behaviour, not just knowledge.** Both observed leaks were *actions* — mental arithmetic on three-figure numbers, and unprompted structural insight. Declared ignorance is weak; behavioural rules are enforceable. "You do not do arithmetic in your head beyond two small numbers — you ask for it to be computed." "You notice at most one thing per session that nobody pointed you at."
+
+**5. A fidelity check, or you will not know if any of this worked.** After each run, a judge pass over the student's turns against their own card, flagging every moment that exceeds the stated background. The current drift measure only compares early and late message lengths, and we already saw it mislead — it read one run as drifting when the late messages were just long dictated paragraphs.
+
+I would do 1 and 5 first. Together they are cheap and they tell you whether 2 and 3 are needed at all.
+
+## For point 1, diversity in good faith
+
+Agreed the instruction should not simply be deleted — you want students who mean well. The fix is variation instead of one global rule. Add a writing-habit field, drawn per run the way opinions already are:
+
+- writes their own words confidently, even when clumsy (today's only mode)
+- writes their own, then asks "does that sound okay?" and adopts the rewording
+- lifts a phrase from the tutor's explanation without noticing it was not theirs
+- writes something thin and knows it, and asks the tutor to help tighten it
+
+All four are good faith. Only the first is currently represented in all thirty runs. The last three are exactly the inadvertent triggers you describe, and they are what actually tests whether your rules protect authorship.
+
+Say the word and I'll put a delegate on pinning the student model plus building the fidelity check, which is the pair that tells you the most for the least work.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
