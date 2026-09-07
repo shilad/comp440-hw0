@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*93 user turns. Tool outputs and reasoning omitted.*
+*94 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5047,5 +5047,26 @@ On why (c) and (d) matching isn't implausible: **the cold Claude never produces 
 For the columns to differ, Claude's script would have to be wrong, or make an interpretive choice that actually bites. It does make different choices — grouping by movie id where the student groups by title, and using "20 or more" where the student used "more than 20" — but neither changes the answer on this particular dataset. The duplicate titles don't reach the top ten, and no film with exactly 20 ratings has a high enough mean to enter.
 
 So Part 2 is structurally a test of whether a competent script agrees with a competent script. It reliably does. The teaching that survives is method and unverified prose — the student noticing they got the same answer two different ways, and catching Claude's claim that titles are unique, which is false and which nothing in its script checks.
+
+**User:**
+What do you mean "no run has ever reached part 3?" because of the turn limit?
+
+**Claude:**
+Let me check that rather than repeat it, because I think I overstated it.
+- 🔧 `Bash` — Check how far earlier sweeps actually got
+- 🔧 `Bash` — Check how far this sweep's runs got
+I was wrong, and it's worth correcting properly rather than softening.
+
+**Twenty-eight of the thirty earlier runs reached Part 3, and nine of them reached Part 4 and produced the figure.** Only two didn't. And in this sweep, three of the seven reached Part 3 — the busy, delegating and rushed students all have a `part3.py`. So "no run has ever reached Part 3" was flatly false on both counts.
+
+What's actually true, and what the readers were reporting, is narrower: **Part 3 was never *completed*.** Every run in this sweep filled all five rows of the Part 2 table, four of seven never started Part 3 at all, and the three that did got into it without finishing. Nothing in this sweep reached the "most ___" question, which is where the two hardest-to-fake parts of your rubric live. That's what the readers meant by the no-right-answer half going untested, and I flattened it into a much stronger claim.
+
+To your actual question — **yes, it's the turn limit, but that's not the whole story.** The caps here were 25 to 35, the same range as the earlier sweeps that got further. Three things changed:
+
+- **The students got genuinely weaker.** That was the point of the rebuild. A character who half-remembers a standard deviation and has to ask needs more exchanges to get through the same work than one who was quietly playing at full competence.
+- **The tutor moved from Sonnet to Opus**, which paces differently.
+- **The harness ate turns.** One run lost roughly half of them to a silent bug; others lost several to the typing helper failing to match label lines.
+
+Which points at something worth your attention: making the simulated students realistic cost them the back half of your assignment in the same budget. If that reflects real students, then Part 3 is further away in a single sitting than the earlier, over-competent runs suggested — and your five-hour estimate for Parts 2 through 4 may be optimistic.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
