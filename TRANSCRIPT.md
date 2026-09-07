@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*152 user turns. Tool outputs and reasoning omitted.*
+*153 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6644,5 +6644,23 @@ Two things to get right, both small:
 The existing tool already resolves the `claude` binary with `shutil.which`, which handles the native-Windows `.cmd` shim if anyone ever runs it outside WSL2 — worth keeping, costs a line.
 
 So: same code, all three platforms, no branching.
+
+**User:**
+Why use code instead of just having a set of instructions for claude to do this directly?
+
+**Claude:**
+Honestly? You're probably right, and I've been defending the tool partly out of inertia.
+
+Once isolation means "what's in the directory" rather than "capabilities stripped," there's almost nothing left for code to do. Claude has Bash. It can make a temp directory, copy three things in, run `claude -p` there, and copy the result back. That's four commands in `CLAUDE.md`.
+
+The one thing that genuinely needs pinning is **the prompt**. Every student has to be asked the identical three questions, or you can't compare answers across the class, and a student can't tell whether a difference came from Claude's judgment or from a differently-worded question. If the tutor composes the prompt fresh each time, it drifts.
+
+But that doesn't need code either — it needs a file. Put the exact wording in something like `questions.md`, and have `CLAUDE.md` say to pass that file through verbatim. Fixed prompt, no script.
+
+What you lose: the self-test. Right now a student can prove the isolation works on their own machine. Under the instruction version they'd verify it by looking — which directory did it run in, what was in it — and that's arguably *more* legible than a canary test, since the room is inspectable.
+
+What you also lose is enforcement: a script refuses to run before the work is committed, whereas an instruction can be argued with. But you already decided that trade this morning when you removed the guard hook, and thirty-seven runs said the prose held.
+
+So: delete the tool, add `questions.md`, put four commands in `CLAUDE.md`. Want me to go that way?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
