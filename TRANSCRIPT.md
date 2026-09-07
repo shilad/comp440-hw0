@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*71 user turns. Tool outputs and reasoning omitted.*
+*72 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -4431,5 +4431,22 @@ Where things stand: the inventory is at version 2 with your standard-deviation r
 Waiting on you for two things: **which of the two Mayas keeps the name**, and whether you want me to fix the other four inconsistencies — the drifting median value, the miscounted assumed-never-taught total, the two overstated coverage counts, and the cosmetic drift between sheets. All four are mechanical; only the name is a judgment call.
 
 If it would help to review the page away from the terminal, it's already in the right shape to publish as a private web page — say the word.
+
+**User:**
+remove all student names from the personas. make the fixes. then run a simulation for each and report back with results.
+
+**Claude:**
+Three things, and there's a fourth that's a prerequisite: **the sheets aren't wired into the harness yet.** `student.py` still builds its system prompt from the old cards, so a simulation run right now would use the old personas, not the new ones. Handling that alongside the fixes.
+- 🔧 `Agent` — Remove names and fix sheet inconsistencies
+- 🔧 `Agent` — Wire character sheets into the harness
+Two agents working in parallel on non-overlapping files: one strips the names and fixes the five inconsistencies in the sheets and the inventory; the other rewires `student.py` so the sheets actually become the student's instructions.
+
+That second one is the piece that was missing, and it's the difference between a simulation that tests the new characters and one that quietly re-runs the old ones. The sheets have to supersede the old fields rather than sit alongside them, or the prompt tells the model two incompatible things — the old five-item lists say one thing about what a student knows, the new sheet says another.
+
+I gave it three judgment calls to make rather than ask about, since they're all "does the sheet already cover this?": whether the block telling students what they've picked up about the assignment still earns its place now that each sheet has a proper history, how much of the generic "behave like a nineteen-year-old" instruction is now redundant against each sheet's own voice section, and whether the sheets absorbed the old description of how the evening goes.
+
+Two things I made hard requirements. The eleven characters without sheets must keep working unchanged, since only seven were written. And the sheets get read from disk at run time, so editing a sheet changes the next simulation with no code change — which is what makes the review page and the growth procedure worth having.
+
+Once both land I'll rebuild the review page, run one simulation per character with both actors on Opus 5 at medium effort, and report. On the measured costs that's roughly $25–35 for the seven.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
