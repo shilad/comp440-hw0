@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*122 user turns. Tool outputs and reasoning omitted.*
+*123 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5918,5 +5918,21 @@ That's a real simplification. The repo's moving parts drop to: the data loader, 
 Which is worth saying plainly: **nothing mechanical verifies anything about a student's submission any more.** The rules hold because Claude follows them, and the submission is right because Claude reviewed it with the student. That's a coherent design and it matches what the assignment is actually about, but it's a bigger bet than it looks — three rounds of simulation tested an assignment that had both backstops in place, so none of that evidence covers the version you're now shipping.
 
 The cheap way to close that gap is the sweep I mentioned earlier, now more valuable than it was an hour ago: the eight characters written to attack these rules, none of which has ever run, against a template with no hook and no checker. About $25 and an hour, and it's the only thing that would tell you whether the prose carries the weight it's now carrying alone.
+
+**User:**
+claude CAN look and make sure the file exists and is committed.
+
+**Claude:**
+You're right and I overstated it. Claude can run `git log`, `git status`, read every file, and see whether a slot is filled and a commit exists. Everything the checker did, it can do by looking.
+
+And it can do the thing the checker never could. The delegating student's row 0 said Claude's script never printed the number *and* typed HOLDS as the verdict — self-contradictory on its face, and it passed a run that reported twelve failures, because a shape check only asks whether a cell is non-empty. Claude reading that row would catch it.
+
+Let me make sure the replacement rule is concrete rather than aspirational.
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "Make the submission check concrete", "message": "One sharpening on ...
+Sent. The rule now says Claude checks by looking and reports what it found — `git log`, `git status`, open the files — rather than asserting that things are fine. That's just the existing never-claim-repo-state-without-checking rule applied at the end of the assignment.
+
+And it names the upgrade explicitly: the checker asked whether a cell was non-empty; Claude can ask whether the answer makes sense. One line telling it to read the table for sense rather than for filled cells is worth more than every shape check that just went away.
+
+So the trade is narrower than I made it sound. You lose determinism — the checker gave the same answer every time, and a reviewer might miss something once. You gain the ability to catch contradictions, which is the failure that actually showed up in the runs.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
