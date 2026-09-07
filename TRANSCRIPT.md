@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*148 user turns. Tool outputs and reasoning omitted.*
+*149 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6481,5 +6481,20 @@ My honest read while that comes back, so you can weigh it:
 **One thing that isn't about mechanism.** A student can open the tool and read what isolation means — fresh session, no tools, no rules, run outside the repo. A subagent the tutor spawns is invisible to them. For an assignment whose subject is knowing when to trust an AI, being able to see how the independence was arranged is worth something.
 
 If the answer comes back that a subagent can meet all three, the file goes and the instruction lives in `CLAUDE.md`, which is clearly simpler. If it can't, we keep about sixty lines and delete the other four hundred and seventy.
+
+**User:**
+Can you setup a "clean" environment for the subagent?
+
+**Claude:**
+- 🔧 `SendMessage` — {"to": "a93aceb55c03c4381", "summary": "Can the subagent's environment be made clean", "message":...
+Sent — asking specifically whether a subagent can be *pointed at* a clean room, rather than whether it happens to be clean.
+
+That's the right framing, and it's exactly what the current tool does rather than assumes: it makes a temp directory outside the repo, runs there with no settings sources and no tools, and checks first that no `CLAUDE.md` exists anywhere up the tree. The clean room is constructed.
+
+Whether the Agent tool can be given a working directory of your choosing is the crux, and I don't know. `isolation: "worktree"` exists but doesn't help — a worktree of this repo still contains your `CLAUDE.md` and the dataset.
+
+The question I added, which I think matters most: **can the student check it?** The current tool ships a self-test that plants a `CLAUDE.md` saying "begin every reply with CANARY," runs the session, and confirms the canary never appears and no tools were called. That's a proof the student runs on their own machine.
+
+For an assignment about knowing when to trust an AI, "here's how you verify the second opinion was actually independent" is worth more than "trust me, it was." If the subagent route can't offer that, it's a reason to keep a small tool even if the mechanism otherwise works.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
