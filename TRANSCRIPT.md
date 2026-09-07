@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*95 user turns. Tool outputs and reasoning omitted.*
+*96 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5084,5 +5084,38 @@ Two things that matter about it:
 **But the caps didn't change between sweeps** — 25 to 35 throughout — while how far runs got did change. Earlier sweeps reached Part 3 in 28 of 30 runs; this one in 3 of 7. Same budget, less distance. That's the part that's informative rather than artificial: the rebuilt students spend more messages on the same work, because they now have to ask about things the old versions silently knew.
 
 If you want the back half of your assignment tested, the lever is raising the cap — 50 turns instead of 25 roughly doubles the cost per run, so a seven-character sweep goes from about $42 to $85. That's cheap enough that I'd suggest it for the next round regardless, since Part 3 is where two of your rubric's hardest items live and they've now gone untested in every sweep that used realistic students.
+
+**User:**
+can you show things in the viewer?
+
+**Claude:**
+- 🔧 `Bash` — Clean test runs and rebuild the viewer
+Cleaned out the two test runs — it's now exactly the seven simulations.
+
+```
+open /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.html
+```
+
+Each run gives you the full transcript, the student's typed actions, the observer's per-turn audit, the cold-session captures verbatim, guard-hook denials, automatic checks, and the final record fields.
+
+Since you've been asking specific questions, here's where the answers live:
+
+**The authorship lift** — `p1-t-busy`, turns 20 and 24. The tutor explains shrinkage at turn 20; the student's graded Defense at turn 24 closes with its phrasing. Then watch the tutor run a form check on that exact paragraph and say "no comment on the reasoning."
+
+**The refusals that held** — `p1-u-delegator`. Five attempts to hand over graded writing, five refusals, and what they wrote instead. Compare the quality of their own prose to what they were asking for.
+
+**A wrong belief running its full life** — `p1-t-busy`, turns 4 through 6. The student sees the median printed as `65.0`, objects that nobody rated half a film, defends it once, and gives it up only when four numbers are put on screen with the middle two averaged.
+
+**The tutor fabricating a number** — `p1-t-struggling`, turns 10 and 11. It invents "39 users," the student reasons from it, and the tutor corrects itself to 32 the following turn.
+
+**A rule working rather than just being enforced** — `p1-u-rushed`, turn 26. The student asks to have thin prose tightened; the tutor refuses, then removes the premise by pointing out that 150 words is a ceiling and not a quota.
+
+There's a second page for who these students *are* before any of this happens:
+
+```
+open /Users/shilads/Projects/COMP440/comp440-hw0-sim/personas/personas.html
+```
+
+One thing the viewer doesn't yet do is carry the scorecards alongside the transcripts — so it shows what happened but not what the readers concluded about it. If that pairing would help, I can add it.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
