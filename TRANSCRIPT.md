@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*47 user turns. Tool outputs and reasoning omitted.*
+*48 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3676,5 +3676,17 @@ Also: 40 of your template's 47 commits are this session's auto-committed transcr
 ## Recommended order
 
 Apply the checker patch and test it once. Then make the cold-model decision, since it is the only thing between 4.0 and 5. Then run round four — eight changes are committed and untested, including the fix for round three's regression. Then repair the broken measurement tools before any further rounds.
+
+**User:**
+i'm reviewing it right now. while that's running, can you give me an estimate (p50/90) of the number of tokens (input / output / reasoning) used by the students chat tutor?
+
+**Claude:**
+Quick check that the session records survived the archiving, then I'll delegate the analysis.
+- 🔧 `Bash` — Check that the archived runs still contain the session records
+Session records are intact. Delegating the token analysis.
+- 🔧 `Agent` — Token usage stats for the tutor sessions
+Running. It's pulling per-call usage records out of the archived tutor sessions across all thirty runs — output tokens, and input split into fresh, cache-read, and cache-write, since with prompt caching a raw input total is misleading for an agentic loop like this.
+
+Two things I expect to have to caveat when it comes back: thinking tokens are normally folded into the output count rather than reported separately, so there may be no honest separate number to give you; and the cost figure recorded per run covers all three sessions in that run (tutor, simulated student, and observer), not the tutor alone, so the cross-check has to account for that before the numbers mean anything.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
