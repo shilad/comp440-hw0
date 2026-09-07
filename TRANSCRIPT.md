@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*169 user turns. Tool outputs and reasoning omitted.*
+*170 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7113,5 +7113,16 @@ Three running: the template cleanup, the personas re-key, and the docs sweep. Al
 The harness-core delegate launches the moment the cleanup reports back with the final writeup labels and stub function names, since the sandbox seeds and action verbs have to match those exactly. The smoketest launches when all four are in.
 
 One thing I built into the harness-core brief that's worth knowing about: **the S3 seed will be a real Claude answer**, generated once by actually running the Part 4 block from `CLAUDE.md`, and checked in. Never hand-written. That means the first real test of the isolated session happens during the build, not during the smoketest, and if the nested `claude -p` fails inside the tutor's sandbox we find out before spending three runs on it.
+
+**User:**
+When you're done, run 3 new simulations and review what happened. Clear out the old ones beforehand
+
+**Claude:**
+- 🔧 `Bash` — Check what the old runs are before clearing them
+The old runs are 7 persona-sweep runs, 92MB, gitignored, with their summaries already in `results/p1/`. Archiving rather than deleting, since it's reversible and costs nothing.
+- 🔧 `Bash` — Archive old runs and start a clean runs directory
+Old runs archived to `runs-archive-old-structure/`, and `runs/` is empty for the new ones.
+
+Waiting on the three delegates. When the template cleanup reports its final labels, harness-core launches; when all four are in, the smoketest runs three simulations at S1, S2 and S3 — one per new mechanism — and I'll review them.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
