@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*52 user turns. Tool outputs and reasoning omitted.*
+*53 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3797,5 +3797,22 @@ Both readouts now also state that these figures cover the three sessions inside 
 One argument moved, in your favour: the recommendation to run a fourth round was previously hedged on cost at "about $475 and half a day." At $36 there is nothing to weigh, and both documents now say so. Nothing else rested on cost — the structural finding about the cold Claude always agreeing, and the ranking of what to do next, are unchanged.
 
 The five corrected files are sitting uncommitted in the simulation repository. Say the word and I'll commit them.
+
+**User:**
+Now the claude pro plan handles about $20 of API costs per five hour window. Can you review what the tutor alone would have cost if it were: sonnet / opus?
+
+**Claude:**
+Pricing is something I should never state from memory, so let me load the reference first.
+- 🔧 `Skill` — claude-api
+Pricing confirmed from the reference rather than memory: Sonnet 5 is $2 input / $10 output per million tokens; Opus 5 is $5 / $25. Cache reads bill at a tenth of the input rate and one-hour cache writes at twice it, which the earlier analysis already validated empirically — its derived Sonnet cost matched the tool's own figure to six decimals across all thirty runs. So Opus is exactly 2.5× Sonnet on every line.
+- 🔧 `SendMessage` — {"to": "tokens", "summary": "Reprice the tutor sessions under Sonnet and Opus", "message": "Follo...
+Repricing is running. The headline is already determinable from the rate card: **Opus 5 is exactly 2.5× Sonnet 5 on every line item** — input, output, cache reads, and cache writes all scale by the same factor — so holding the recorded token counts fixed, the median tutor session moves from **$1.73 on Sonnet to about $4.33 on Opus**.
+
+Against roughly $20 per five-hour window, that is about eleven sessions on Sonnet or four on Opus. Either way a student finishes one sitting of this homework inside a single window with room to spare.
+
+Two caveats I asked it to state plainly in the report, because the clean 2.5× hides them:
+
+- This reprices an identical recorded conversation at different rates. It is **not** a forecast of what Opus would actually cost. Opus would think differently — probably more thinking tokens per turn, possibly fewer turns to get to the same place — so the real figure could land either side of $4.33. I asked for a sensitivity line showing what happens if output rises by half.
+- The figures cover the tutor conversation only. The assignment also makes three separate no-tools calls of its own, which are pennies, and I asked for those to be folded in.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
