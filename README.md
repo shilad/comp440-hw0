@@ -221,9 +221,10 @@ evidence (`part2_checks.py::function`)*.
 
 - **Row 0 is the README.** Both your counts and Claude's have to match 100,000 / 943 / 1,682 /
   at least 20 ratings per user. Your side is what `load_data.py` printed, recomputed by a
-  function in `part2_checks.py`; Claude's side is what `part2_claude.py` printed for (a), and
-  CANNOT DETERMINE for any number it did not print. If either side does not match, that is your
-  first divergence to run down.
+  function in `part2_checks.py`; Claude's side is what `part2_claude.py` printed for (a), with
+  "not printed" for any number it did not print. A number that was never printed cannot hold
+  or fail, which is what the CANNOT DETERMINE verdict is for; the verdict cell is still yours.
+  If either side does not match, that is your first divergence to run down.
 - **Rows (a)–(d)** are the four questions. A verdict is **HOLDS**, **FAILS**, or **CANNOT
   DETERMINE**. **Every row, HOLDS included, names a function in `part2_checks.py` that
   computes its deciding evidence**; a HOLDS with no evidence function is not yet a verdict,
@@ -236,7 +237,9 @@ evidence (`part2_checks.py::function`)*.
 - **Same method?** Under the table, one or two sentences on whether the two scripts computed
   the answers the same way (the join key, the filter, how ties break, whether "movie" meant a
   title or an id), naming one difference you found or what you compared to conclude there is
-  none. Identical numbers from different code are a finding, not a match.
+  none. Ask Claude to put the two scripts' loading, join, filter, and grouping lines next to
+  each other first; answer from the code, not from the printed numbers. Identical numbers from
+  different code are a finding, not a match.
 - Where Part 1 has a stuck-note, Claude's version is your worked example: explain in your own
   words what its code does, then confirm it with a check.
 - Name **one thing Claude said that you could not verify**, and why. If there is genuinely

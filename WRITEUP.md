@@ -53,7 +53,7 @@ spec / statistical misreading / recalled rather than computed).
 
 | Question | Mine | Claude's | Match? | Verdict | Mechanism if FAILS | Evidence (part2_checks.py::function) |
 |---|---|---|---|---|---|---|
-| 0. README counts: 100,000 / 943 / 1,682 / at least 20 per user | | | | | | |
+| 0. README counts: 100,000 / 943 / 1,682 / every user at least 20 ratings (write "not printed" in Claude's column for a number its script never printed; the verdict on that is yours) | | | | | | |
 | (a) | | | | | | |
 | (b) | | | | | | |
 | (c) | | | | | | |
@@ -98,7 +98,7 @@ Top 10 under each rule (code: `part3.py`):
 | 9 | | |
 | 10 | | |
 
-**What moved, and why (two or three sentences):**
+**What moved between my two top-10s, and why (two or three sentences: name at least one film that is on one list and not the other, and say what my rule rewards that the alternative does not):**
 
 >
 
