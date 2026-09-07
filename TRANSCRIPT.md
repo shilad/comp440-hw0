@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*125 user turns. Tool outputs and reasoning omitted.*
+*126 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6026,5 +6026,59 @@ While those run, the two things waiting on you:
 **The untested sweep**, which has grown more valuable as the day has gone on. Since this morning you've removed the guard hook, removed the submission checker, cut the brief nearly in half, and moved half its instructions into files students open later. Every one of those is a change to what a student actually encounters, and none has been tested. The eight characters written specifically to attack the rules have still never run, and no simulated student has ever read your `CLAUDE.md`.
 
 That's about $25 and an hour against a version of the assignment that differs substantially from anything the thirty-seven recorded runs used.
+
+**User:**
+<task-notification>
+<task-id>a3249fe6dea4a8c6b</task-id>
+<tool-use-id>toolu_016cFKMZAcQfGDsSip4b4bi6</tool-use-id>
+<output-file>/private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/364df8eb-2ef8-452c-9968-ed61be30b8dc/tasks/a3249fe6dea4a8c6b.output</output-file>
+<status>completed</status>
+<summary>Agent "Verify the Claude Code install command" finished</summary>
+<note>A task-notification fires each time this agent stops with no live background children of its own. The user can send it another message and resume it, so the same task-id may notify more than once.</note>
+<result>Based on the official Claude Code documentation, here are my findings:
+
+## Line 4 is correct
+
+`curl -fsSL https://claude.ai/install.sh | bash` is the current, documented way to install Claude Code on macOS and Linux/WSL2. This is the "Native Install (Recommended)" method in the setup docs.
+
+**Works on WSL2:** Yes. The docs explicitly list "macOS, Linux, WSL" as supported platforms for this command, and they include a specific section confirming WSL2 uses the same Linux installer.
+
+**Login workflow:** After the student runs `claude`, a browser window opens automatically for authentication. On completion, the terminal shows `Login successful` and prompts to press Enter to continue. The docs note that if the browser doesn't open, the student can press `c` to copy the login URL to clipboard. No additional setup steps are needed post-install, except the student must have a Claude Pro, Max, Team, or Enterprise account (not free Claude.ai).
+
+**Your placeholder on line 22** `**[DECIDE: which Claude account students use]**` is the right place to specify — the docs require one of those four account types, but don't mandate which. Your instructor decision should go there.
+
+**Better verification than `--version`:** The docs recommend `claude doctor`, which runs "read-only installation and settings diagnostics without starting a session, including install health, settings-file validation errors, and any warnings with suggested fixes." This is more thorough than `--version` for confirming a working install.
+
+## The rest of INSTALL.md is current
+
+- **Line 3** (uv): `https://astral.sh/uv/install.sh | sh` is the correct uv installer (uv docs use `| sh` rather than `| bash`, but both work).
+- **Line 2** (gh auth login): Correct note about GitHub no longer accepting passwords.
+- **Line 5** (VS Code + WSL extension on Windows): Correct.
+- **Line 26** (error handling): Good reminder that commands report "not found" if a new terminal isn't opened after install.
+
+The file is terse and accurate for the audience. I found no errors or critical omissions. The one gate is your decision on account type at line 22.
+
+**Source:** https://code.claude.com/docs/en/setup.md (setup and install), https://code.claude.com/docs/en/authentication.md (login requirements).</result>
+<usage><subagent_tokens>42736</subagent_tokens><tool_uses>4</tool_uses><duration_ms>33839</duration_ms></usage>
+</task-notification>
+
+**Claude:**
+Install command verified correct against the docs, with two things worth acting on.
+- 🔧 `Bash` — Check the verification step and account marker in INSTALL.md
+- 🔧 `SendMessage` — {"to": "readme2", "summary": "INSTALL.md verified; two small fixes", "message": "`INSTALL.md` has...
+The install command is correct — `curl -fsSL https://claude.ai/install.sh | bash` is the documented native install, works on WSL2, and the rest of `INSTALL.md` checks out too. No errors found.
+
+**One fact you need before Sep 10, though: Claude Code requires a Pro, Max, Team or Enterprise account. A free claude.ai account will not work.**
+
+That turns your `[DECIDE: which Claude account students use]` marker from a preference into a blocker. Every student needs paid access on day one or they cannot start the assignment, and it's the kind of thing that surfaces at 9pm the night before if nobody has planned it. Worth settling this week.
+
+Two smaller things: `claude doctor` replaces `claude --version` as the install check — it runs read-only diagnostics on install health and settings validation rather than just printing a string. And the account requirement now appears in the file as a fact, next to your decision marker.
+
+So the open decisions are down to two, both yours:
+
+1. **Fork or template** — a fork can't be private, and your assignment requires private.
+2. **Which Claude account**, now with the constraint that it must be a paid tier.
+
+The last agent is finishing the `run_all.py` removal and the `CLAUDE.md` repointing.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
