@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*58 user turns. Tool outputs and reasoning omitted.*
+*59 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -3987,5 +3987,35 @@ Combined with your two earlier ideas, that gives a concrete program:
 5. **Check fidelity after each run** — a pass over the student's turns against their own card, flagging anything that exceeded the character. Without it you won't know whether any of this worked, and the current drift measure only compares message lengths.
 
 I'd build 1 and 2 first, since 3 depends on them and they're where the thinking actually is. Want me to put a delegate on it?
+
+**User:**
+this seems reasonable BUT should we do it on the fly, or should we do it a-priori? also i'd like to pin Opus-5 medium for both the student and the tutor, and i'd like to monitor the usage of tokens (all types) and API-stated cost of both per simulation.
+
+**Claude:**
+**A-priori for the character; on the fly for the inventory.** They're different objects and they want opposite treatment.
+
+The *placement* — what this particular student knows — has to be frozen before the run. Two reasons. It's the thing you can review: you know what a junior who got a B in intro stats actually retains, and you can correct a table before it runs, but you can't review something invented at turn 14. And the whole value of the sweep is that the same ten students meet different versions of the assignment; if the students drift, the comparison between rounds dissolves.
+
+The *inventory* — what the assignment demands — can't be complete up front. You don't discover that a run needs "co-raters" until a run needs it. So it grows between rounds: the fidelity check flags every concept a run required that no card placed, and those become next round's inventory entries.
+
+The bridge between them is one line in every card, and it's the thing actually missing today: **anything not in your background, you don't know.** Right now, when a student hits an unlisted concept the model defaults to competence, because nothing tells it otherwise. Make the default ignorance — "ask what it means, or say you've heard the word and couldn't define it" — and the improvisation hole closes without needing a complete inventory first.
+
+So: build the inventory and placement now from what three rounds already demanded, freeze them, and let the check grow the list.
+
+On the configuration changes, one flag before I start: **moving the tutor from Sonnet 5 to Opus 5 breaks comparability with the three completed rounds.** Round four would measure a different system, so per-item movement against rounds one through three stops being meaningful. That may well be right — if your students will run Opus, then Sonnet was the wrong thing under test all along — but it makes round four a new baseline rather than a fourth data point. Setting it up now.
+- 🔧 `SendMessage` — {"to": "tokens", "summary": "Pin models and effort, add per-actor token accounting", "message": "...
+On cost, a-priori is the cheaper option, not the dearer one — the arithmetic runs the other way from how it feels.
+
+Generating the character sheets is a one-time expense of about a dollar for the whole roster. After that they're just text in a prompt, and that prompt is cached: a card that grows by two thousand tokens costs roughly half a dollar spread across an entire ten-run sweep. Doing it on the fly means paying for the reasoning inside every run, every round, forever, and getting a different answer each time.
+
+So the thing worth economizing isn't tokens. It's **your review time** — the character sheets are only worth having if you read them and correct the ones that are wrong about your students, and eighteen of them is a lot to read.
+
+That suggests mixing on depth rather than on timing:
+
+- **Do the seven characters that actually ran, properly.** Full placement against the inventory, generated backstory, boundary examples, edge behaviour. That's what round four needs, and seven sheets is a reviewable amount.
+- **Leave the other eleven as they are** until a sweep actually calls for them. They've never run; there's nothing to fix yet.
+- **Let the inventory grow on the fly**, through the fidelity check flagging concepts that came up and weren't placed. That's the part that genuinely can't be known in advance, and it's the cheap part.
+
+One cost note on the change already underway: putting the tutor on Opus 5 as well as the student roughly doubles a sweep, since Opus is two and a half times Sonnet and the tutor is the larger half of each run. Medium effort will claw some of that back. Expect round four somewhere around $50–70 rather than the $36 the last one cost — still small enough that it shouldn't drive the design.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
