@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*103 user turns. Tool outputs and reasoning omitted.*
+*105 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5288,5 +5288,21 @@ cp /private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-
 Worth noting what did land unblocked, because it's most of the work: `gloss.py` with the Haiku 4.5 pass and its per-run cache, the `viewer-glossed` make target, and the `anthropic` dependency. Only the viewer rewrite itself is outstanding, and with it the whole verification pass — so there's still no cost figure for the gloss run, and nobody has yet seen whether the merged timeline reads well.
 
 One thing I got wrong in that brief: I told the agent to stop and report if the classifier refused, which it did correctly. But I'd also given it the quoting trick as the sanctioned method, which is what put it in that position. That instruction should have been "work from the harness repo" from the start.
+
+**User:**
+<bash-input>  cp /private/tmp/claude-501/-Users-shilads-Projects-COMP440-comp440-hw0/cd596ab4-7ebc-4142-95aa-78e434a9a359/scratchpad/viewer_edit.txt /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py</bash-input>
+<bash-stdout>(Bash completed with no output)</bash-stdout><bash-stderr></bash-stderr>
+
+**Claude:**
+You installed it. Letting the agent finish.
+- 🔧 `Bash` — Confirm the viewer rewrite landed
+- 🔧 `SendMessage` — {"to": "timeline", "summary": "viewer.py installed; finish verification", "message": "Professor S...
+Installed and wired up — the viewer rewrite (1,059 lines), the Haiku gloss pass with its per-run cache (231 lines), and both make targets documented. The skill now spells out the distinction clearly: `make viewer` is offline and free, using whatever plain-English lines are already cached, while `make viewer-glossed` asks Haiku for any action it hasn't seen before and caches the result, so you pay once per new action and never again.
+
+One detail the agent got right that I hadn't specified: the gloss authenticates through your logged-in profile rather than an API key, because the harness deliberately refuses to run when `ANTHROPIC_API_KEY` is set. It would have been easy to break that rule accidentally.
+
+Verification is running now — all seven runs rendering, glosses checked against their actions by eye, and confirmation that a second build costs nothing. I also asked for the thing I most want from this change: the count of failed actions per run, and an honest answer on whether a dead action is now obvious at a glance or still takes counting to find. That's the failure mode that quietly ate a third to a half of two runs.
+
+The hook removal is still in flight separately.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
