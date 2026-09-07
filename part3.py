@@ -5,8 +5,9 @@ that the tables in WRITEUP.md hold.
     uv run python part3.py
 
 Claude codes this only after your rule (3a) and your adjective and definition (3b) are written
-on their lines in WRITEUP.md and committed. WRITEUP.md names the function that printed any
-number you quote. Put a `# Claude:` comment above any function Claude wrote.
+on their lines in WRITEUP.md and committed. The four functions below are named for the four
+WRITEUP.md labels; WRITEUP.md names the function that printed any number you quote. Put a
+`# Claude:` comment above any function Claude wrote.
 
 3a. The best movie. "What is the best movie in this dataset?" depends on how you combine 943
 people's judgments. Choose a rule and state it precisely:
@@ -42,23 +43,36 @@ from load_data import (movies_to_pandas, ratings_to_pandas, read_movies, read_ra
                        read_users, users_to_pandas)
 
 
+def top10_my_rule(ratings, movies):
+    """3a, the `**My rule:**` line: title, score, and count."""
+    print("== 3a: top 10 under my rule ==")
+
+
+def top10_alternative_rule(ratings, movies):
+    """3a, the `**Alternative rule:**` line."""
+    print("== 3a: top 10 under the alternative rule ==")
+
+
+def top5_my_definition(ratings, movies):
+    """3b, the `**My definition:**` line: title, the score the definition uses, and count."""
+    print("== 3b: top 5 under my definition ==")
+
+
+def top5_rival_definition(ratings, movies):
+    """3b, the `**Rival definition:**` line."""
+    print("== 3b: top 5 under the rival definition ==")
+
+
 def part3():
     print("part 3 unimplemented")  # delete this line when you start
     ratings = ratings_to_pandas(read_ratings())   # user_id, movie_id, rating, timestamp
     movies = movies_to_pandas(read_movies())      # movie_id, title, release_date, imdb_url, a True/False column per genre
     users = users_to_pandas(read_users())         # user_id, age, gender, occupation, zip_code
 
-    print("== 3a: top 10 under my rule ==")
-    # My rule (as written in WRITEUP.md):
-
-    print("== 3a: top 10 under the alternative rule ==")
-    # Alternative rule:
-
-    print("== 3b: top 5 under my definition ==")
-    # My adjective and definition:
-
-    print("== 3b: top 5 under the rival definition ==")
-    # Rival definition:
+    top10_my_rule(ratings, movies)
+    top10_alternative_rule(ratings, movies)
+    top5_my_definition(ratings, movies)
+    top5_rival_definition(ratings, movies)
 
 
 if __name__ == "__main__":

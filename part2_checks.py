@@ -3,14 +3,17 @@ Part 2: the evidence behind the reconciliation table. One check function per row
 
     uv run python part2_checks.py
 
-A check function recomputes the number a row turns on, from the raw data, by a route you can
+A check function recomputes the number a row turns on, from the data, by a route you can
 read, and prints it next to what each analyst's script printed. It does not decide anything:
 the Verdict cell is yours, and the function's job is to put the deciding number in front of
 you. So a check computes; it never asserts. `assert n == 100000` or `print("HOLDS")` proves
-only that you typed the number you expected. When two scripts disagree, the check settles it
-by computing the value and showing it; when a row is about a reading of the spec (what "at
-least 20" means, how ties break, title or id), it computes the answer under each reading and
-prints both, so you can see which one the data supports.
+only that you typed the number you expected, and rerunning either script's code is not
+evidence either: the same code prints the same wrong number twice. A route worth taking
+differs from both scripts: the records instead of the DataFrame, the raw file instead of
+`load_data.py`, the other join key, or a statistic recomputed from its definition. When a row
+is about a reading of the spec (what "at least 20" means, how ties break, title or id), the
+check computes the answer under each reading and prints both, so you can see which one the
+data supports.
 
 Name each function for its row (check_row0, check_a, check_d_ties); the table's Evidence cell
 cites `part2_checks.py::check_a`. Put a `# Claude:` comment above any function Claude wrote.
@@ -22,10 +25,14 @@ from load_data import (movies_to_pandas, ratings_to_pandas, read_movies, read_ra
                        read_users, users_to_pandas)
 
 
-def check_warmup(ratings):
+def check_warmup():
     """Warm-up from class: how many ratings are exactly 5 stars? The cold Claude answered from
-    memory; this computes it. You compare the two."""
-    n = int((ratings["rating"] == 5).sum())
+    memory. This counts over the Rating records rather than the DataFrame the scripts use:
+    a different route, which is what makes it evidence. You compare the two numbers."""
+    n = 0
+    for r in read_ratings():
+        if r.rating == 5:
+            n += 1
     print(f"check_warmup: ratings that are exactly 5 stars = {n:,}")
     return n
 
@@ -44,7 +51,7 @@ def part2():
     movies = movies_to_pandas(read_movies())      # movie_id, title, release_date, imdb_url, a True/False column per genre
     users = users_to_pandas(read_users())         # user_id, age, gender, occupation, zip_code
 
-    check_warmup(ratings)
+    check_warmup()
 
 
 if __name__ == "__main__":
