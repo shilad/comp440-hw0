@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*108 user turns. Tool outputs and reasoning omitted.*
+*109 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5432,5 +5432,31 @@ Its numbers are right and mine were loose.
 The viewer now renders one stream per turn with actions sitting inside the student's message where they were typed, and all 279 accounted for. Because dropped actions reach no log, it reconstructs those from the message text — which makes it the only place the thirteen historical losses in your recorded runs are visible at all.
 
 Still outstanding: the plain-English glosses have never actually run. The agent built it against the Anthropic SDK, which has no credentials on this machine, and hasn't yet picked up my instruction to shell out to the `claude` CLI the way `cold_session.py` does. No API key is needed — that's just the wrong door.
+
+**User:**
+i have two different accounts here. how should i manage that?
+
+**Claude:**
+Let me get the mechanism right rather than guess, and check what your machine actually has.
+- 🔧 `Agent` — How to manage two Claude accounts
+- 🔧 `Bash` — Check which accounts the two config directories use
+Useful — so you already flip `CLAUDE_CONFIG_DIR` by alias, and this session confirms it's pointing at `.claude-home`. One thing that surfaced is worth checking before I advise anything.
+- 🔧 `Bash` — Locate where each config directory keeps its account
+Good — that's the mechanism, and your setup is sounder than I expected. Concretely, from your machine:
+
+**The two accounts are genuinely separated.** Your keychain has two Claude Code credential entries — `Claude Code-credentials` and `Claude Code-credentials-7fc9d683` — so each config directory carries its own login. Logging into one doesn't log the other out, which is the thing that usually goes wrong with multi-account setups.
+
+**Your alias is the supported switch.** `CLAUDE_CONFIG_DIR` is what this session is running on, and everything downstream follows it: settings, enabled plugins, skills, agents, projects, history, and memory all live inside whichever directory it names.
+
+**The trap, and it has already bitten you today.** The alias is per-shell, so any terminal where you forget it silently uses the default account — and "silently" is the problem, because nothing in the interface tells you which one you're on. Two consequences visible in this session:
+
+- Your `delegate` agent and the `fleet-setup` skill live only in `~/.claude`. This session couldn't see the delegate agent for the first several hours, which is why early work ran on generic agents.
+- Your memory-sync hook also lives only in `~/.claude`. **Everything I wrote to memory today went into `~/.claude-home/projects/` and has never synced to your memory repo.** Your other sessions won't see it.
+
+That second one is the real cost of the split, and it's not an accident of today — it's structural. The two directories have drifted: different settings, different plugins, different global `CLAUDE.md`, no shared memory.
+
+I've got an agent checking the documented mechanics — whether there's a first-class account switcher, how usage attributes across two accounts on one machine, and whether anything shares state that shouldn't. I'd rather give you a recommendation grounded in the docs than in what I've inferred from your keychain.
+
+The question I'd want your answer to meanwhile: **is the split by account, or by purpose?** If `~/.claude` is Indeed and `~/.claude-home` is personal, the divergence is correct and the fix is just making the current one visible. If they're the same account and the split is historical, you'd be better off collapsing them.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
