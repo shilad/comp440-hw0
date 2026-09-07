@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*111 user turns. Tool outputs and reasoning omitted.*
+*112 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5657,5 +5657,18 @@ Otherwise it's fine as is, since I copied the delegate definition across earlier
 Back to the actual work. One agent is still out, switching the plain-English gloss from the Anthropic SDK to the `claude` CLI so it runs on your subscription login rather than needing a key — which, given what we just learned about profiles outranking `/login` in both accounts at once, matters more than it did an hour ago.
 
 And there's a decision waiting from you: **the guard hook is gone and untested.** The eight characters written specifically to attack those rules have never run, and no simulated student has ever read your `CLAUDE.md`. Running them against the prose-only version is about $25 and an hour, and it's the only thing that would tell you whether removing the hook was safe.
+
+**User:**
+copy the delegate agent. don't symlink it. the envs need to be entirely separate.
+
+**Claude:**
+- 🔧 `Bash` — Verify the delegate agent is a real copy, not a link
+Already done that way — I copied it this morning rather than linking. `~/.claude-home/agents/delegate.md` is a real 2,439-byte file, not a symlink, and currently identical to the version in your toolbox. Nothing links between the two config directories.
+
+Worth noting the consequence you're choosing, so it doesn't surprise you later: because it's a copy, edits to `~/toolbox/claude/agents/delegate.md` won't reach `.claude-home`. The two will drift, which is what "entirely separate" means — but if you tune the delegate's anti-stall protocol on the work side, you'll need to copy it across deliberately.
+
+That's also true of your global `CLAUDE.md`, and the drift is already there: `~/.claude/CLAUDE.md` symlinks to the toolbox copy, which still carries the older wording — "delegate *heavy* execution work" and the Jira confirmation gate — while `~/.claude-home/CLAUDE.md` has the version you rewrote this morning saying *moderate and heavy*. Two accounts, two different sets of standing instructions. Deliberate or not, it's real.
+
+Back to the work: the gloss agent is still switching to the `claude` CLI, and the guard-hook test sweep is waiting on your word.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
