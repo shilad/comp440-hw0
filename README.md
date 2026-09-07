@@ -238,8 +238,8 @@ evidence (`part2_checks.py::function`)*.
   the answers the same way (the join key, the filter, how ties break, whether "movie" meant a
   title or an id), naming one difference you found or what you compared to conclude there is
   none. Ask Claude to put the two scripts' loading, join, filter, and grouping lines next to
-  each other first; answer from the code, not from the printed numbers. Identical numbers from
-  different code are a finding, not a match.
+  each other first; spotting the difference is yours, and you answer from the code, not from
+  the printed numbers. Identical numbers from different code are a finding, not a match.
 - Where Part 1 has a stuck-note, Claude's version is your worked example: explain in your own
   words what its code does, then confirm it with a check.
 - Name **one thing Claude said that you could not verify**, and why. If there is genuinely
@@ -298,7 +298,9 @@ three transfer to adjectives with no flag:
   Dead, Scream, ...). Crude, and worth trying once to see what it misses. (For "most 90s":
   release year is in `u.item`, but "most 90s" is not "released in the 90s"; say what it is.)
 
-Write your adjective on the `**My adjective:**` line (the same word you will type after
+If a term in that menu is new to you (a shrunk mean, a standard deviation, co-raters), ask
+Claude to explain it in plain words before you choose; a definition you cannot read is not
+yours. Write your adjective on the `**My adjective:**` line (the same word you will type after
 `most`) and your definition, in one sentence precise enough that a classmate could code it, on
 the `**My definition:**` line; commit. Show
 the top 5 under your definition and the top 5 under one other definition for the same

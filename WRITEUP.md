@@ -53,7 +53,7 @@ spec / statistical misreading / recalled rather than computed).
 
 | Question | Mine | Claude's | Match? | Verdict | Mechanism if FAILS | Evidence (part2_checks.py::function) |
 |---|---|---|---|---|---|---|
-| 0. README counts: 100,000 / 943 / 1,682 / every user at least 20 ratings (write "not printed" in Claude's column for a number its script never printed; the verdict on that is yours) | | | | | | |
+| 0. README counts: 100,000 / 943 / 1,682 / every user at least 20 ratings (write "not printed" in Claude's column for a number its script never printed; a number that was never printed cannot hold or fail, which is what CANNOT DETERMINE is for, and the verdict is still yours) | | | | | | |
 | (a) | | | | | | |
 | (b) | | | | | | |
 | (c) | | | | | | |
@@ -64,6 +64,8 @@ spec / statistical misreading / recalled rather than computed).
 >
 
 **Part 1 stuck questions, explained in my own words and checked (or "none"):**
+
+*If your stuck-note was about what a word in the question means, your check has to settle the reading, not show that the two readings agree here: name the reading the data supports and the printed line you read it from.*
 
 >
 
@@ -79,7 +81,7 @@ spec / statistical misreading / recalled rather than computed).
 
 **Alternative rule:**
 
-**Defense (at most 150 words: one thing my rule gains, one thing it loses):**
+**Defense (at most 150 words: one thing my rule gains, one thing it loses; name the `part3.py` function that printed any number you quote):**
 
 >
 
@@ -124,7 +126,7 @@ Top 5 under each definition (code: `part3.py`):
 
 >
 
-**Reflection (at most 150 words): what my definition captures and what it misses:**
+**Reflection (at most 150 words): what my definition captures and what it misses; name the `part3.py` function that printed any number you quote:**
 
 >
 
@@ -152,7 +154,7 @@ Top 5 under each definition (code: `part3.py`):
 
 **Plot:** `figures/part4.png` (code: `part4.py`; labeled axes and a title)
 
-**Interpretation (at most 150 words, my own words, at least one explicit limitation, and one sentence on what evidence would change my mind):**
+**Interpretation (at most 150 words, my own words, at least one explicit limitation, one sentence on what evidence would change my mind; name the `part4.py` function that printed any number you quote):**
 
 >
 
