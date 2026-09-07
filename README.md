@@ -70,7 +70,7 @@ with Shilad.
 ### Part 0. Setup (in class Thu Sep 10)
 
 0. Complete `INSTALL.md`.
-1. Fork and clone this repo **[DECIDE: fork, template button, or GitHub Classroom]**.
+1. Fork this repo and clone your fork.
 2. `git remote add upstream https://github.com/shilad/comp440-hw0`
 3. `uv sync`, then `uv run python run_all.py`.
 4. Start `claude` and approve the hooks.
@@ -126,8 +126,13 @@ neither of your top 5s, it used a third definition you had not thought of: name 
 
 Claude can compute anything you ask it to here. The judgments are yours.
 
-Finally, answer the last few questions in `WRITEUP.md`, commit, push, and submit your repo URL
-on Moodle by **Thu Sep 17, 8:00am Central**.
+Finally, answer the last few questions in `WRITEUP.md`. Ask Claude to check the submission
+over; it will walk through what is missing. Then commit, push, and fill in the form:
+
+https://docs.google.com/forms/d/e/1FAIpQLSfC1Dr1js4kP91O11uqCbpRh4B2ifgxeJb3TPYKbd4QLmoFzw/viewform
+
+Tell Claude when you have. It will say **YOU ARE FINISHED!** — that is how you know you are
+done. Due **Thu Sep 17, 8:00am Central**.
 
 One question to carry into HW1: what in your scripts breaks when the data is a hundred times
 bigger?
