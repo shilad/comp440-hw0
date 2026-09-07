@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*135 user turns. Tool outputs and reasoning omitted.*
+*136 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6255,5 +6255,25 @@ So the restructure is complete and verified, sitting uncommitted:
 Still queued: the dataclass rewrite of `load_data.py` and `run_all.py` calling the parts.
 
 My question from before still stands — commit the restructure now, before the dataclass work lands on top of it?
+
+**User:**
+Commit and push everything.
+
+**Claude:**
+- 🔧 `Bash` — Commit the assignment restructure
+- 🔧 `Bash` — Check what is unpushed in both repos
+Pushing both, then I'll do the same for the dataclass work when it lands.
+- 🔧 `Bash` — Push both repositories
+Both pushed.
+
+**Template** — six commits, `111140b..9eb50c4`: the cold-session model pin, four generations of tuning from the simulated runs, the guard hook removal, and today's restructure.
+
+**Harness** — five commits, `7220cbd..d8f6ff8`: the persona rebuild, the timeline viewer, the gloss pass, the cost-accounting and action-parser fixes, and every report.
+
+I'll commit and push `load_data.py`, `run_all.py` and the stubs as their own change when the dataclass rewrite lands.
+
+One thing to be aware of now that it's public: **the template students clone contains a set of changes that has never been tested.** The hook is gone, the checker is gone, the brief is 60% shorter, and half its instructions moved into files. Every one of those alters what a student encounters, and the thirty-seven recorded runs all used a version with both backstops and the long brief.
+
+That's not an argument against having pushed — you can push again — but it's the gap between what's been measured and what's now live, and it's wider than it's been all day.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
