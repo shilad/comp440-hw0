@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*78 user turns. Tool outputs and reasoning omitted.*
+*79 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -4656,5 +4656,21 @@ Everything is now in place and the seven simulations are running. Summary of whe
 **Two things you settled** that moved more than anything I could have decided: standard deviation being half-remembered rather than absent, which deleted three invented biographies; and removing the names, which the fixer used as an opportunity to strip gender from all 37 references in the inventory too.
 
 I'll report when the seven finish — roughly two hours, and I'll check by evidence rather than waiting on notifications, given how this session has gone.
+
+**User:**
+why seven hours?
+
+**Claude:**
+Let me look rather than guess.
+- 🔧 `Bash` — Check the sweep's actual elapsed time and progress
+Nothing here is seven hours. If you're looking at `07:52` in the process list, that's the elapsed-time column in minutes and seconds — the sweep has been running **seven minutes and fifty-two seconds**.
+
+Real state, measured just now:
+
+- Three runs in flight (three at a time, seven total): the steady student at turn 13 of 25, the struggling one at 12 of 30, the busy one at 12 of 25.
+- Turns are landing at roughly 19 seconds each, about 37 seconds including the observer and the harness work between them.
+- That's 15–20 minutes per run, three waves, so **the whole sweep should finish in about an hour** — my earlier "two hours" was padded.
+
+If you meant something else — the six-and-a-half hours I quoted for the three earlier rounds, or a figure somewhere in your terminal I can't see — tell me which and I'll dig into it.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
