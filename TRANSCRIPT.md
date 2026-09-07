@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*117 user turns. Tool outputs and reasoning omitted.*
+*118 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5789,5 +5789,27 @@ And the horror menu — six worked definitions with commentary, the densest pros
 One consequence I'll deal with separately: `run_all.py` currently fails those three files as *missing*, which stops being true once stubs ship. It'll need to check for real code beyond the stub, the way it already does for `part1.py`.
 
 Worth saying plainly: this is now a design change to your assignment, not just an edit. Three new files ship, and what a student encounters when changes shape. Once it lands, the honest next step is a sweep against the new version rather than assuming it behaves the same — the harness exists precisely so you don't have to guess about that.
+
+**User:**
+You should also have a basic setup that allows students to complete the activity: Fork the repo, clone it, install wsl2 on windows, install uv, unzip the file, then same basic test that things are rnning.
+
+**Claude:**
+Right — and there's a gap you may not have noticed: Part 0 currently defers the whole install to a Moodle page marked `[DECIDE: install-and-login page, posted by Mon Sep 8]` that doesn't exist. So the repo has no working setup path at all.
+- 🔧 `SendMessage` — {"to": "readme-edit", "summary": "Add SETUP.md with a real install path", "message": "One more pi...
+Both, and the seam is obvious once you look for it: **Claude can't install Claude.**
+
+Everything up to and including a working `claude` login has to be written down — WSL2, git, uv, Claude Code itself, VS Code. There's no assistant yet, and that's precisely the stretch where students get stuck and give up.
+
+After that point, your assignment *already* designates Claude as the setup helper. The Part 1 gate in `CLAUDE.md` says help only with Part 0, and then lists exactly what's allowed: `uv sync`, `load_data.py`, git identity, the `Part 0 done` commit, approving the hooks, the five header lines, `cold_session.py warmup` and `--selftest`. That's the whole back half of setup, already licensed. Your session-start hook even checks whether `origin` is still the template and tells them to fix it.
+
+So my recommendation:
+
+**`SETUP.md` gets them to a working `claude`** and stops there. Short, numbered, exact commands, with the failures that actually happen.
+
+**From there they start Claude and say "help me set up."** It has the file listing, it can see the errors, and it adapts — which a checklist can't, because a broken uv PATH on WSL2 looks nothing like a broken one on macOS. It's also their first taste of the working pattern the course is about, on a task with no wrong answers.
+
+**`SETUP.md` keeps the same commands as a fallback list** for when Claude is down. You already have an outage section, so the material exists; it just needs to live in one place.
+
+Two things worth knowing before you commit to it. Setup done by conversation is not reproducible — when a student says "it doesn't work," you won't know what they did, whereas with a checklist you can ask which step failed. And **the Claude-led setup path has never been tested**: no simulated student has ever started from the bare template with the tutor doing Part 0. That's a station the harness supports and no sweep has used, which makes it cheap to find out rather than guess.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
