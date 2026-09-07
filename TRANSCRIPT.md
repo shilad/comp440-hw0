@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*92 user turns. Tool outputs and reasoning omitted.*
+*93 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -5026,5 +5026,26 @@ The reason is that (a) through (d) are deterministic questions about a well-know
 - **The prose.** The cold session reliably claims movie titles are unique per film. That's false: 18 titles cover two different films each. Nothing in its script prints that claim, so it's something it recalled rather than computed — and students caught it repeatedly.
 
 So the disagreement is real and it does teach. It just lives in *how they got there* and *what Claude asserted without checking*, rather than in who got the right answer. Your Part 2 is worth 25 points and promises the second kind while reliably delivering the first.
+
+**User:**
+the first two are atypical but okay. The second two are implausiable... this is for "best" and "most XXX" movie?
+
+**Claude:**
+No — those are Part 1, not Part 3. That's an important distinction and I should have made it clearer.
+
+Rows (a) through (d) are your four Part 1 questions, all of which have exactly one right answer:
+
+- **(a)** how many ratings, users, movies, and the star distribution
+- **(b)** median ratings per user, and how many users have 100 or more
+- **(c)** which ten movies have the **most ratings** — a straight count
+- **(d)** among movies with at least 20 ratings, which ten have the **highest mean** — a count-filtered average
+
+"Best movie" and "most ___" are **Part 3**, a different exercise entirely, with no right answer, where the student picks a rule and the cold Claude is asked the same question separately. **No run has ever reached Part 3.** Not in any of the thirty-seven. So those two questions have never been tested at all.
+
+On why (c) and (d) matching isn't implausible: **the cold Claude never produces numbers.** It has no data and no tools. All it does is write a script. The student then runs that script against the real MovieLens files, and *those* are the numbers in Claude's column. So both columns are the output of correct pandas over the same 100,000 rows — 4.491071 for Close Shave appears on both sides because both scripts computed it from the same file, not because a model recalled it.
+
+For the columns to differ, Claude's script would have to be wrong, or make an interpretive choice that actually bites. It does make different choices — grouping by movie id where the student groups by title, and using "20 or more" where the student used "more than 20" — but neither changes the answer on this particular dataset. The duplicate titles don't reach the top ten, and no film with exactly 20 ratings has a high enough mean to enter.
+
+So Part 2 is structurally a test of whether a competent script agrees with a competent script. It reliably does. The teaching that survives is method and unverified prose — the student noticing they got the same answer two different ways, and catching Claude's claim that titles are unique, which is false and which nothing in its script checks.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
