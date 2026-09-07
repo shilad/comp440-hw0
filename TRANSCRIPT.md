@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*153 user turns. Tool outputs and reasoning omitted.*
+*154 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6662,5 +6662,20 @@ What you lose: the self-test. Right now a student can prove the isolation works 
 What you also lose is enforcement: a script refuses to run before the work is committed, whereas an instruction can be argued with. But you already decided that trade this morning when you removed the guard hook, and thirty-seven runs said the prose held.
 
 So: delete the tool, add `questions.md`, put four commands in `CLAUDE.md`. Want me to go that way?
+
+**User:**
+In general, i prefer simple claude instructions of complex hooks. so yes.
+
+**Claude:**
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Delete the tool; instructions plus questions.md", "message": "Profes...
+Sent. The tool is deleted entirely; what replaces it is `questions.md` holding the exact wording, and four commands in `CLAUDE.md`.
+
+The design is cleaner than what it replaces: **isolation by what's in the room.** A temp directory containing the dataset, the loader, and an empty stub — no student code, no writeup, no `CLAUDE.md`, no conversation. A student can verify that by looking at what got copied, which is more legible than the canary self-test it replaces.
+
+I'll fix the permission list in `.claude/settings.json` when the renames settle, since it currently names files that are about to stop existing.
+
+Two things left to write, and I'll do them now: `README.md` and `WRITEUP.md`, rebuilt for the six-part structure with stub questions the student answers.
+
+The reversal worth remembering when you read the result: **the independent Claude now has the data and can run code.** Its numbers will be right. So Parts 5 and 6 are about judgment — which rule, which definition, why — rather than about catching a fabricated number. That's a better assignment, and it's the one thing my thirty-seven simulated runs said the old design could never deliver, because the deterministic questions never disagreed.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
