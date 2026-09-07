@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*157 user turns. Tool outputs and reasoning omitted.*
+*158 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6735,5 +6735,18 @@ Still to land: the tool deletion, the six variables, and `sync_upstream.py`. All
 One decision it made that you should confirm or overrule: **the gate commit message is `Parts 1-3 finished`**. It picked that because nothing specified one. It matches case- and dash-insensitively, so `Parts 1–3 finished` works too. I'll write it into the README unless you'd rather it said something else.
 
 And still open, now blocking Part 0: **fork, template button, or Classroom.** The simple upstream sync assumes fork.
+
+**User:**
+Parts1-3, both code and writeup.
+
+**Claude:**
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Gate commit covers code and writeup", "message": "Confirmed on the g...
+Confirmed to the agent, and it shapes the gate rule: before the commit, Claude checks the three scripts run **and** the writeup's Part 1–3 slots are filled — the rule, the alternative, the adjective, both definitions, the answers. It reports what's missing, helps fix what doesn't run, then the student commits both together. Only after that does the independent Claude get asked anything.
+
+It also restores something the old design had and I'd dropped: Parts 1–3 are graded as they stood at that commit.
+
+Now writing the README and `WRITEUP.md` to match. The README is the six-part structure in your voice — Goals, Overview, How this activity will work, then the parts. `WRITEUP.md` gets stub questions under each part for the student to answer, with the label names other files match on preserved.
+
+One thing I'll write around rather than into: **fork versus template button.** Part 0 currently says fork, and the simplified upstream sync depends on it, but a fork can't be private. I'll write it as fork with a marker, since that's your current text.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
