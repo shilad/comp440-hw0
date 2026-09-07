@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*147 user turns. Tool outputs and reasoning omitted.*
+*148 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -6463,5 +6463,23 @@ Second reason, smaller: the capture is evidence. You and the student can read ex
 **But it should shrink hard.** The current file is 537 lines with four question modes, an instructor pack importer, an interactive fallback, re-render verification and `--again`. Under the new structure it needs: one command, ask the three questions, save the answer, write `claude_parts_1_2_3.py`, commit. Maybe sixty lines. Everything else was scaffolding for a structure you've just deleted.
 
 Want me to have it cut that way — one command, no modes, no importer — or keep `--selftest`? That one proves on the student's own machine that the separate session really is isolated, which is the claim the whole assignment rests on.
+
+**User:**
+put them in the main repo, and have a stub claude_answers_1_2_3.py that is not filled in.
+
+**Claude:**
+Reading that as: the three questions live in the repo rather than hardcoded inside a tool, and `claude_answers_1_2_3.py` ships as an empty stub the way the human parts do. Symmetric — three stubs the student fills, one stub Claude fills.
+- 🔧 `SendMessage` — {"to": "rewire", "summary": "Questions live in the repo; Claude's file is a stub", "message": "Ch...
+Genuinely good question, and it turns on facts I shouldn't guess at. Let me get it checked.
+- 🔧 `Agent` — Can a subagent replace the isolated session
+My honest read while that comes back, so you can weigh it:
+
+**The conversation isolation almost certainly works.** A non-fork subagent starts fresh — it doesn't inherit the parent's context. That's the hardest of the three requirements and a subagent probably clears it.
+
+**The other two are where I'd expect trouble.** A subagent runs in the project, so it likely loads your `CLAUDE.md` — which is a page of tutoring rules that would badly confuse a task that isn't tutoring. And it needs *zero* tools, because the entire lesson is that Claude writes a script it cannot run, so its numbers come from memory. Give it file access and it just reads `u.data` and computes the right answer, and the distinction the assignment is built on evaporates.
+
+**One thing that isn't about mechanism.** A student can open the tool and read what isolation means — fresh session, no tools, no rules, run outside the repo. A subagent the tutor spawns is invisible to them. For an assignment whose subject is knowing when to trust an AI, being able to see how the independence was arranged is worth something.
+
+If the answer comes back that a subagent can meet all three, the file goes and the instruction lives in `CLAUDE.md`, which is clearly simpler. If it can't, we keep about sixty lines and delete the other four hundred and seventy.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
