@@ -103,9 +103,11 @@ Sep 5 from the canonical files because files.grouplens.org served an expired cer
   as a patch under `tmp/upstream/` for you to apply by hand.
 - **Work in this directory.** Sessions started elsewhere are not captured. The cold sessions
   are the one exception, and `cold_session.py` handles them.
-- `.claude/hooks/guard.py` blocks Claude from the things the rules say it must not do (touch
-  analysis code before your Part 1 commit; edit `part1.py`, `part2_claude.py`, `RECORD.md`,
-  `TRANSCRIPT.md`, or `cold/`). Read it if you are curious; there is nothing hidden.
+- **The Claude rules are not enforced by a program**; `CLAUDE.md` states them and Claude
+  follows them. Read it — there is nothing hidden. What checks after the fact is `run_all.py`:
+  it fails if `part1.py` changed since the marker commit, or if `part2_claude.py` or a capture
+  in `cold/` no longer matches what the cold session produced. If Claude edits something it
+  should not have, git still has the old version; say what happened in `RECORD.md`.
 
 ## The task
 
@@ -147,9 +149,9 @@ repo can be cloned and pushed (`gh auth login`, or the method on the install pag
    ```
 
 5. Start `claude` in the repo. It first asks you to trust the folder and to approve the two
-   hooks from `.claude/settings.json` (they write `TRANSCRIPT.md` and enforce the rules); say
-   yes to both. Type `hello`; it should run `git log`, see your commit, and tell you Part 1 is
-   next.
+   hooks from `.claude/settings.json` (one checks your repo at the start of a session, the
+   other writes `TRANSCRIPT.md` at the end); say yes to both. Type `hello`; it should run
+   `git log`, see your commit, and tell you Part 1 is next.
 
 In class we run `uv run python cold_session.py warmup` together: it asks a cold Claude how many
 ratings are exactly 5 stars, and you check it against a one-liner of your own. If you have not
@@ -337,7 +339,7 @@ sample of anyone, and I grade the honesty of the limitation, not the finding.
 
 ### Part 5. Collaboration record (about 30 minutes, written by you)
 
-Fill in every field of `RECORD.md`. Claude cannot write to it; the hook blocks it. Then:
+Fill in every field of `RECORD.md`. Claude does not write here; `CLAUDE.md` keeps it out. Then:
 
 1. In your working folder: if the transcript hook was ever declined, run
    `uv run python dump_transcript.py`. Run `uv run python sync_upstream.py` so you have the

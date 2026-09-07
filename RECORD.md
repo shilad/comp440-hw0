@@ -1,8 +1,9 @@
 # Claude collaboration record: HW0
 
-Written by you, in your own words, at the end. Claude cannot write here (the guard hook
-blocks it). The transcript of your sessions in this repo is `TRANSCRIPT.md`, generated
-automatically; the cold sessions are in `cold/`. Fill every line.
+Written by you, in your own words, at the end. This file is yours alone: `CLAUDE.md` tells
+Claude never to write in it, and nothing stops it if you ask — so if a line here is not
+yours, that is on both of you. The transcript of your sessions in this repo is
+`TRANSCRIPT.md`, generated automatically; the cold sessions are in `cold/`. Fill every line.
 
 ## 1. Tool and access
 

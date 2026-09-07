@@ -16,8 +16,9 @@ commit, yourself, with a message that starts with the words "Part 1 finished":
     git commit -m "Part 1 finished"
 
 That commit is the marker. Until it exists, Claude in this repo will not touch analysis
-code or this file (see CLAUDE.md and .claude/hooks/guard.py); after it, Claude may read this
-file and explain it, but never edits it. Part 1 is graded as it was at that commit.
+code or this file, and after it Claude may read this file and explain it but never edits it
+(the rules are in CLAUDE.md, and nothing enforces them but Claude following them). Part 1 is
+graded as it was at that commit.
 """
 
 from load_data import load_movies, load_ratings, load_users
