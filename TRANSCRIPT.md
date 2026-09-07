@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*59 user turns. Tool outputs and reasoning omitted.*
+*60 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -4017,5 +4017,25 @@ That suggests mixing on depth rather than on timing:
 - **Let the inventory grow on the fly**, through the fidelity check flagging concepts that came up and weren't placed. That's the part that genuinely can't be known in advance, and it's the cheap part.
 
 One cost note on the change already underway: putting the tutor on Opus 5 as well as the student roughly doubles a sweep, since Opus is two and a half times Sonnet and the tutor is the larger half of each run. Medium effort will claw some of that back. Expect round four somewhere around $50–70 rather than the $36 the last one cost — still small enough that it shouldn't drive the design.
+
+**User:**
+Let's start with the 7 and do the apriori first. use a delegate and write them in parallel.
+
+**Claude:**
+The Makefile pins are in — both tutor and student now on Opus 5 at medium effort, with a new single-run target.
+
+One sequencing point before the parallel writing: if seven agents each invent their own list of what the assignment demands, you lose the shared axes that make the placements comparable — which was the reason for doing this a-priori at all. So one short step first to build the inventory and the placement grid centrally, then all seven sheets get written in parallel against it.
+- 🔧 `Agent` — Build knowledge inventory and placement grid
+- 🔧 `SendMessage` — {"to": "inventory", "summary": "Build the inventory to grow, not to freeze", "message": "Addition...
+Sent — the inventory is being built as a living list rather than a frozen one. Concretely that means four things:
+
+- **Every item records where it came from**, either a line of the assignment or the specific run and turn where the concept surfaced in practice. So a later round can see why each requirement is on the list.
+- **A written procedure for adding to it**: what triggers a new item, and what happens to the seven characters until each gets a placement for it.
+- **A default rule that makes incompleteness safe** — anything not on the grid, the character does not know. They ask what it means or admit they can't define it; they don't reason their way to it. That line goes verbatim into all seven cards, and it's what closes the hole where the model currently defaults to competence for anything unlisted.
+- **Stable numbering and a version stamp**, so rows can be appended without re-reviewing the grid, and so a round can record which version it ran against.
+
+The growth mechanism itself is the fidelity check I proposed earlier: after each run, flag every concept the session demanded that no row covers. Those become the next version's rows. That's the loop that keeps the list honest without anyone having to anticipate everything up front.
+
+The seven character sheets get written in parallel as soon as the grid exists.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
