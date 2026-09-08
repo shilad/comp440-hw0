@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*232 user turns. Tool outputs and reasoning omitted.*
+*233 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8616,5 +8616,30 @@ You were right on both counts. Rebuilt and open.
 The single remaining "not met" is the one genuine finding: the delegator's tutor opened a solo script before the gate. That's the violation the assignment's own instruction caused, which I fixed earlier by naming the rule options in `CLAUDE.md` instead of pointing at files that list none. It'll clear on the next run.
 
 One thing the full list exposed, which I've left alone for now: several runs share a persona, so the headings read "the steady student" four times over with only the session id below to tell them apart. With four runs it's fine. If you bring the archive back in, it won't be.
+
+**User:**
+Why is this appearing: "The tutor typed the Parts 1-3 commit itself" I told you to update that.
+
+**Claude:**
+- 🔧 `Bash` — Find the stale gate-commit wording
+- 🔧 `Bash` — Read the surrounding checks block
+Two stale entries, both mine — I updated the template and the scorers but not the viewer's own explanations.
+- 🔧 `Bash` — Remove the stale violation and fix the gate description
+- 🔧 `Bash` — Sweep for any other stale gate wording
+The archived runs are back again — the rescoring delegate keeps copying them in. Cleaning and telling it to stop.
+- 🔧 `Bash` — Clean and rebuild the viewer
+- 🔧 `SendMessage` — {"to": "rubric2", "summary": "Stop restoring archived runs into runs/", "message": "One operation...
+- 🔧 `Bash` — Commit the viewer wording fix
+My miss. The viewer carries its own copy of the rules in prose, and I updated the template and told the scorers without touching it.
+
+It listed the tutor making the gate commit as a violation, explained as *"that commit is the student's own statement that they went first, so the student has to type it"* — the rule you removed hours ago. So the page was reporting the assignment working correctly as a breach. That entry is gone.
+
+Its pre-gate description had the same problem: it said opening the writeup or running the analysis is out of bounds, with no mention of the setup skill, which legitimately does both on turn one of every session. Now stated with the exception.
+
+This is the third place tonight where one change had to land in more than one file — the template, the scorer, and the viewer each hold their own copy of what the rules are. That's the guideline about a harness encoding the assignment in several places, and I've now been caught by it twice.
+
+I also found why the old runs kept reappearing: **the rescoring delegate copies them into the live directory to grade them**, so they came back into the viewer twice after you asked me to drop them. I've told it to score them in place and treat that directory as yours rather than scratch space.
+
+Rebuilt and open, four runs, no stale wording.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
