@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*195 user turns. Tool outputs and reasoning omitted.*
+*196 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7649,5 +7649,24 @@ once more?
 **The steady student reached YOU ARE FINISHED**, with zero blanks left in the writeup. That's the first end-to-end completion of the restructured assignment, and it answers the question the turn bump was meant to test. It finished in 20 turns, well under the old 25-turn cap, so the earlier runs were being cut short by something other than length.
 
 The struggling student used all 35 and didn't get there, which is the expected shape for that character rather than a problem.
+
+**User:**
+is the dolla value for the tutor? or what?
+
+**Claude:**
+- 🔧 `Bash` — Break the cost down by actor
+No — the figure I quoted is the whole simulation, which includes three actors that exist only in the test rig.
+
+| | steady | struggling |
+|---|---|---|
+| tutor (what a student pays) | $2.46 | $3.34 |
+| simulated student | $0.70 | $1.18 |
+| observer (audits the repo each turn) | $0.47 | $0.89 |
+| Part 4's isolated Claude | $0.10 | $0.12 |
+| **total I quoted** | **$3.74** | **$5.53** |
+
+**The number that matters for your students is the tutor line plus Part 4** — about **$2.56** for the steady student and **$3.46** for the struggling one. The simulated student and the observer are pure harness cost; a real student is a person and audits nothing.
+
+Worth noting these tutor figures run on Opus at medium effort, which is what the harness pins. A student on Sonnet would pay considerably less for the same work. And a Claude Pro plan absorbs roughly $20 of API cost per five-hour window, so a $3.50 assignment sits comfortably inside one window even for the student who struggles most.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
