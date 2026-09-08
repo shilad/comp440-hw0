@@ -95,8 +95,6 @@ When all three run and your Part 1–3 answers are written, ask Claude to check 
 will run your scripts, tell you what is missing, and help you fix what does not work. Then it
 asks whether you are ready to hand Parts 1–3 in, and commits them when you say yes.
 
-Parts 1–3 are graded as they stood at that commit, so say yes when you mean it.
-
 ### Part 4. Claude's turn
 
 Ask Claude to answer the same three questions. It starts a separate session in an empty
@@ -115,7 +113,7 @@ rule is better, and for what. You are allowed to conclude that Claude's is.
 **Part 6** — the most ___ movie. Same questions for your adjective. If Claude's film is not in
 your top 5, it used a definition you had not thought of: name it.
 
-Claude can compute anything you ask it to here. The judgments are yours.
+Claude can analyze, explain, and compute anything you ask it to here. The judgments are yours.
 
 Finally, answer the last few questions in `WRITEUP.md`. Ask Claude to check the submission
 over; it will walk through what is missing. Then commit, push, and fill in the form:
@@ -128,19 +126,20 @@ done. Due **Thu Sep 17, 8:00am Central**.
 One question to carry into HW1: what in your scripts breaks when the data is a hundred times
 bigger?
 
-## Claude rules
+## AI guidelines
 
-**Yours alone:** the analysis in Parts 1–3, and every judgment in `WRITEUP.md` — the rule, the
-adjective, the definitions, and what you conclude in Parts 5 and 6. Claude does not draft,
-edit, or give feedback on any of it.
+**No AI**: the analysis for Parts 1–3, though you can ask Claude for debugging help. The
+words in `WRITEUP.md` are yours throughout — Claude never drafts, edits, or rewords them.
+Every number in it comes from a script you can name.
 
-**Claude's alone:** `claude_answers_1_2_3.py` and `questions.md`. Neither is edited by anyone.
+**Never edited by anyone**: `claude_answers_1_2_3.py` and `questions.md`.
 
-**Also:** no AI at all in the analysis for Parts 1–3, autocomplete included. Every number in
-your writeup comes from a script you can name. Do not share code or answers with classmates —
-talking through approaches is fine, and name anyone who helped. Keep your repo private.
+**AI encouraged**: For installation (part 0), part 5, and part 6, including any comparative analyses.
 
 ## Rubric
+
+For this assignment I'll grade your process (via your transcript with Claude), your code,
+and your answers.
 
 | Part | Weight | Full credit |
 |---|---|---|
