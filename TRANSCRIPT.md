@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*193 user turns. Tool outputs and reasoning omitted.*
+*194 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7619,5 +7619,17 @@ Rule fixed and pushed, sweep launched.
 The 35-turn bump is itself one of the things being tested. All three earlier runs hit the 25-turn cap before the student could confirm the form, so nobody reached YOU ARE FINISHED. If 35 still isn't enough, that's a finding about the assignment's length rather than the harness.
 
 I've also asked it to count how often the independent Claude picks the same rule as the student. That happened once in three runs, and when it does, Part 5 has nothing left to compare.
+
+**User:**
+how far along?
+
+**Claude:**
+- 🔧 `Bash` — Check sweep progress on disk
+- 🔧 `Bash` — Check turn progress inside each running cell
+**Just started — about a minute in.** Three of seven cells are building their sandboxes, with 18 Claude processes live. No turns recorded yet.
+
+The three running are the steady, struggling and busy students, at three at a time. The remaining four queue behind them.
+
+Based on this afternoon's runs, expect roughly 20 to 30 minutes per cell and something like an hour and a half total for all seven. I'll report when the delegate has the results, or sooner if something stalls.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
