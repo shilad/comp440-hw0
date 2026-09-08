@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*192 user turns. Tool outputs and reasoning omitted.*
+*193 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7599,5 +7599,25 @@ I gave it a concrete example rather than only the principle, because "avoid jarg
 **The fresh-clone check is gone** from the pre-submission walk-through. Running `run_all.py` in their own repo is the check now. Cloning again mostly tested that git works, which was never the thing at risk, and it added a confusing extra step at the exact point where a student is most primed to think something is broken.
 
 One consequence worth naming: the fresh clone would have caught a student who never committed a file their scripts import. The remaining checks still catch that, since a clean working tree and no uncommitted changes are both on the list.
+
+**User:**
+But not overly long or detailed. These are third year CS / DS majors, but they still benefit from clear, succinct, simple prose. They can always ask follow ups if they need to. Update it. Then bump up simulation limits to 35 and run all 7
+
+**Claude:**
+Fair — I overcorrected. Third-year majors don't need "distribution" explained. Rewriting the rule, then launching the sweep.
+- 🔧 `Bash` — Rewrite the rule and find the turn limit
+- 🔧 `Bash` — Read the persona sweep config
+- 🔧 `Bash` — Check each persona's default station
+- 🔧 `Bash` — Set the sweep to 7 personas at 35 turns and commit the rule
+- 🔧 `Agent` — Seven-persona sweep at 35 turns
+Rule fixed and pushed, sweep launched.
+
+**The writing rule now reads:** short plain sentences, one idea each; ordinary technical vocabulary stands unglossed because they're third-year majors; only something the assignment never taught, like shrinkage, gets a clause; cut rather than qualify; no background they didn't ask for, since they can ask. My earlier version told Claude to explain "distribution," which pads every reply and talks down to the reader.
+
+**Sweep running:** seven personas, 35 turns each, spread across stations S1 through S3 by each character's own default. Roughly $45. The three earlier runs stay on disk as the baseline.
+
+The 35-turn bump is itself one of the things being tested. All three earlier runs hit the 25-turn cap before the student could confirm the form, so nobody reached YOU ARE FINISHED. If 35 still isn't enough, that's a finding about the assignment's length rather than the harness.
+
+I've also asked it to count how often the independent Claude picks the same rule as the student. That happened once in three runs, and when it does, Part 5 has nothing left to compare.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
