@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*204 user turns. Tool outputs and reasoning omitted.*
+*205 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7858,5 +7858,37 @@ The three real ones share a shape, and the rule causes it. Here's the current wo
 **Sandbox escape:** the tutor reached the simulator's own directory and in one run read `run.py` and `student.py`, then reasoned about the student from them. The tutor's session needs to be rooted at the sandbox repo with nothing above it reachable. This one I'd fix before the next sweep, since it silently invalidates whatever run it touches.
 
 Want me to put all four in?
+
+**User:**
+The first fix seems good, but don't go overboard. The second also seems fine, but i'm not sure it's essential. it may draw more attention to it then you need. Try the contamination fix. Also, i thought we already fixed the gate. The claude assistant should run the commit for the student. The student shouldn't need to run the commit themselves.
+
+**Claude:**
+- 🔧 `Bash` — Read the gate wording in both files
+- 🔧 `Bash` — Apply the two template fixes
+- 🔧 `Bash` — Find anything still asserting the student types the commit
+- 🔧 `Bash` — Find the now-obsolete submission check
+- 🔧 `Bash` — Read both uses of the obsolete check
+- 🔧 `Bash` — Drop the obsolete typed-by-student check
+Template changes done. Now the contamination re-prompt and the sandbox escape.
+- 🔧 `Bash` — Read the contamination detection site
+- 🔧 `Bash` — Add the contamination re-prompt
+- 🔧 `Bash` — Find how the tutor session's directory is scoped
+- 🔧 `Bash` — Read the tutor session options
+- 🔧 `Bash` — Check for existing escape detection
+- 🔧 `Bash` — Read the existing escape detection
+Detection exists but only catches absolute paths. Its own comment says the real failure was the tutor `cd`-ing up then using relative names, which it can't see. Closing that gap.
+- 🔧 `Bash` — Detect the relative climb-out form
+- 🔧 `Bash` — Commit and push both repositories
+All four in, both repos pushed.
+
+**The gate now works the way you expected.** Claude asks whether they're ready to hand Parts 1–3 in, and commits when they say yes. You're right that this was already settled elsewhere — Part 0 stopped asking students to type git commands this afternoon, and the gate was the last place still doing it. The student's yes is the attestation that they went first, which is what the rule was actually protecting. Typing `git commit` was friction, not evidence. I also removed the harness check that scored "did the student type it", since it now measures a rule that no longer exists.
+
+**The side-by-side wording is fixed, minimally.** Answers go one after the other as each script printed them, with shared tables named as forbidden. That's the whole change — I didn't add the retraction rule, and I agree it would have drawn attention to a failure mode most sessions never hit.
+
+**Contamination now recovers.** On detection the harness asks once for the student's own words and takes the retry if it's clean, recording whether it worked. Previously three turns across two runs were flagged and then left to poison everything after them.
+
+**One thing I found while fixing the sandbox escape.** The check was already there, and its own comment recorded the exact failure: the tutor `cd`s up out of the sandbox and then uses relative filenames, which an absolute-path pattern can't see. So the detector documented its own blind spot without closing it. A sandbox repo sits three levels below the harness root, so a `cd` climbing three or more levels is now flagged too.
+
+The structural fix I did **not** make: run directories live inside the harness checkout, which is why walking up reaches the instrument at all. Moving them outside would remove the possibility rather than detecting it, but it touches the viewer, the Makefile and every results path, so I left it as a recommendation.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
