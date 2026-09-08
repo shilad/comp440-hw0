@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*210 user turns. Tool outputs and reasoning omitted.*
+*211 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8006,5 +8006,22 @@ The reason it had never been tested was two-fold. No persona defaults to S0, so 
 S0 now builds exactly like a fresh fork and clone: `origin` only, no upstream, no "Name and date" commit, nothing done. I verified that directly before launching.
 
 The run is twelve turns, which is plenty for setup plus the start of Part 1, and costs a couple of dollars. I'll report what the tutor actually did when it lands.
+
+**User:**
+doesn't it also need to check for wsl2 if they are on windows and install uv?
+
+**Claude:**
+Yes — good catch. If `uv` is missing, `uv sync` fails with a confusing error, and a Windows student outside WSL2 will hit failures the skill can't diagnose. Let me match what the install page says.
+- 🔧 `Bash` — Read the install page's uv and WSL steps
+- 🔧 `Bash` — Add environment checks to the setup skill
+Added, and both checks come first, before anything gets installed or committed.
+
+**`uv` missing** now produces the documented install command rather than a confusing `uv sync` failure. That's the single most likely Part 0 failure, since `uv` is the one tool a student can't have from anything else they've done.
+
+**Wrong shell on Windows** is caught from `uname`. Linux with `microsoft` or `WSL` in the release string means they're in the Ubuntu terminal, which is right. Windows, MINGW, MSYS or CYGWIN means PowerShell or Git Bash, and the skill stops and tells them to open the Ubuntu terminal and clone again under their Ubuntu home rather than `/mnt/c`. Your install page already rules those shells out, but nothing checked, and the failures they cause show up much later and look like the assignment being broken.
+
+I didn't add checks for `git`, `gh` or `claude` itself. Git and Claude are self-evidently working if the student got this far, and `gh` isn't needed after cloning.
+
+One consequence for the test now running: it's a Mac, so it'll take the pass path on both checks. Whether the WSL2 branch works can only be confirmed on a Windows machine, which is worth one dry run before the tenth.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
