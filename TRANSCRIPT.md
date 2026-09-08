@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*202 user turns. Tool outputs and reasoning omitted.*
+*204 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7829,5 +7829,34 @@ The same holds for the writeup: the slot filler puts text exactly where it belon
 - It's an unusual instruction to follow, and following it takes attention the student model could spend on being in character.
 
 A reasonable alternative would be tools for the mechanical verbs — commit, push, run — with `part1`/`part2`/`part3` staying as seeds. That would cut the parse failures without letting the model write the student's analysis. Worth doing if the seam keeps causing trouble.
+
+**User:**
+Okay. Do you have suggestions to fix the problems above, then? i'm more worried about the tutor issue than the claude issue.
+Okay. Do you have suggestions to fix the problems above, then? i'm more worried about the tutor issue than the simulation issue, but both are important.
+
+**Claude:**
+Before proposing a fix I should check my own count — the one example I sampled was the tutor quoting the student's own writeup back to them, which is not the same thing.
+- 🔧 `Bash` — Read every agreement-word instance in context
+My count of seven was wrong, and reading the instances tells you exactly how to fix it.
+
+**The real number is three of seven, and one of those the tutor caught itself.** Most of my grep hits were the tutor doing its job: quoting the student's own writeup back during the submission check, confirming a commit matched what was typed, or explicitly refusing — *"I'm still not going to say anything about whether your numbers and its numbers agree."*
+
+The three real ones share a shape, and the rule causes it. Here's the current wording:
+
+> Never say whether the two analysts agree. Show both outputs in full, **side by side**, and stop: no "match", "same list", "identical", "the only difference is", "confirms".
+
+"Side by side" invites a table. In the steady run the tutor built one with columns headed "Yours" and "Claude's", a row per statistic. **That table is the observation.** The banned word list doesn't help, because a two-column table makes the comparison without using any of the words. The rule asks for the thing that produces the breach.
+
+**Fix one, the important one.** Change "side by side" to *one after the other, verbatim, as each script printed it.* Then add the specific prohibition: never in a shared table, never aligned row by row, never with a column per analyst. That removes the affordance rather than policing the vocabulary.
+
+**Fix two.** In the struggling run the tutor built the table, then next turn opened with *"my last message overstepped, and I'm walking it back... that's me making the observation you're graded on making."* It later offered the episode to the student for the "something Claude said you could not verify" slot. That's the best tutor behaviour in the whole sweep, and it's unprompted. Encode it: if you realise you've made the comparison, retract it in your next turn and hand it to the student as material for that slot.
+
+**On the simulation side**, two fixes, both small.
+
+**Contamination:** the student receives the literal prompt "The assistant replied: … Your next message?" and sometimes continues the pattern by writing the tutor's next turn too. Rather than only flagging it, re-prompt once when detected: *reply as yourself only, do not write the assistant's side.* That salvages the run instead of poisoning everything after it.
+
+**Sandbox escape:** the tutor reached the simulator's own directory and in one run read `run.py` and `student.py`, then reasoned about the student from them. The tutor's session needs to be rooted at the sandbox repo with nothing above it reachable. This one I'd fix before the next sweep, since it silently invalidates whatever run it touches.
+
+Want me to put all four in?
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
