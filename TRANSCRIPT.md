@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*215 user turns. Tool outputs and reasoning omitted.*
+*216 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8093,5 +8093,28 @@ So they're not *broken*. But **none of them has ever been run**, against this st
 The setup run also finished: twelve turns, ninety-eight cents of tutor cost, and the skill did everything it should.
 
 If you want one more thing before Tuesday, it's a sweep of those ten. It's the only untested surface left that a real student could stumble into.
+
+**User:**
+I don't really care about the adversarial ones. Run four personas ALL the way through. So set max turns very high. How about curious, delegator, steady, worried.
+
+**Claude:**
+- 🔧 `Bash` — Write a full-run sweep from S0
+Four personas, all starting at S0 with nothing done, 90 turns each. That's the whole assignment from setup to the form.
+- 🔧 `Agent` — Four students end to end
+Launched. Four students — curious, delegator, steady, worried — each starting from a bare fork with 90 turns, three running at a time.
+
+This is the first time anything has started at **S0**: no dependencies, no upstream remote, no name in the writeup. The student has to type `/setup` and the tutor does the rest. So these runs exercise the entire assignment end to end for the first time, from setup through the gate, Part 4, Parts 5 and 6, to the form.
+
+Four things I asked it to settle, beyond whether it works.
+
+**Whether anyone reaches YOU ARE FINISHED.** No run ever has. The student can now push and answer the form question, so if they still don't get there, something structural is wrong.
+
+**How long the assignment actually takes.** Turns and wall-clock to the gate, through Part 4, to the end. You've never had an honest number for what you're asking of a student.
+
+**Whether today's four fixes hold** — the tutor making the gate commit, the no-shared-table rule, the rejected rule and definition, and the three reworded slots.
+
+**Whether the rejected-rule slot rescues a collision** when Part 4's Claude lands on the student's own rule, which happened three times in ten runs.
+
+Expect fifty to sixty dollars and a couple of hours. I'll report when it's in.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
