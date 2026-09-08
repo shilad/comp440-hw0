@@ -3,37 +3,7 @@
 **Fall 2026 · Individual · 6% of the course grade**
 **Due Thu Sep 17, 8:00am Central**
 
-Aim to finish Parts 1–3 by Mon Sep 14. HW1 goes out Tue  Sep 15 and builds on this, so finish HW0 first.
-
-> **Instructor notes (delete before publishing).** Decisions taken as defaults so the brief
-> reads whole; each is one edit to change. Part 1(d) threshold and the shrinkage constant are
-> both 20. The 45-minute timebox is guidance with attestation (timer lines in WRITEUP.md, the
-> two commit timestamps, the hours field), not a hard rule. Any adjective is allowed in 3b. The
-> outage extension is written as 48 hours and does not spend the late pass. Demographic columns
-> are allowed in Part 4 with the limitation requirement. Weight (6%), due time (8:00am), the
-> three-day late pass, and opt-out by talking with you follow the Sep 5 syllabus; the design doc
-> and the earlier confirmation said 2%, 10:00am, and 48 hours, so switch back with one edit if
-> HW0 is the exception. Grading is the rubric as written;
-> `run_all.py` is the entry point, not a gate; Claude reviews the submission with the
-> student. The cold sessions run without tools (Claude writes code
-> it cannot run, you run it), which four trial captures on Sep 5 showed produces runnable
-> scripts plus a recalled and false claim that titles are unique. Still marked `[DECIDE: ...]`
-> below: the Claude account and the install page, the submission target, GroupLens's permission
-> for the checked-in zip, the laptop fallback, the model pin for cold sessions, and whether HW1
-> adopts a collaboration record (its repo currently ships DECISIONS.md and REFLECTION.md and
-> uses ML-10M). HW0's record is now the last section of `WRITEUP.md`; `RECORD.md` is gone.
-> Windows: WSL2 (Ubuntu) is required, per your Sep 5 decision, so Windows students run the
-> exact Linux path tested here; native Windows, PowerShell, and Git Bash are unsupported. The
-> install page must cover the WSL2 steps (Store install, reboot, virtualization enabled in
-> firmware, Ubuntu username and password, VS Code WSL extension, repo under the Ubuntu home).
-> Worth one dry run on a Windows laptop before Sep 10 anyway, mainly for the Claude Code login
-> inside WSL2 on the course account type. The session-start hook fetches this template from
-> GitHub each time `claude` starts (silent when offline), and Claude merges fixes you
-> push to the template's `main`; that only works if every student can read the template, so either
-> keep it public, add the class as read-only collaborators, or use GitHub Classroom
-> **[DECIDE]**. Push template fixes as ordinary commits; never rewrite the template's history
-> after students have copied it. `TRANSCRIPT.md` is committed automatically after every session
-> ("Auto-commit TRANSCRIPT.md"), so expect those commits in students' histories.
+Aim to finish Parts 1–3 by Mon Sep 14. HW1 goes out Tue Sep 15 and builds on this, so finish HW0 first.
 
 ## Goals
 
@@ -46,7 +16,6 @@ Aim to finish Parts 1–3 by Mon Sep 14. HW1 goes out Tue  Sep 15 and builds on 
 
 You and Claude will independently look at the same 100,000 ratings and answer identical questions without help from each other. 
 Afterward, you will work together to compare your findings. 
-
 
 In this assignment you will analyze the [MovieLens 100K](https://grouplens.org/datasets/movielens/100k/) dataset, which contains 100,000 ratings of 1–5 stars that 943
 anonymous people gave 1,682 movies in 1997–98.  
