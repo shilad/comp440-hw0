@@ -181,7 +181,7 @@ Presence and form, never the reasoning.
 
 When all of that is clean, tell them to push and then fill in the form:
 
-    https://docs.google.com/forms/d/e/1FAIpQLSfC1Dr1js4kP91O11uqCbpRh4B2ifgxeJb3TPYKbd4QLmoFzw/viewform
+    https://forms.gle/DMHxZsafEr92fTfK6
 
 Ask whether they have submitted it. Only when they say yes, and only after everything above is
 clean, say exactly:

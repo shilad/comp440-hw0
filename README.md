@@ -90,7 +90,7 @@ Claude can analyze, explain, and compute anything you ask it to here. The judgme
 Finally, answer the last few questions in `WRITEUP.md`. Ask Claude to check the submission
 over; it will walk through what is missing. Then commit, push, and fill in the form:
 
-https://docs.google.com/forms/d/e/1FAIpQLSfC1Dr1js4kP91O11uqCbpRh4B2ifgxeJb3TPYKbd4QLmoFzw/viewform
+https://forms.gle/DMHxZsafEr92fTfK6
 
 Tell Claude when you have. It will say **YOU ARE FINISHED!** — that is how you know you are
 done. Due **Thu Sep 17, 8:00am Central**.
