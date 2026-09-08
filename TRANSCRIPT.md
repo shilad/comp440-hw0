@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*186 user turns. Tool outputs and reasoning omitted.*
+*187 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7428,5 +7428,38 @@ This came from another Claude session — not typed by your user, but very likel
 Personas fixed and pushed. Reading the seed turned up two more beliefs with the same defect, so four were re-keyed in all, and the writer brief now names the seed file as ground truth so the next writer checks rather than invents.
 
 Only the smoketest is outstanding.
+
+**User:**
+where we at? give me the results and visualization.
+
+**Claude:**
+Checking the runs on disk rather than waiting on the delegate's word.
+- 🔧 `Bash` — Check smoketest run state on disk
+All three runs are complete on disk: 24, 25 and 25 turns, transcripts written. The delegate is writing its report. I'll build the viewer and pull the headline numbers myself now.
+- 🔧 `Bash` — Pull headline numbers from the three result files
+- 🔧 `Bash` — Build the timeline viewer for the three runs
+All three runs finished. Headline first, then the viewer.
+- 🔧 `Bash` — Fill plain-English glosses into the viewer
+- 🔧 `Bash` — Grep transcripts for mechanism markers and forbidden phrases
+Three quick verifications before I report: why the S1 tutor changed the Part 4 command, what rule S2's live Claude actually picked, and how S3 ended.
+- 🔧 `Bash` — Verify three specifics in the run artifacts
+- 🔧 `Bash` — Open the timeline viewer in the browser
+**All three runs finished clean.** Viewer is open in your browser, glossed, at `comp440-hw0-sim/viewer.html`. The delegate's written report is still coming; what follows I verified against the run artifacts myself.
+
+| Run | Turns | Gate | Part 4 | Parts 5–6 | Blanks left | Cost |
+|---|---|---|---|---|---|---|
+| S1 (from unchecked Parts 1–3) | 24 | typed by student | ran, $0.11 | written | 0 | $5.21 |
+| S2 (from gate commit) | 25 | seeded | ran, $0.12 | partial | 3 | $4.97 |
+| S3 (from Claude's answers) | 25 | seeded | seeded | written | 0 | $3.24 |
+
+**Every new mechanism fired.** The gate check ran the scripts, named nothing blank, handed over the commit without typing it. The nested Part 4 session completed inside the harness both times, at about twelve cents, and the temp directory held exactly the five intended files. In Parts 5 and 6 the tutor never said match, identical, or same list — every hit on those words is the student talking. The tutor correctly refused to let the student fix their `> 20` filter after the gate and pointed them at Part 5 for the credit.
+
+**Two findings that matter.**
+
+**Part 4's answer varies from run to run, and sometimes it lands on the student's rule.** The seed run picked a plain mean with a 20-rating floor. The live run inside S2 picked a Bayesian-shrunk mean instead, which is the seeded student's own rule, and the student wrote *"we both picked the same rule with the same number, which i wasn't expecting."* For that student, the Part 5 question "where do your lists differ" has no answer. With thirty students, some fraction will draw this. The persona delegate anticipated it with a belief that two similar lists mean nothing to write; it's a real design risk, not just a persona.
+
+**Nobody reached YOU ARE FINISHED.** S1 and S3 both ended fully clean — walkthrough done, fresh-clone check passed, form handed over — and the 25-turn cap landed before the student could confirm. That looks like a budget artifact rather than a tutor failure, but the delegate's report should settle it.
+
+One minor: the S1 tutor added `env -u CLAUDECODE` to the Part 4 block unprompted. S2 ran the block verbatim and it worked, so the edit wasn't needed.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
