@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*237 user turns. Tool outputs and reasoning omitted.*
+*238 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8755,5 +8755,17 @@ Rescored and rebuilt. Viewer's open with the current grades.
 **Its verdict on fault, which matches mine:** only one thing was worth changing in the assignment, and you've changed it. The single remaining "not met" is the delegator's tutor opening a student script before the gate — drift from a rule the template states plainly, and the tutor caught itself doing it. That calls for more runs, not new wording.
 
 Two things it flagged for later rather than guessing at: the failure count assumes sessions of ten to forty turns while the sweep budget is ninety, and the cadence rule exempts result-reporting turns in prose but not in code. Neither changes a grade today, and it wrote both assumptions down beside the anchors rather than fixing them blind.
+
+**User:**
+the first example of length includes analysis, which is NOT allowed. give an example that does nto include analysis.
+
+**Claude:**
+You're right — my "good" example explains *why* the two lists differ, which is exactly what Parts 5 and 6 forbid. It taught plain language by demonstrating a banned behaviour. Replacing it with a debugging example, which is sanctioned throughout.
+- 🔧 `Bash` — Replace the example with a debugging one
+Fixed. The example now explains a `KeyError` from a `groupby` moving the join key into the index — debugging help, which the tutor may give at any point in the assignment.
+
+The old one explained why the student's list and Claude's list differ, which is the single sentence Parts 5 and 6 say the tutor must never write. So an example meant to teach clear prose was demonstrating a banned behaviour, four sections below the rule banning it. Worse than useless: a tutor reading for style would have taken the licence with it.
+
+The other two examples don't have this problem. The gate one checks a script and names a blank slot, and the comparison one shows both outputs and stops, which is the rule being obeyed rather than broken.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
