@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*224 user turns. Tool outputs and reasoning omitted.*
+*225 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8363,5 +8363,28 @@ The delegate found this because it dry-ran its analysis pipeline against a *prev
 I've added the pattern to the guidelines, because it's now three instances in one evening: an import that never ran the failing line, a commit message whose backticks the shell executed and swallowed, and a counter that matched the instruction telling students what to count. All three are checks that ran *beside* the thing rather than through it.
 
 The sweep is healthy, three cells live and building toward turn 10 or so of 90.
+
+**User:**
+where's the viewer? did you run it?
+
+**Claude:**
+- 🔧 `Bash` — Check progress and rebuild the viewer
+- 🔧 `Bash` — Gloss the new actions and open the viewer
+Open now, rebuilt with all fifteen runs and fully glossed. I hadn't rebuilt it since the sweep restarted — the last build was before these four existed.
+
+All four cells are live and further along than I reported a moment ago:
+
+| Run | Turn |
+|---|---|
+| delegator | 34 of 90 |
+| worried | 33 of 90 |
+| curious | 30 of 90 |
+| steady | 28 of 90 |
+
+The fourth cell picked up its free slot, so all four are running rather than three plus a queue.
+
+These are the first runs to carry everything from tonight: the tutor making the gate commit, students holding three different best-movie rules and six possible adjectives, the replacing writeup filler, and the reworded slots. The four `full-*` panels are the ones to look at; the eleven others are the earlier structure and are there for comparison.
+
+You can watch them fill in — rerunning `make viewer` at any point picks up wherever the runs have got to.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
