@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*233 user turns. Tool outputs and reasoning omitted.*
+*234 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8641,5 +8641,32 @@ This is the third place tonight where one change had to land in more than one fi
 I also found why the old runs kept reappearing: **the rescoring delegate copies them into the live directory to grade them**, so they came back into the viewer twice after you asked me to drop them. I've told it to score them in place and treat that directory as yours rather than scratch space.
 
 Rebuilt and open, four runs, no stale wording.
+
+**User:**
+I want to make an example behavior section in the form: it should show 1) bad example of obtuse, long jargony language (a few sentences) good example of clear and simplified text 2) student says they are done with part 3 - tell Claude to verify and not take the student at their word include an example for both code and writeup 4) short example asking for a comparison where you just show the values but not analysis or interpretation. The whole thing should be SHORT.
+
+**Claude:**
+- 🔧 `Bash` — Find the section order
+- 🔧 `Bash` — Add the examples section
+- 🔧 `Bash` — Review the new section and section sizes
+- 🔧 `Bash` — Read the longest section for redundancy
+- 🔧 `Bash` — Tidy the ragged wrapping and check line lengths
+- 🔧 `Bash` — Fix the long line and commit
+- 🔧 `Bash` — Check the rewrap did not break the form URL
+My rewrap split the form URL, which would break it. Restoring.
+- 🔧 `Bash` — Restore the unbroken URL
+Added, and the whole section is 176 words. Three pairs, each a not-this and a this:
+
+**Say it plainly** — a sentence about a grouping difference written in jargon ("divergent cardinalities in the presence of duplicate title strings"), then written as "you grouped by `movie_id`, it grouped by `title`."
+
+**Check it yourself** — a student says Part 3 is done. The bad answer is "Great, on to Part 4." The good one runs the script *and* opens the writeup, naming the one slot still blank.
+
+**Show, don't compare** — asked how the two top tens line up, the tutor gives both outputs as each script printed them and stops, rather than saying which two films swapped.
+
+I picked those three because they're what the simulated runs actually got wrong: the padded replies, the tutor accepting a claim it hadn't verified, and the comparison tables in four of seven runs.
+
+**On length: `CLAUDE.md` is 1,973 words across 216 lines**, down from 295 lines this morning even after adding a section. Sections run 150 to 300 words each, so nothing dominates. I'd leave it here — it's an operating manual for a specific job, and the examples earn their place by showing what three of the rules mean rather than restating them.
+
+One near-miss worth flagging: my line-length tidy split the Google form URL across two lines, which would have handed students a broken link at the final step. Caught and restored. The one long line in that file is a URL and stays long.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
