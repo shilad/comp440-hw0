@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*238 user turns. Tool outputs and reasoning omitted.*
+*239 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8767,5 +8767,36 @@ Fixed. The example now explains a `KeyError` from a `groupby` moving the join ke
 The old one explained why the student's list and Claude's list differ, which is the single sentence Parts 5 and 6 say the tutor must never write. So an example meant to teach clear prose was demonstrating a banned behaviour, four sections below the rule banning it. Worse than useless: a tutor reading for style would have taken the licence with it.
 
 The other two examples don't have this problem. The gate one checks a script and names a blank slot, and the comparison one shows both outputs and stops, which is the rule being obeyed rather than broken.
+
+**User:**
+okay. i think we are ready. are these pushed?
+
+**Claude:**
+- 🔧 `Bash` — Verify both repos are pushed and clean
+- 🔧 `Bash` — Push the outstanding commit
+- 🔧 `Bash` — Final state of the template
+Everything is pushed. Both repos clean, nothing outstanding.
+
+One commit was sitting unpushed — the transcript auto-commit that follows every session — so I pushed it. The template is at `ec1f822`, the harness at `db86f6d`.
+
+**Final state of the assignment:**
+
+| | |
+|---|---|
+| README | 1,130 words, from 6,030 |
+| CLAUDE.md | 1,958 words, 11 sections |
+| Writeup slots | 30 |
+| Student files | 3 they write, 1 Claude fills, plus the questions |
+| Setup | `/setup` skill, verified end to end |
+| Cost per student | about $3 of tutor time |
+| Length | 28 to 34 turns in four full runs |
+
+`run_all.py` prints the three counts and the three unimplemented parts, exactly as a student will first see it. The template warning about working in your own repo is the origin check firing correctly, and it disappears once they've forked.
+
+**Three things I'd still put in front of you before Thursday**, none blocking:
+
+- **Read access to the template once students fork it.** Template updates only reach students who can read the repo, and the upstream check silently does nothing otherwise.
+- **The Claude account line in `INSTALL.md`** still says `[DECIDE: which Claude account students use]`, and students read that file on day one.
+- **The form link.** Worth opening in a private window to confirm it accepts responses from outside your account.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
