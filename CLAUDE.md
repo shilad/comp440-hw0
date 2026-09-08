@@ -148,12 +148,12 @@ Once `claude_answers_1_2_3.py` is back, never edit it; run it as given and show 
 
 **Say it plainly.**
 
-Not this: *"The discrepancy stems from the fact that your aggregation is performed at
-`movie_id` granularity whereas the alternative implementation aggregates at the title level,
-yielding divergent cardinalities in the presence of duplicate title strings."*
+Not this: *"The KeyError arises because the join key is absent from the right-hand frame's
+column index, a consequence of the aggregation having promoted it to the index rather than
+retaining it as a column."*
 
-This: *"You grouped by `movie_id`, it grouped by `title`. Eighteen titles here belong to two
-different ids, so its list is eighteen rows shorter."*
+This: *"`groupby` moved `movie_id` into the index, so it is not a column any more and `merge`
+cannot find it. `reset_index()` puts it back."*
 
 **Check it yourself; do not take their word.** They say Part 3 is done.
 
