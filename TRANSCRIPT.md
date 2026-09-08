@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*217 user turns. Tool outputs and reasoning omitted.*
+*218 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8143,5 +8143,27 @@ The writeup filler still **stacks text instead of replacing it** when a student 
 More seriously, the `[DO: part2]` helper **always writes the same seeded rule regardless of what the student just said they wanted**. In one run the student had to argue it back to their own choice over three turns. That means the simulated student can't really pick a rule, which weakens anything these runs say about Part 2 and Part 5.
 
 Neither is an assignment problem. Both are reasons to read the Parts 2 and 5 findings with more caution than the rest.
+
+**User:**
+What's your total tutor cost estimate?
+
+**Claude:**
+- 🔧 `Bash` — Compute tutor cost per turn across all finished runs
+- 🔧 `Bash` — Check how far the full sweep has got
+**The number you actually need: about $15 to $20 of tutor cost for one student to do the whole assignment on Opus.** On Sonnet it would be roughly a fifth of that.
+
+That comes from eleven finished runs. Tutor cost, meaning what a real student pays, runs between eight and sixteen cents per turn, median twelve. Cost per turn climbs as the conversation grows, so a 90-turn run averages nearer twenty cents than twelve.
+
+| | |
+|---|---|
+| median tutor cost per turn | $0.12 |
+| range across 11 runs | $0.08 – $0.16 |
+| a full assignment, ~90 turns | **$15 – $20** |
+
+**For the sweep now running: $60 to $90**, most likely around $70. That's four runs of up to 90 turns, and it will land lower if students finish early, which several have done in past sweeps.
+
+Two things worth knowing about that student figure. A Claude Pro plan absorbs roughly $20 of API cost per five-hour window, so a student doing the assignment in one sitting on Opus would brush against the limit, while one spreading it over three sessions would not notice. And the harness pins Opus at medium effort because that's what makes the *simulated* student a good actor. A real student on the default model pays much less for the same tutoring.
+
+The sweep itself is still building its four sandboxes and hasn't recorded a turn yet.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
