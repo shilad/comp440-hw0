@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*212 user turns. Tool outputs and reasoning omitted.*
+*213 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8038,5 +8038,15 @@ Done. The whole skill is fifteen lines of body, and the environment check is one
 I went from thirty-two lines of `uname` string-matching to that in three passes, when your one sentence was the answer at the start. The instruction I keep having to relearn today is the one already written into the guidelines file: trust the reader. It applies to briefs for Claude exactly as it does to prose for students, and I under-apply it in both.
 
 The setup test run at S0 is still going, and it'll exercise this version.
+
+**User:**
+do you also need to have git installed?
+
+**Claude:**
+No. They cloned the repo to get here, so git is already proven — checking it would be checking something the working directory demonstrates.
+
+Same reason I left out `gh` and Claude Code itself. Claude is obviously running, and `gh` is only needed for the fork, which is already done by step 3 of Part 0.
+
+`uv` is the exception because nothing before setup requires it. A student can install Claude Code, fork, clone, and start a session with no `uv` anywhere, and the first thing they'd hit is a confusing error.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
