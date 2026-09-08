@@ -52,10 +52,12 @@ Each script says what it must produce. Write your answers in `WRITEUP.md`.
 which movies got the most ratings, and which rate highest among movies with at least 20 ratings.
 
 **Part 2, `human_part2.py`** — the best movie. There is no single answer: it depends on how you
-combine 943 people's judgments. Choose a rule and defend it.
+combine 943 people's judgments. Choose a rule, defend it, and say what you rejected on the
+way.
 
 **Part 3, `human_part3.py`** — the most XYZ movie. Pick an adjective XYZ anything non-trivial you can define.
-Nothing in the data answers this directly, so you decide what the word means, then compute it.
+Nothing in the data answers this directly, so you decide what the word means, then compute it,
+and say what you rejected on the way.
 
 Ask Claude for help installing things and for help when something breaks. Not for the analysis,
 the rule, the adjective, or the definition. Those are what you are being graded on.
@@ -75,8 +77,9 @@ Read what it wrote before you go on.
 
 ### Parts 5–6. Working through the differences
 
-**Part 5** — the best movie. What rule did Claude choose? Did it tell you it was choosing, or
-present its answer as *the* answer? Where do your two lists differ, and why? Then decide whose
+**Part 5** — the best movie. What rule did Claude choose? Read its code: does it anywhere admit
+a different rule was possible, or does it give its answer as simply the answer? Where do your
+two best-movie lists differ, and why? Then decide whose
 rule is better, and for what. You are allowed to conclude that Claude's is.
 
 **Part 6** — the most ___ movie. Same questions for your adjective. If Claude's film is not in
