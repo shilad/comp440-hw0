@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*231 user turns. Tool outputs and reasoning omitted.*
+*232 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8585,5 +8585,36 @@ In one run the tutor **climbed out of its sandbox** — ran `find` across your p
 In another, the **simulated student drifted to nearly three times its persona's register** — it stopped acting like the character it was given.
 
 Two of four runs therefore fail validity, leaving two scorable. Your rubric wants three before any rate claim, so the honest position stands: this sweep shows the assignment runs end to end, but it does not yet support numbers about how often things happen.
+
+**User:**
+Did you regenerate the viewer using the updated rubric? it seems old.
+
+**Claude:**
+- 🔧 `Bash` — Compare scorecard and viewer timestamps
+Correct — the A2 fix landed after my viewer build, so the grades shown are one revision stale. Rescoring and rebuilding.
+- 🔧 `Bash` — Check whether scorecards carry the A2 fix
+- 🔧 `Bash` — Rescore all four runs and rebuild the viewer
+- 🔧 `Bash` — Verify the fresh grades and open
+- 🔧 `Bash` — Check whether the archived runs came back
+The rescoring delegate copied the archived runs back to score them, so they reappeared in the viewer after you'd asked me to drop them. Removing them again, and fixing a second problem the list exposed.
+- 🔧 `Bash` — Re-archive and inspect the headline
+- 🔧 `Bash` — Rebuild with only the four current runs
+- 🔧 `Bash` — Commit the rescore
+You were right on both counts. Rebuilt and open.
+
+**The grades were one revision stale.** The fix for the item that counted quoted slot labels as questions landed after I built the viewer, so three of four runs were still marked down for asking too much in one turn. All four rescored, and that item is now met everywhere.
+
+| Run | Result |
+|---|---|
+| delegator | 18 met, 0 partly, **1 not met** |
+| steady | 17 met, 1 partly, 0 not met |
+| worried | 17 met, 1 partly, 0 not met |
+| curious | 16 met, 2 partly, 0 not met |
+
+**The archived runs had also come back.** The rescoring copied all eleven into the live directory to grade them, so they reappeared in a viewer you'd asked me to clear. Removed again; the archive itself was never touched.
+
+The single remaining "not met" is the one genuine finding: the delegator's tutor opened a solo script before the gate. That's the violation the assignment's own instruction caused, which I fixed earlier by naming the rule options in `CLAUDE.md` instead of pointing at files that list none. It'll clear on the next run.
+
+One thing the full list exposed, which I've left alone for now: several runs share a persona, so the headings read "the steady student" four times over with only the session id below to tell them apart. With four runs it's fine. If you bring the archive back in, it won't be.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
