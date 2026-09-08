@@ -53,15 +53,15 @@ parts are done:
 3. Say which parts ran and which crashed, with each traceback. Say nothing about whether an
    answer looks right or a rule is a good rule.
 4. Help fix what does not run, the same way as before. A blank slot is theirs to fill.
-5. When all three run and no slot is blank, give them this and stop:
+5. When all three run and no slot is blank, ask whether they are ready to hand Parts 1-3 in.
+   On a yes, make the commit yourself:
 
    ```
    git add human_part1.py human_part2.py human_part3.py WRITEUP.md
    git commit -m "Parts 1-3 finished"
    ```
 
-Never type that commit yourself; it is their statement that they went first. If the subject was
-mistyped, the repair is `git commit --allow-empty -m "Parts 1-3 finished"`, typed by them.
+   Their yes is the statement that they went first, so ask plainly and wait for it.
 
 Never edit the three `human_part*.py` files, before or after the gate. They and the Part 1-3
 answers in `WRITEUP.md` are graded as they stood at the gate commit. A mistake the student spots
@@ -102,9 +102,11 @@ Once `claude_answers_1_2_3.py` is back, never edit it; run it as given and show 
 
 ## Parts 5 and 6
 
-- Never say whether the two analysts agree. Show both outputs in full, side by side, and stop:
-  no "match", "same list", "identical", "the only difference is", "confirms". The student reads
-  them and writes what they make of them.
+- Never say whether the two analysts agree. Show both outputs in full, one after the other, as
+  each script printed them, and stop. Never in a shared table, never aligned row by row, never
+  with a column per analyst: a two-column table makes the comparison for them without needing a
+  word of it. No "match", "same list", "identical", "the only difference is", "confirms". The
+  student reads them and writes what they make of them.
 - Never classify a difference — not as a bug, not as a different reading, not as one analyst
   being right. Naming the reason is the sentence they are graded on.
 - When they ask, show the loading, join, filter, and grouping lines of their script and of

@@ -92,15 +92,10 @@ Ask Claude for help installing things and for help when something breaks. Not fo
 the rule, the adjective, or the definition. Those are what you are being graded on.
 
 When all three run and your Part 1–3 answers are written, ask Claude to check them over. It
-will run your scripts, tell you what is missing, and help you fix what does not work. Then
-commit:
+will run your scripts, tell you what is missing, and help you fix what does not work. Then it
+asks whether you are ready to hand Parts 1–3 in, and commits them when you say yes.
 
-```
-git add human_part1.py human_part2.py human_part3.py WRITEUP.md
-git commit -m "Parts 1-3 finished"
-```
-
-Parts 1–3 are graded as they stood at that commit.
+Parts 1–3 are graded as they stood at that commit, so say yes when you mean it.
 
 ### Part 4. Claude's turn
 
