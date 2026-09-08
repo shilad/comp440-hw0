@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*211 user turns. Tool outputs and reasoning omitted.*
+*212 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8023,5 +8023,20 @@ Added, and both checks come first, before anything gets installed or committed.
 I didn't add checks for `git`, `gh` or `claude` itself. Git and Claude are self-evidently working if the student got this far, and `gh` isn't needed after cloning.
 
 One consequence for the test now running: it's a Mac, so it'll take the pass path on both checks. Whether the WSL2 branch works can only be confirmed on a Windows machine, which is worth one dry run before the tenth.
+
+**User:**
+separate the uname and uv steps. does windows withot wsl still have a uname?
+
+**Claude:**
+Straight answer: **PowerShell and cmd have no `uname` at all** — the command isn't found. **Git Bash does** have one, reporting `MINGW64_NT-10.0`, as do MSYS2 and Cygwin. So a failed `uname` is itself a signal rather than a gap, and the skill needs to treat it as one.
+- 🔧 `Bash` — Split the checks and handle a missing uname
+Fair. I'm telling you how to run `uname` when I'll be the one running it — and my own system prompt already tells me the platform. Cutting it back.
+- 🔧 `Bash` — Simplify the skill to state requirements, not procedure
+- 🔧 `Bash` — Cut the environment check to one line
+Done. The whole skill is fifteen lines of body, and the environment check is one of them.
+
+I went from thirty-two lines of `uname` string-matching to that in three passes, when your one sentence was the answer at the start. The instruction I keep having to relearn today is the one already written into the guidelines file: trust the reader. It applies to briefs for Claude exactly as it does to prose for students, and I under-apply it in both.
+
+The setup test run at S0 is still going, and it'll exercise this version.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
