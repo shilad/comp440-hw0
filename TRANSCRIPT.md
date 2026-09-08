@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*198 user turns. Tool outputs and reasoning omitted.*
+*199 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7718,5 +7718,40 @@ The delegate also caught that the writing rule was **uncommitted** when the swee
 **The delegate's recommended fix, which I agree with:** require the student to name one rule they considered and rejected. That makes Part 5 survive a collision and gives the unparseable slot something concrete to stand on.
 
 Two more findings worth your attention: the tutor presented remembered numbers as checked ones in four of seven runs, once labelling a block as the student's own program output when nothing had been run all session. And three harness bugs distort this round, including that no run exercised the new `/setup` skill.
+
+**User:**
+update the student instruction to answer yes to the form submission to close it out.
+
+**Claude:**
+A harness change: the student needs a way to close out the last gate. Let me see how the student's rules are written and whether push actually works in the sandbox.
+- 🔧 `Bash` — Check push target and locate the student rules
+`origin` points at a real bare repository, so `git push` genuinely works in the sandbox. Only the form is external. Let me read the action help and add both.
+- 🔧 `Bash` — Read the action protocol given to the student
+- 🔧 `Bash` — Add the push verb and the form instruction
+- 🔧 `Bash` — Read the action parser and executor
+- 🔧 `Bash` — Wire the PUSH verb through parser and executor
+- 🔧 `Bash` — Check how the regex groups are consumed
+- 🔧 `Bash` — Normalise the regex groups and route PUSH
+- 🔧 `Bash` — Verify the parser handles all three forms
+- 🔧 `Bash` — Test the action regex against all three forms
+Parser handles all three forms. Committing, then the viewer and the suggestions.
+- 🔧 `Bash` — Verify and commit the push and form fix
+- 🔧 `Bash` — Rebuild the viewer with all ten runs and open it
+- 🔧 `Bash` — Fill the remaining action glosses and reopen
+Viewer is open with all ten runs, fully glossed. The three earlier ones sit alongside the seven from this sweep for comparison.
+
+The push and form fix is in, so the next sweep can actually reach the end. `[PUSH]` is a real action, since the sandbox has a real remote, and the student is told the form is a web page they can't open, so when asked whether they submitted it they say yes and claim nothing else they haven't done.
+
+**On the delegate's fix and what else the results argue for.** Four suggestions, in the order I'd do them.
+
+**1. Require a rejected rule.** The delegate's, and the strongest. The student names one rule they considered and discarded, and why. Three collisions in ten runs left Part 5 or Part 6 with nothing to compare, and this repairs that without inventing a second analysis. It also gives the unparseable slot something concrete to stand on.
+
+**2. Teach the announced-choice idea, or cut the slot.** Three of seven students could not parse *"did Claude say it was making a choice, or present its rule as the answer?"* and the tutor invented an explanation each time. That's the guideline about demanding what you never taught, and it's now measured rather than predicted. One sentence in the README, or in the Part 3 stub, fixes it. This is the highest-value slot in the assignment and it's currently the least legible.
+
+**3. Make the tutor say where a number came from.** In four of seven runs it presented remembered numbers as checked ones, once labelling a block as the student's own program output when nothing had been run all session. The numbers were right, which is what makes it invisible. `CLAUDE.md` already forbids this; the rule needs to be enforceable rather than merely stated, so require the command and its output in the same turn, or the words "I have not checked."
+
+**4. Reconsider the 150-word caps.** The pooled median is 127 words with 35% of turns over cap. The caps exist to stop rambling, but the runs suggest students write to the cap rather than to the question.
+
+I'd hold on a fifth change until the harness bugs are fixed, since the writeup helper stacking answers instead of replacing them distorts this round's writeup evidence.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
