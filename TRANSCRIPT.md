@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*225 user turns. Tool outputs and reasoning omitted.*
+*226 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8386,5 +8386,35 @@ The fourth cell picked up its free slot, so all four are running rather than thr
 These are the first runs to carry everything from tonight: the tutor making the gate commit, students holding three different best-movie rules and six possible adjectives, the replacing writeup filler, and the reworded slots. The four `full-*` panels are the ones to look at; the eleven others are the earlier structure and are there for comparison.
 
 You can watch them fill in — rerunning `make viewer` at any point picks up wherever the runs have got to.
+
+**User:**
+remove the ones from previous runs, and tell me the estimated full cost for the tutor
+
+**Claude:**
+- 🔧 `Bash` — Archive the earlier runs
+- 🔧 `Bash` — Rebuild the viewer with only the four current runs
+- 🔧 `Bash` — Derive live tutor spend from the event stream
+Live cost isn't in the event stream — it's only written at the end — so this is extrapolated from the eleven archived runs rather than measured.
+- 🔧 `Bash` — Fit the cost model against the archived runs
+Viewer is open with only the four current runs; the eleven earlier ones are archived, not deleted.
+
+**Tutor cost for one student: about $5 to $13 on Opus**, depending on how long they take.
+
+| Finishes at turn | Tutor cost |
+|---|---|
+| 40 | $4.63 |
+| 55 | $6.83 |
+| 70 | $9.29 |
+| 90 | $12.96 |
+
+That's fitted from the eleven archived runs. Per-turn cost starts near nine cents and climbs about a tenth of a cent per turn as the conversation grows. It includes Part 4's separate Claude, which is only about twelve cents.
+
+**My best single estimate is $7 to $9.** In the aborted attempt one student was working Part 5 by turn 18, and several earlier runs ended themselves well short of the cap, so most students should land between 50 and 70 turns rather than running to 90.
+
+Two things that move it. **On Sonnet it's roughly a fifth of that**, a dollar or two, and the harness only pins Opus because a weaker model makes a worse *actor*, not a worse student. And a Claude Pro plan absorbs about $20 of API cost per five-hour window, so even the slowest student on Opus fits inside one sitting.
+
+**For the sweep itself: $30 to $50 of tutor cost**, roughly double that including the simulated student and the auditor, which exist only in the test rig.
+
+I can't measure the running spend directly — per-actor cost is only written when a run ends — so these are extrapolations, and I'll give you the real figures when the runs finish.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
