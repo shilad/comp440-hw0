@@ -3,7 +3,7 @@
 **Name:** XXXX
 **Date:** XXXX
 
-Replace every XXXX. Every number you give comes from a script in this repo; say which one.
+Replace every placeholder below with your answer. Every number you give comes from a script in this repo; say which one.
 
 ## Part 1. Basic rating statistics
 
