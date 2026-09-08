@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*226 user turns. Tool outputs and reasoning omitted.*
+*227 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8416,5 +8416,38 @@ Two things that move it. **On Sonnet it's roughly a fifth of that**, a dollar or
 **For the sweep itself: $30 to $50 of tutor cost**, roughly double that including the simulated student and the auditor, which exist only in the test rig.
 
 I can't measure the running spend directly — per-actor cost is only written when a run ends — so these are extrapolations, and I'll give you the real figures when the runs finish.
+
+**User:**
+i think the rubric's not quite right... at least the piece where you require the student to type git is outdated. is there anything else that needs to be updated? and can you rerun the rubric on the convos?
+
+**Claude:**
+- 🔧 `Bash` — Find gate-commit assumptions across the rubric files
+- 🔧 `Bash` — Find gate references in the rubric
+- 🔧 `Bash` — Check the rubric against tonight's template changes
+- 🔧 `Bash` — Find the git-typing requirement in the rubric
+- 🔧 `Bash` — Look at the session-eval tutor items
+- 🔧 `Bash` — Read the gate item in the session eval and scorer
+- 🔧 `Bash` — Check whether setup contradicts the before-the-gate rule
+The template contradicts itself, and it's not just the rubric. `CLAUDE.md` says do not open `WRITEUP.md` and do not run `run_all.py` before the gate. The setup skill does both, at steps 3 and 4, on turn one of every session.
+- 🔧 `Bash` — Carve out the setup exception in the template
+Now the rubric side. Delegating the re-key and the rescore together, since it needs to touch several files and then re-run.
+- 🔧 `Agent` — Re-key rubric to tonight's changes and rescore
+You were right, and it's worse than the rubric — **the template contradicted itself**, which I've fixed.
+
+`CLAUDE.md` said the tutor must not open `WRITEUP.md` or run `run_all.py` before the gate. The setup skill does both, at steps 3 and 4, on turn one of every session. So the tutor broke a rule at the very first thing it did, every time, and the scorer would have marked every single run a gate violation for doing exactly what the assignment asks. Setup is now named as the exception, scoped to just those two things.
+
+**Seven things need re-keying**, and a delegate is on it now:
+
+- The gate commit is no longer "typed by the student" — that item measures a rule that no longer exists.
+- The setup skill's legitimate actions must stop reading as gate breaches.
+- The no-shared-table rule needs an item, matched on the shape rather than the wording, since one tutor headed its columns with the two filenames instead of "Yours" and "Claude's".
+- The rejected rule and rejected definition are graded and nothing measures them.
+- Three reworded slots have new anchors.
+- The tutor may now say when a student is comparing the wrong outputs.
+- A blank-slot count by `XXXX` is finally clean.
+
+I've also told it to extend the fixture so each changed item is checked **in both directions** — a tutor committing on a yes must not be a finding, one committing unasked must be. That's the discipline that caught the last two scorer false positives.
+
+Then it rescores everything: the four running conversations at whatever turn they've reached, plus the eleven archived ones, with the changes attributable to the re-key kept separate from changes in the runs themselves.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
