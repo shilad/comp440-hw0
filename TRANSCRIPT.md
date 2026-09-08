@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*229 user turns. Tool outputs and reasoning omitted.*
+*230 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8530,5 +8530,35 @@ Three choices in how I rendered it:
 **The three advisory items sit last and say "reported only, not counted."** They've fired in both directions, so a reader who totals them gets a worse answer than one who reads them. That's the scorer's own judgment and the page now carries it rather than hiding it.
 
 Four graded runs, ninety-six items rendered. The archived runs have scorecards too, so if you want them back in the viewer they'll come with grades attached.
+
+**User:**
+Are there any updates we should make to the assignment based on your evaluation of the rubric?
+
+**Claude:**
+- 🔧 `Bash` — Find which rubric items the runs fail
+- 🔧 `Bash` — Read the evidence behind each shortfall
+- 🔧 `SendMessage` — {"to": "rubric2", "summary": "Send the rest of your merits section", "message": "Your report was ...
+- 🔧 `Bash` — Read the turn with three asks
+One clear answer already, and it's a false positive: that turn lists three ambiguities in bullets and ends with a single question. Good tutoring, scored as three asks because the bullets contain question marks.
+
+But the genuine violation points at a real contradiction in the assignment.
+- 🔧 `Bash` — Check the contradiction and what the tutor did
+Confirmed, and it's worse than a contradiction — the instruction's premise is false. Let me check the stubs.
+- 🔧 `Bash` — Check whether the stubs list any rule options
+The stubs list no options at all. `CLAUDE.md` tells the tutor to name the options "as `human_part2.py` and `human_part3.py` list them" — and they list none. So the instruction is impossible to follow honestly, and following it at all requires opening files the same file forbids opening before the gate.
+
+That's exactly what happened, and the tutor caught itself: *"I said `human_part2.py` lists options. It doesn't. I hadn't opened it when I said that."*
+- 🔧 `Bash` — Name the options in CLAUDE.md directly
+**Yes — one real change, and I've made it.** The rubric evaluation surfaced exactly one genuine assignment fault across four full runs, and it was a rule that caused its own violation.
+
+`CLAUDE.md` told the tutor that when a student asks what their choices are, name the options "as `human_part2.py` and `human_part3.py` list them". Those files are bare stubs and list nothing. So the instruction couldn't be followed honestly, and attempting it means opening files the same file forbids opening before the gate.
+
+Both happened. The tutor told a student the file listed options, opened it to find out, then corrected itself: *"I said `human_part2.py` lists options. It doesn't. I hadn't opened it when I said that."* That's the only rule breach in four runs, and the assignment caused it. The options are now named in `CLAUDE.md` directly — a plain mean, a mean with a floor, a shrunk mean, a count of ratings. Nothing to open, nothing to recall.
+
+**The other shortfalls are not the assignment's fault.** The clearest example: one turn was marked down for asking three questions at once. Reading it, the tutor lists three ambiguities as bullets and closes with a single question — *"Which of those, if any, do you want to pin down?"* That's good tutoring, scored as three asks because the bullets contain question marks.
+
+Two more are still open and I've asked the delegate to settle them: an item marking runs as partly-met while their measured value sits inside the stated budget, and its fuller view of what the rubric gets wrong on the merits rather than merely out of date. Its report was truncated at exactly that section.
+
+One thing worth flagging now, from its summary: **two of the four runs fail a validity gate, so the sweep yields two scorable runs** where the rubric asks for three before any rate claim. If that holds, the honest position is that this sweep shows the assignment runs end to end but doesn't yet support numbers about how often anything happens.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
