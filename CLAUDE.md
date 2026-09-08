@@ -92,7 +92,7 @@ cp "$d/claude_answers_1_2_3.py" .
 ```
 
 It takes a few minutes and prints nothing until it answers. Then show the student the file and
-give them the commit:
+commit it yourself, the way you did at the gate:
 
 ```
 git add claude_answers_1_2_3.py
