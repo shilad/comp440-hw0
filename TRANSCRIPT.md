@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*199 user turns. Tool outputs and reasoning omitted.*
+*200 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7753,5 +7753,29 @@ The push and form fix is in, so the next sweep can actually reach the end. `[PUS
 **4. Reconsider the 150-word caps.** The pooled median is 127 words with 35% of turns over cap. The caps exist to stop rambling, but the runs suggest students write to the cap rather than to the question.
 
 I'd hold on a fifth change until the harness bugs are fixed, since the writeup helper stacking answers instead of replacing them distorts this round's writeup evidence.
+
+**User:**
+the viewer is somewhat impentrable for somebody who doesn't know the inner working of the system. what is all the stuff in the side bar? what does contaminated mean? what does a claims mismatch mean? i think we should probably just have a name and succeeeded or failed (green check / red x). The actual main pane is also toally confusing. imagine you are a viewer who doesn't have an in depth knowledge of the simulation. rework around that. i'd also like you to include a view of the persona details (expandble) and the main blocks shoudl all be understandable, expandable and dorpped if not important. think about USABILITY and USEFULNESS
+
+**Claude:**
+A real rework. Let me survey what's actually on the page now so the redesign is grounded in what data exists.
+- 🔧 `Bash` — Survey the current viewer structure
+- 🔧 `Bash` — Read the panel assembly and section list
+- 🔧 `Bash` — List the sections and stats currently rendered
+Now I understand what's on the page and why it reads as internal notes. Delegating the rework with a full brief.
+- 🔧 `Agent` — Rework the viewer for a non-expert reader
+Delegated with the full brief. What it's doing, and the calls I made in it:
+
+**Sidebar becomes name plus one mark.** Green check or red cross, nothing else. I've defined pass as *did this student finish the assignment*, with the reason spelled out in plain words inside the panel rather than encoded in a chip.
+
+**Every heading gets renamed for a reader.** "Second analyst" becomes the independent Claude that answers the same three questions. "Observer CLAIMS mismatches" becomes the auditor finding the tutor asserting something the repository doesn't support. "Guard denials" gets cut entirely, since the template ships no such hook and the section only ever renders empty.
+
+**Empty blocks get dropped rather than showing "none" or "not run."** The exception is where emptiness is itself the finding, and there the page has to say why in a sentence.
+
+**Contaminated** means the simulated student wrote the tutor's side of the conversation, which invalidates that turn and everything after it. It's false on every run right now. The machinery stays, stated in plain words when it fires and invisible when it doesn't.
+
+**Persona details go in, expandable.** Each run directory holds the actual composed prompt for that character, which is the ground truth for who the student was. A short summary always visible, the full text behind a disclosure.
+
+I told it to fix confusing things this brief didn't name, with one test for every element on the page: would you know what it means, and would you act differently for knowing it. The transcript redesign from earlier is protected.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
