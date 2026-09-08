@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*207 user turns. Tool outputs and reasoning omitted.*
+*208 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7931,5 +7931,25 @@ Most of that block was already dead — it described the 45-minute timebox, the 
 - **Which Claude account students use.** It needs a paid plan, and `INSTALL.md` currently doesn't say which.
 
 The first one has teeth now. Merging template fixes is the whole reason fork-and-clone was chosen, and it silently does nothing for a student who can't read the source.
+
+**User:**
+Add a question to the WRITEUP that we can use to improve this activity AND the following activities. It should be short and sweet but valuqble.
+
+**Claude:**
+- 🔧 `Bash` — Add the feedback question to the writeup
+- 🔧 `Bash` — Commit the feedback question
+Added at the end of the writeup:
+
+> **Where did this assignment slow you down for a reason that was its fault, not yours? Point at the step. Or "nowhere." One or two sentences.**
+
+Three deliberate choices in that wording.
+
+**Naming the fault as the assignment's** licenses a complaint students usually swallow. Asked neutrally, most write that everything was fine, because saying otherwise feels like admitting they struggled.
+
+**"Point at the step"** returns something you can edit. The generic version returns a mood.
+
+**It carries to HW1 and every assignment after, unchanged.** Ask it every time and you accumulate a list of the places the course expects what it never taught — which is precisely where the simulations found HW0's highest-value questions sit. Three of seven students could not parse the announced-choice question, and none of them would have told you that unprompted.
+
+I put it after "what you would do differently", so the student reflects on their own work first and then on yours. That ordering matters: asked first, it reads as an invitation to blame the assignment for everything.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
