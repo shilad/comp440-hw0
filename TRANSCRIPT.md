@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*191 user turns. Tool outputs and reasoning omitted.*
+*192 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7582,5 +7582,22 @@ Rebuilt and reopened. The transcript now reads as a conversation.
 That's my answer to what else should be expandable: anything the reader consults rather than reads. The conversation is the thing you read.
 
 Code blocks from the previous fix are intact, all 81 of them.
+
+**User:**
+A few tweaks to the homework itself: demand that claude uses clear, short sentences that are easily readable and understandable. no jargon. Remove the requirement to rerun everything on a clean repo.
+
+**Claude:**
+- 🔧 `Bash` — Find the fresh-clone rule and the talking rules
+- 🔧 `Bash` — Add the plain-language rule and drop the fresh-clone check
+- 🔧 `Bash` — Commit both template changes
+Both done and pushed.
+
+**Plain language is now Claude's first rule**, above the one-step-per-turn rule, since it governs everything else it says. Short sentences, one idea each, the everyday word over the technical one, and any term the assignment hasn't taught explained in a clause the first time it appears. The test I wrote in: a first-year student who hasn't read the rest of the conversation should be able to follow any single reply.
+
+I gave it a concrete example rather than only the principle, because "avoid jargon" is itself the kind of instruction a model satisfies in its own estimation while still writing "the distribution of the ratings."
+
+**The fresh-clone check is gone** from the pre-submission walk-through. Running `run_all.py` in their own repo is the check now. Cloning again mostly tested that git works, which was never the thing at risk, and it added a confusing extra step at the exact point where a student is most primed to think something is broken.
+
+One consequence worth naming: the fresh clone would have caught a student who never committed a file their scripts import. The remaining checks still catch that, since a clean working tree and no uncommitted changes are both on the list.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
