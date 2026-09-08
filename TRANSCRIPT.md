@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*187 user turns. Tool outputs and reasoning omitted.*
+*188 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7461,5 +7461,28 @@ Three quick verifications before I report: why the S1 tutor changed the Part 4 c
 **Nobody reached YOU ARE FINISHED.** S1 and S3 both ended fully clean — walkthrough done, fresh-clone check passed, form handed over — and the 25-turn cap landed before the student could confirm. That looks like a budget artifact rather than a tutor failure, but the delegate's report should settle it.
 
 One minor: the S1 tutor added `env -u CLAUDECODE` to the Part 4 block unprompted. S2 ran the block verbatim and it worked, so the edit wasn't needed.
+
+**User:**
+A few tweaks: the git remote add upstream and uv sync / uv run python can be done entirely by claude, yes? also the commit after step 3? do we need a line to trigger them, or can claude automatically do them immediately when the repo is setup? i don't want to use hooks; i want to use claude itself.
+
+**Claude:**
+Yes to all of it. Claude can't act on nothing — the student has to send one message to start a turn — but that message can be "hello," and everything else is Claude's.
+
+Part 0 collapses to three steps: install, fork and clone, start `claude` and say hello. Claude adds the upstream remote, syncs, runs `run_all.py`, asks their name, fills it in, and commits. Making the change in both files.
+- 🔧 `Bash` — Read the current Part 0 and the session-start rule
+- 🔧 `Bash` — Check the skill frontmatter format and template .claude layout
+- 🔧 `Bash` — Create the setup skill and rewire Part 0 to it
+- 🔧 `Bash` — Allow the setup commands and commit
+Done and pushed. Your instinct about a skill was right, and it answers your other question too.
+
+**Part 0 is now three steps.** Install, fork and clone, then start `claude` and type `/setup`. Everything else is Claude's: the upstream remote, `uv sync`, `run_all.py`, asking their name, filling the two writeup fields it's allowed to fill, and the commit.
+
+**On triggering:** Claude can't act on nothing — some message has to start a turn — but `/setup` is that message, and it costs the student one word. No hooks involved; the skill is just instructions Claude follows, which is the pattern you've preferred all day.
+
+**Why a skill beats putting it in `CLAUDE.md`:** it's re-runnable. A student whose setup half-worked types `/setup` again and it picks up where it stopped, because every step checks before acting. That makes it the repair path as well as the first run, which is most of what "in class Thu Sep 10" will actually be.
+
+The four things it took off the student — the remote, the sync, the smoke test, the first commit — were never the learning. They were four chances to mistype something before reaching Part 1.
+
+One knock-on: `CLAUDE.md`'s where-are-we check gained a step, so a session in a repo with no `Name and date` commit knows setup hasn't run and offers it.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
