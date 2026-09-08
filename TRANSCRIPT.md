@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*189 user turns. Tool outputs and reasoning omitted.*
+*190 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7526,5 +7526,29 @@ My earlier report stands unchanged.
 **Transcript widened** from 74 to 104 characters, which a 150-word writeup answer needs to read as a paragraph rather than a column.
 
 One lesson added to the guidelines, because this is the second instrument bug today and they share a shape: *detect the thing itself, not a proxy for it.* When a proxy and its target come apart, the proxy doesn't degrade quietly. It inverts, and it accuses the good runs.
+
+**User:**
+It looks like it almost renders as markdown, but it's missing code blocks. is there something that can help?
+
+**Claude:**
+- 🔧 `Bash` — Find the viewer's markdown rendering
+- 🔧 `Bash` — Read the markdown-lite renderer
+The renderer handles headings, lists, bold and inline code but has no case for fenced blocks, so triple-backtick fences fall through to paragraphs. Let me see what's actually in the transcripts before choosing a fix.
+- 🔧 `Bash` — Count markdown features in the transcripts
+81 fenced blocks and no tables, so fences are the whole gap. A targeted addition beats a new dependency.
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Bash` — Close unterminated fences and test the renderer
+Renders correctly. Adding CSS so the blocks look like code, then rebuilding.
+- 🔧 `Bash` — Check existing pre and code styling
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Bash` — Rebuild and verify the code blocks render
+- 🔧 `Bash` — Commit the fence rendering
+Fixed and reopened. All 81 fenced blocks now render as code, no stray backticks left.
+
+The renderer had cases for headings, lists, blockquotes and inline code but none for fences, so every block fell through to one paragraph per line with the markers showing as literal text. Those blocks are the part a reader most needs intact, since they're the commands the tutor hands the student to type. A git command reflowed into a paragraph is one nobody can copy, so they now scroll rather than wrap.
+
+No new dependency. I checked what the transcripts actually contain first: 81 fenced blocks, no tables, no top-level headings. The existing forty-line renderer only needed the one case it was missing. An unterminated fence closes at the end of the turn instead of swallowing it, and the two horizontal rules render now too.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
