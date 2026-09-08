@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*205 user turns. Tool outputs and reasoning omitted.*
+*206 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7890,5 +7890,25 @@ All four in, both repos pushed.
 **One thing I found while fixing the sandbox escape.** The check was already there, and its own comment recorded the exact failure: the tutor `cd`s up out of the sandbox and then uses relative filenames, which an absolute-path pattern can't see. So the detector documented its own blind spot without closing it. A sandbox repo sits three levels below the harness root, so a `cd` climbing three or more levels is now flagged too.
 
 The structural fix I did **not** make: run directories live inside the harness checkout, which is why walking up reaches the instrument at all. Moving them outside would remove the possibility rather than detecting it, but it touches the viewer, the Makefile and every results path, so I left it as a recommendation.
+
+**User:**
+I made some tweaks to the README
+
+**Claude:**
+- 🔧 `Bash` — Read the README changes
+Good compression. Two things in it need attention, one of which makes the assignment contradict itself.
+- 🔧 `Bash` — Fix the contradiction and the typo
+- 🔧 `Bash` — Commit the README fixes
+Your edits are good and I kept them. The README is at 1,106 student-facing words. Two things I fixed, and one I left for you.
+
+**The AI rules contradicted themselves.** Under **No AI** you had "everything written in `WRITEUP.md`", but Parts 5 and 6 are written in `WRITEUP.md`, and the next line encourages AI there. I scoped it to what you meant: the words are the student's throughout and Claude never drafts or rewords them, while the analysis behind Parts 5 and 6 is open.
+
+**I restored two rules that other files depend on.** The frozen-file line, because `CLAUDE.md` enforces it and the tutor will refuse edits the README no longer warns about, and "every number comes from a script you can name", which is the rule the writeup's own opening instruction relies on.
+
+**What you dropped that I did not restore:** the collaboration policy. No sharing code or answers, talking through approaches is fine, name anyone who helped, keep your repo private. `WRITEUP.md` still asks who helped them, so the question survives without the rule behind it. Your call whether that belongs in the README or in the syllabus.
+
+Also fixed a double space in the new grading line.
+
+Your other two changes I'd have made myself. "Analyze, explain, and compute" is a clearer grant than "compute" alone, given Parts 5 and 6 are where Claude is most useful. And cutting the warning about saying yes when you mean it was right, since the sentence above it already says what the commit does.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
