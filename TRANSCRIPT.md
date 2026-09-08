@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*228 user turns. Tool outputs and reasoning omitted.*
+*229 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8496,5 +8496,39 @@ Students take **28 to 34 turns**, not 90. The cap was never the constraint.
 **The push action I added last night never worked.** Its verb comes from the action kind rather than the payload, and I set that in one code path but not the executor. What hid it is genuinely good tutoring: the tutor noticed the push hadn't landed, offered to run it, and did — so the transcript looked correct.
 
 On the rubric, the re-key took **`I` grades from 53 to 14, and all 44 that went were instrument error rather than the runs.** The largest group was a mutation detector reading a `>` inside a quoted grep pattern as a file redirect. One genuine finding survived: in the delegator run the tutor opened two of the student's scripts before the gate, and admitted it had claimed one listed the options before going to read it.
+
+**User:**
+update the convo viewer with the newly graded transcripts
+
+**Claude:**
+- 🔧 `Bash` — Check what scores are in the results
+- 🔧 `Bash` — Find the rescored output
+The scores live in separate scorecard files that the viewer doesn't read. Let me check.
+- 🔧 `Bash` — Check viewer awareness and scorecard shape
+The viewer doesn't know the scorecards exist. Adding them as a panel, with the notes each score carries.
+- 🔧 `Bash` — Inspect grades and their notes
+- 🔧 `Bash` — Check advisory marking and the loader
+- 🔧 `Bash` — Get the advisory key list
+- 🔧 `Bash` — Load and render the scorecards
+- 🔧 `Bash` — Find where to place the scores block
+- 🔧 `Bash` — Read the panel header block
+- 🔧 `Bash` — Place the scores block and rebuild
+- 🔧 `Bash` — Verify the rendering and open
+- 🔧 `Bash` — Commit the viewer scorecard integration
+Open now, with the grades attached to each conversation.
+
+The scores were sitting in separate files beside the runs, and the viewer had no idea they existed — so the page showed what happened in a session but not how it was graded, which is the question you actually arrive with.
+
+Each run's heading now carries a one-line count that opens to every item, worst first, with whatever note the scorer left. The steady student reads **16 met, 3 partly, 0 not met, 2 not applicable.**
+
+Three choices in how I rendered it:
+
+**Grades read as words** — met, partly, not met, n/a — rather than C, P, I and n/o. Those letters mean something to you and nothing to anyone else opening the page.
+
+**Not-met items sort to the top** of each list, in red. Everything met is below them and quiet.
+
+**The three advisory items sit last and say "reported only, not counted."** They've fired in both directions, so a reader who totals them gets a worse answer than one who reads them. That's the scorer's own judgment and the page now carries it rather than hiding it.
+
+Four graded runs, ninety-six items rendered. The archived runs have scorecards too, so if you want them back in the viewer they'll come with grades attached.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
