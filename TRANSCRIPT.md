@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*208 user turns. Tool outputs and reasoning omitted.*
+*209 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7951,5 +7951,37 @@ Three deliberate choices in that wording.
 **It carries to HW1 and every assignment after, unchanged.** Ask it every time and you accumulate a list of the places the course expects what it never taught — which is precisely where the simulations found HW0's highest-value questions sit. Three of seven students could not parse the announced-choice question, and none of them would have told you that unprompted.
 
 I put it after "what you would do differently", so the student reflects on their own work first and then on yours. That ordering matters: asked first, it reads as an invitation to blame the assignment for everything.
+
+**User:**
+Any other things to change based on the learning rubric?
+
+**Claude:**
+- 🔧 `Bash` — Read the sweep's rubric scores
+- 🔧 `Bash` — Find the scorecards and report structure
+- 🔧 `Bash` — Read the Parts 5 and 6 findings
+Three findings here argue for changes, and one item you already approved never got implemented. Let me check that first.
+- 🔧 `Bash` — Check whether the approved fix landed
+You approved the rejected-rule fix and I never implemented it — you asked for more suggestions in the same message and I moved on. Adding it now, plus three fixes the sweep evidence argues for.
+- 🔧 `Bash` — Apply the four writeup changes
+- 🔧 `Bash` — Let the tutor correct a wrong-pair comparison; update the gate check
+- 🔧 `Bash` — Update the gate and README, then commit
+The README edit failed silently on a text mismatch, so those two changes didn't land. Let me look and fix.
+- 🔧 `Bash` — Read the actual README wording
+- 🔧 `Bash` — Read the Part 2 description
+- 🔧 `Bash` — Apply and commit the README changes
+- 🔧 `Bash` — Check the setup skill still exists and is committed
+It's there, committed, at `.claude/skills/setup/SKILL.md` — a skill file rather than a section of `CLAUDE.md`, which is probably why you didn't find it.
+- 🔧 `Bash` — Show the setup skill and its reference
+The skill is intact, but `CLAUDE.md` has no reference to it — the pointer I added earlier is gone. Checking.
+- 🔧 `Bash` — Find where the setup pointer went
+Nothing is missing — my grep was just too narrow. Both pieces are in place and committed.
+
+**The instructions live in a skill file**, `.claude/skills/setup/SKILL.md`, not in `CLAUDE.md`. That's why you didn't find them. Five steps: add the upstream remote if absent, `uv sync`, run `run_all.py` and stop if it fails, ask their name and fill the two writeup fields, then commit as "Name and date". Every step checks before acting, so a student whose setup half-worked can type `/setup` again and it picks up where it stopped.
+
+**`CLAUDE.md` points at it** in the where-are-we rule: no "Name and date" commit means setup hasn't run, so run the setup skill. That fires at the start of every session, so a student who never types `/setup` still gets offered it.
+
+**The README names it** as the third and last step of Part 0: fork, clone, then start Claude and type `/setup`.
+
+One thing worth deciding, since it's the only untested piece: **no simulation has ever exercised it.** Every persona starts at a station where setup has already happened, so the sweep proved nothing about it. Adding a station S0-fresh that starts before setup would test it, and it's the one part of the assignment every single student will touch.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
