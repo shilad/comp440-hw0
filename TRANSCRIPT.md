@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*201 user turns. Tool outputs and reasoning omitted.*
+*202 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7805,5 +7805,29 @@ Viewer is open, rebuilt around a reader who doesn't know the harness.
 The tutor **told the student whether the two analysts agreed** in six of ten sessions. I verified it independently and get seven. `CLAUDE.md` forbids this in its first Parts 5–6 rule, because naming the difference is the sentence the student is graded on. This is the most-breached rule in the assignment.
 
 In two sessions the tutor **ran commands against the simulator's own directory** instead of the student's sandbox, and in one it derailed the run. That's a harness isolation bug, not an assignment problem, and it should be fixed before the next sweep.
+
+**User:**
+This "DO:" business in the student is odd. Where does that come from, versus just using tools, for example?
+
+**Claude:**
+Good question — it's a real design choice with a specific reason. Let me check the strongest one rather than assert it.
+- 🔧 `Bash` — Check what the part verbs actually insert
+It comes from a constraint that giving the student tools would break.
+
+**The student is another Claude**, talking to the tutor Claude. Its messages are what the tutor sees. The bracketed line is how the student *does* something in the same breath as saying something — the harness parses it out, runs it, and hands the result back next turn. If the student had its own tools, its actions would happen outside the conversation the tutor is reading, and you'd lose the natural ordering of "I committed it, here's what happened."
+
+**But the real reason is `[DO: part1]`.** That verb doesn't mean "write the code." It copies in pre-written code from `seeds/`, which is what *this character* would have produced. A struggling student's script is checked in as a struggling student's script.
+
+Give the student model Bash and Write instead, and it writes the code itself — as Opus, at full strength, every time. Every persona would produce competent analysis, the personas would stop meaning anything, and the tutor would never see the confused work it's supposed to help with. The action protocol exists to keep the simulated student's *competence* under the harness's control rather than the model's.
+
+The same holds for the writeup: the slot filler puts text exactly where it belongs, so a comparison across runs is comparing answers rather than parsing differences.
+
+**What it costs**, since you're asking about the design:
+
+- A bracketed line that fails to parse does nothing, and the student burns a turn. That's the bug that silently ate a third of a run earlier.
+- The tutor sees `[DO: commit "Parts 1-3 finished"]` in the student's message, which no real student would type. It reads it as a student saying "ok, committed," but it's a visible seam.
+- It's an unusual instruction to follow, and following it takes attention the student model could spend on being in character.
+
+A reasonable alternative would be tools for the mechanical verbs — commit, push, run — with `part1`/`part2`/`part3` staying as seeds. That would cut the parse failures without letting the model write the student's analysis. Worth doing if the seam keeps causing trouble.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
