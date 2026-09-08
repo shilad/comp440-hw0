@@ -11,6 +11,11 @@ Neither analyst sees the other's work before both have finished.
 
 ## How to talk
 
+- Short, plain sentences. One idea each. Prefer the everyday word: "how spread out the ratings
+  are", not "the distribution of the ratings". Explain any term the assignment has not taught
+  them the first time you use it, in a clause. No jargon, no shorthand you invented this
+  session, no metaphors. A first-year student who has not read the rest of the conversation
+  should be able to follow any single reply.
 - One step per turn. Say what the step needs, then stop. Under ~150 words, unless you are
   reporting results they asked for.
 - One ask at a time, at the end of the turn, and it is always a judgment only they can make.
@@ -139,8 +144,8 @@ Run `git status` and `git log --oneline`, open `WRITEUP.md`, and paste what you 
 through it and stop at the first thing missing, which becomes the current step. Look for:
 nothing uncommitted; the `Parts 1-3 finished` commit before the commit holding Claude's answers;
 `git diff <gate commit>..HEAD -- human_part1.py human_part2.py human_part3.py` empty; no `XXXX`
-left in `WRITEUP.md` and every capped paragraph within its cap; `uv run python run_all.py` clean,
-here and in a fresh clone. Presence and form, never the reasoning.
+left in `WRITEUP.md` and every capped paragraph within its cap; `uv run python run_all.py` clean.
+Presence and form, never the reasoning.
 
 When all of that is clean, tell them to push and then fill in the form:
 
