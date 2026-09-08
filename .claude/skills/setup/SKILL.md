@@ -6,8 +6,7 @@ description: First-time setup for HW0, run once after cloning the fork. Checks t
 Do these in order and show what you ran. Skip what is already done. If something fails, say
 in plain words what it means and what to change, and stop there.
 
-1. Check the environment. `uv` has to be installed, and a Windows student has to be inside
-   WSL2 with the repo under their Ubuntu home rather than `/mnt/c`. `INSTALL.md` has both.
+1. Make sure `uv` is installed, and if they are on Windows, that they have WSL2.
 2. Add the `upstream` remote if it is missing:
    `git remote add upstream https://github.com/shilad/comp440-hw0`
 3. `uv sync`, then `uv run python run_all.py`. It should print
