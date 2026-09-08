@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*209 user turns. Tool outputs and reasoning omitted.*
+*210 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7983,5 +7983,28 @@ Nothing is missing — my grep was just too narrow. Both pieces are in place and
 **The README names it** as the third and last step of Part 0: fork, clone, then start Claude and type `/setup`.
 
 One thing worth deciding, since it's the only untested piece: **no simulation has ever exercised it.** Every persona starts at a station where setup has already happened, so the sweep proved nothing about it. Adding a station S0-fresh that starts before setup would test it, and it's the one part of the assignment every single student will touch.
+
+**User:**
+Is there an easy way to exercise it?
+
+**Claude:**
+Yes — one command. S0 is already the bare template with no "Name and date" commit, and no persona defaults there, which is why it never ran. Let me check the sandbox doesn't pre-do the setup steps.
+- 🔧 `Bash` — Check what S0 pre-configures
+The sandbox pre-adds the `upstream` remote, which is exactly the step setup exists to do — so at S0 it should be absent, the way a real clone is. Small change, then one run.
+- 🔧 `Bash` — Read the remote setup in the sandbox builder
+- 🔧 `Bash` — Make S0 start without the upstream remote
+- 🔧 `Bash` — Verify S0 builds without upstream
+S0 now builds exactly like a fresh clone: `origin` only, no `upstream`, no "Name and date" commit. Launching one run.
+- 🔧 `Bash` — Commit and launch the setup test run
+- 🔧 `Bash` — Wait and check whether setup ran
+- 🔧 `ToolSearch` — {"query": "select:Monitor", "max_results": 1}
+- 🔧 `Bash` — Wait for the setup run to finish
+Yes, and it's now running: one command, `make run PERSONA=t-steady STATION=S0`.
+
+The reason it had never been tested was two-fold. No persona defaults to S0, so no sweep ever started there. And the sandbox added the `upstream` remote at every station, which would have let an S0 run skip step 1 of the setup skill — the one step the station exists to exercise.
+
+S0 now builds exactly like a fresh fork and clone: `origin` only, no upstream, no "Name and date" commit, nothing done. I verified that directly before launching.
+
+The run is twelve turns, which is plenty for setup plus the start of Part 1, and costs a couple of dollars. I'll report what the tutor actually did when it lands.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
