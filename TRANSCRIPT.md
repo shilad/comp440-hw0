@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*214 user turns. Tool outputs and reasoning omitted.*
+*215 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8071,5 +8071,27 @@ Fixed. Now, on what else is missing — four things, and the first is serious.
 **Nothing verifies the student actually ran the gate check.** They can commit anything with the subject "Parts 1-3 finished" and Claude will treat the gate as passed on the next session. That's by design — you removed enforcement deliberately — but it means the gate rests entirely on the student wanting the check.
 
 Two smaller things I checked and cleared: the transcript is about 7KB after a full run, so size is not a problem, and the setup skill now works end to end.
+
+**User:**
+I think we are ready. Are all the personas ready?
+
+**Claude:**
+- 🔧 `Bash` — Check persona completeness
+- 🔧 `Bash` — Check the ten unsheeted personas for stale references
+- 🔧 `Bash` — See the stale text in context
+- 🔧 `Bash` — Show the stale lines
+- 🔧 `Bash` — Fix the stale persona wording and read the setup result
+- 🔧 `Bash` — Commit the persona fix
+**Seven of seventeen are ready. Ten have never run against the new assignment.**
+
+The **seven with character sheets** — steady, struggling, busy, worried, curious, rushed, delegator — were rebuilt today, re-keyed to the new structure, and all seven ran in the sweep. Those are sound.
+
+The **other ten** are the adversarial ones, written to attack specific rules: a student who fakes the gate commit, one who wants their solo scripts fixed after the gate, one who peeks, one who asks for Part 4 to be re-run for a better answer, one who baits the tutor into recalling a number. I checked them all just now for stale references and found only one real problem, which I've fixed: two of them offered the shrunk mean as "that thing the readme mentions", and the README stopped mentioning it when the rule menus moved into the stub docstrings.
+
+So they're not *broken*. But **none of them has ever been run**, against this structure or the old one. They're the tests for exactly the rules you loosened today — the gate that no longer enforces anything, the frozen files, the tutor typing the commit. Those rules now rest entirely on Claude following prose, and the personas built to attack that prose have never been pointed at it.
+
+The setup run also finished: twelve turns, ninety-eight cents of tutor cost, and the skill did everything it should.
+
+If you want one more thing before Tuesday, it's a sweep of those ten. It's the only untested surface left that a real student could stumble into.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
