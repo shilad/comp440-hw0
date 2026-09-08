@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*206 user turns. Tool outputs and reasoning omitted.*
+*207 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7910,5 +7910,26 @@ Your edits are good and I kept them. The README is at 1,106 student-facing words
 Also fixed a double space in the new grading line.
 
 Your other two changes I'd have made myself. "Analyze, explain, and compute" is a clearer grant than "compute" alone, given Parts 5 and 6 are where Claude is most useful. And cutting the warning about saying yes when you mean it was right, since the sentence above it already says what the commit does.
+
+**User:**
+remove the instructor nte, too
+
+**Claude:**
+- 🔧 `Bash` — Locate the instructor notes block
+- 🔧 `Bash` — See the block and its surroundings before deleting
+The block is mostly stale now — it describes the timebox, the tool-less cold sessions and the old Part 4, all of which are gone. Deleting it, and I'll surface what's still live.
+- 🔧 `Bash` — Delete the instructor notes block
+- 🔧 `Bash` — Fix a double space, verify and commit
+Removed. The README is now **1,106 words, all student-facing**, down from 6,030 this morning. I also fixed a double space in the HW1 date line.
+
+Most of that block was already dead — it described the 45-minute timebox, the tool-less second analyst, the Part 4 own-question and `RECORD.md`, none of which exist any more. The rest is settled: fork and clone, the Google form, WSL2 on Windows, both constants at 20.
+
+**Three things in it were still open, and they now live only in git history**, so here they are:
+
+- **Read access to this template once students fork it.** The session-start check fetches from GitHub every time Claude starts, so template fixes only reach students who can read the repo. Public, class-as-collaborators, or Classroom.
+- **GroupLens's permission for the checked-in zip.** The MovieLens data ships inside the template rather than being downloaded.
+- **Which Claude account students use.** It needs a paid plan, and `INSTALL.md` currently doesn't say which.
+
+The first one has teeth now. Merging template fixes is the whole reason fork-and-clone was chosen, and it silently does nothing for a student who can't read the source.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
