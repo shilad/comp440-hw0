@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*213 user turns. Tool outputs and reasoning omitted.*
+*214 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8048,5 +8048,28 @@ No. They cloned the repo to get here, so git is already proven — checking it w
 Same reason I left out `gh` and Claude Code itself. Claude is obviously running, and `gh` is only needed for the fork, which is already done by step 3 of Part 0.
 
 `uv` is the exception because nothing before setup requires it. A student can install Claude Code, fork, clone, and start a session with no `uv` anywhere, and the first thing they'd hit is a confusing error.
+
+**User:**
+what else are you missing?
+
+**Claude:**
+- 🔧 `Bash` — Check the setup test run
+The setup run worked — `upstream` added, "Name and date" committed. First end-to-end proof of that skill.
+
+On what's missing, let me check rather than speculate.
+- 🔧 `Bash` — Check three likely gaps
+You're right, and my reasoning was wrong. A student who cloned with GitHub Desktop or VS Code has the repo without `git` on the command line, and on macOS the first `git` then triggers the Xcode tools prompt.
+- 🔧 `Bash` — Add git to the environment check
+Fixed. Now, on what else is missing — four things, and the first is serious.
+
+**Student repos will be public, and students can read each other's answers.** Fork-and-clone means a fork of a public template, and GitHub won't let those be private. Your README edit removed "keep your repo private", so nothing contradicts itself any more, but the consequence stands: any student can open a classmate's fork and read their completed writeup. On an assignment whose whole point is that the student's judgments are their own, that's the gap I'd close first. GitHub Classroom gives private repos with real history; the cost is setup time.
+
+**`INSTALL.md` still says `[DECIDE: which Claude account students use]`.** That's in a file students read on day one, and it's the one prerequisite they can't work around — it needs a paid plan, and a free account fails.
+
+**The form link may not be published.** The URL you gave ended in `?usp=publish-editor`, which is what Google hands you inside the editor. I used the plain `/viewform` link. Worth opening it in a private window to confirm it accepts responses from outside your account.
+
+**Nothing verifies the student actually ran the gate check.** They can commit anything with the subject "Parts 1-3 finished" and Claude will treat the gate as passed on the next session. That's by design — you removed enforcement deliberately — but it means the gate rests entirely on the student wanting the check.
+
+Two smaller things I checked and cleared: the transcript is about 7KB after a full run, so size is not a problem, and the setup skill now works end to end.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
