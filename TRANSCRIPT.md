@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*218 user turns. Tool outputs and reasoning omitted.*
+*219 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -8165,5 +8165,62 @@ That comes from eleven finished runs. Tutor cost, meaning what a real student pa
 Two things worth knowing about that student figure. A Claude Pro plan absorbs roughly $20 of API cost per five-hour window, so a student doing the assignment in one sitting on Opus would brush against the limit, while one spreading it over three sessions would not notice. And the harness pins Opus at medium effort because that's what makes the *simulated* student a good actor. A real student on the default model pays much less for the same tutoring.
 
 The sweep itself is still building its four sandboxes and hasn't recorded a turn yet.
+
+**User:**
+can you fix the issues you just raised before running the simulations?
+
+**Claude:**
+Stopping the sweep first so the fixes land before the runs.
+- 🔧 `Bash` — Stop the sweep and clear its partial runs
+- 🔧 `SendMessage` — {"to": "fullrun", "summary": "Sweep stopped; two harness bugs being fixed first", "message": "I h...
+- 🔧 `Bash` — Read the writeup filler
+Found it. Line 266 replaces the `XXXX` on the first fill, but line 269 *inserts* on any later fill, so a revision stacks on top of the old answer.
+- 🔧 `Bash` — Fix the stacking and test a revision
+Revision now replaces cleanly. Now the second bug — the seeded rule overriding what the student chose.
+- 🔧 `Bash` — Read seed_part and the persona instinct
+- 🔧 `Bash` — Read the instinct options and seed files
+- 🔧 `Bash` — Read the seeded Part 2 script and its writeup answers
+- 🔧 `Bash` — Read SEED_WRITEUP
+Now the fix: three variants of the Part 2 seed, one per instinct the personas can hold.
+- 🔧 `Bash` — See what chosen_seeds holds
+- 🔧 `Bash` — Create the three Part 2 seed variants
+- 🔧 `Bash` — Wire the variants into seed_part
+- 🔧 `Bash` — Find where to add the variant field
+- 🔧 `Bash` — Add the field and set it from the persona
+The seeds for stations S1 and above are written during `build`, before the persona is composed — so my fix only reaches S0 runs. Plumbing it properly.
+- 🔧 `Bash` — Read the build and materialize ordering
+- 🔧 `Bash` — Move materialize before build and extend the signature
+- 🔧 `Bash` — Read the Sandbox construction
+- 🔧 `Bash` — Verify all three variants seed correctly
+All three variants seed correctly, code and writeup matching. Committing and relaunching.
+- 🔧 `Bash` — Verify fixtures still pass and commit
+My change broke a fixture assertion. Checking before anything relaunches.
+- 🔧 `Bash` — See which assertion fails
+- 🔧 `Bash` — Find how the fixture builds its clean run
+- 🔧 `Bash` — Read how the fixture builds its repo
+- 🔧 `Bash` — Check whether the failure predates my change
+- 🔧 `Bash` — Test the fixture at the parent commit
+- 🔧 `Bash` — Run the fixture at the parent commit against the template
+My change did break it — the fixture passes at the parent commit. Debugging.
+- 🔧 `Bash` — Find what L9d checks
+- 🔧 `Bash` — Read the L9d check
+- 🔧 `Bash` — Find the fixture builder entry point
+- 🔧 `Bash` — Print the actual L9d diff
+- 🔧 `Bash` — See what the fixture copies from
+Not my change after all — the fixture prefers *any sandbox in `runs/`* over the template, and it copies that sandbox's git history, which already contains a real gate commit. It passed at the parent only because that worktree had an empty `runs/`. Its own comment says this was fixed; the fix was incomplete.
+- 🔧 `Bash` — Make the fixture independent of runs on disk
+- 🔧 `Bash` — Verify repeatable and commit the fixture fix
+- 🔧 `SendMessage` — {"to": "fullrun", "summary": "Three fixes in; relaunch the sweep", "message": "All fixed and push...
+Both bugs fixed, plus a third I found while verifying. The sweep is relaunching.
+
+**The writeup filler replaces instead of stacking.** A revised slot now overwrites the old answer up to the next label, and it reports "replaced" rather than "filled" so you can see it happen.
+
+**Part 2 has three seeds now, one per instinct a persona can hold** — the plain average, an average with a 50-rating floor, and the shrunk mean. The student gets the rule they actually believe in, with writeup answers that match the code. Previously every student got the shrunk mean whatever they'd said, which made the choice the assignment grades into the harness's choice.
+
+**The third bug is the interesting one.** The fixture that checks all this built itself from whatever sandbox happened to be in `runs/`, copying that run's git history along with it. A finished run carries its own gate commit, so the fixture's scripts sat on top of a real gate and the check correctly flagged them as changed afterwards. The suite passed or failed according to which runs were on disk — it passed in an empty worktree and failed beside seven finished runs. Its own comment claims this was fixed once; the fix removed the dependency on a sandbox *existing*, not the preference for one when it does.
+
+That cost me four tool calls chasing a failure I'd assumed was mine, and it's the third instrument bug this week that produced a confident wrong answer. Adding it to the guidelines.
+
+One consequence for the report: with three variants, the four students no longer all hold the same rule, so a collision with Part 4's Claude is now a real coincidence rather than a property of the seed.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
