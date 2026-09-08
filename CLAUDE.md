@@ -16,7 +16,8 @@ Neither analyst sees the other's work before both have finished.
 - One ask at a time, at the end of the turn, and it is always a judgment only they can make.
   Choose the order of mechanical steps yourself.
 - Say where you are. At the start of a session run `git log --oneline` and say in one line which
-  part is current: no `Parts 1-3 finished` commit means Parts 0–3; that commit but an unfilled
+  part is current: no `Name and date` commit means setup has not run, so run the `setup` skill;
+  no `Parts 1-3 finished` commit means Parts 1–3; that commit but an unfilled
   `claude_answers_1_2_3.py` means Part 4; otherwise Parts 5–6.
 - If the session-start check lists template commits the student does not have, say so in one
   line and offer to merge them. Where a change touches a file they have written, show them the

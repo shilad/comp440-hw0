@@ -10,7 +10,10 @@
       "Bash(uv run python human_part1.py)",
       "Bash(uv run python human_part2.py)",
       "Bash(uv run python human_part3.py)",
-      "Bash(uv run python claude_answers_1_2_3.py)"
+      "Bash(uv run python claude_answers_1_2_3.py)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ]
   },
   "hooks": {

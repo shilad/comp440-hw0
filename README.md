@@ -1,10 +1,9 @@
 # COMP 440, HW0: Working With Data and Claude — An AI and Human Analyst
 
 **Fall 2026 · Individual · 6% of the course grade**
-**Out Thu Sep 10 · Due Thu Sep 17, 8:00am Central**
+**Due Thu Sep 17, 8:00am Central**
 
-Budget about five and a half hours; aim to finish Parts 1–3 by Mon Sep 14. HW1 goes out Tue
-Sep 15 and builds on this, so finish HW0 first.
+Aim to finish Parts 1–3 by Mon Sep 14. HW1 goes out Tue  Sep 15 and builds on this, so finish HW0 first.
 
 > **Instructor notes (delete before publishing).** Decisions taken as defaults so the brief
 > reads whole; each is one edit to change. Part 1(d) threshold and the shrinkage constant are
@@ -69,12 +68,10 @@ with Shilad.
 
 ### Part 0. Setup (in class Thu Sep 10)
 
-0. Complete `INSTALL.md`.
-1. Fork this repo and clone your fork.
-2. `git remote add upstream https://github.com/shilad/comp440-hw0`
-3. `uv sync`, then `uv run python run_all.py`.
-4. Start `claude` and approve the hooks.
-5. Fill your name and the date in `WRITEUP.md`, and ask Claude to commit them.
+1. Complete `INSTALL.md`.
+2. Fork this repo and clone your fork.
+3. In the clone, start `claude`, approve the hooks, and type `/setup`. Claude does the rest and
+   asks your name.
 
 Tell me on `#comp440-f26` by Fri Sep 11 if anything does not work.
 
@@ -88,7 +85,7 @@ which movies got the most ratings, and which rate highest among movies with at l
 **Part 2, `human_part2.py`** — the best movie. There is no single answer: it depends on how you
 combine 943 people's judgments. Choose a rule and defend it.
 
-**Part 3, `human_part3.py`** — the most ___ movie. Pick an adjective — anything you can define.
+**Part 3, `human_part3.py`** — the most XYZ movie. Pick an adjective XYZ anything non-trivial you can define.
 Nothing in the data answers this directly, so you decide what the word means, then compute it.
 
 Ask Claude for help installing things and for help when something breaks. Not for the analysis,
@@ -108,8 +105,8 @@ Parts 1–3 are graded as they stood at that commit.
 ### Part 4. Claude's turn
 
 Ask Claude to answer the same three questions. It starts a separate session in an empty
-directory holding only the data, the loader, and an empty `claude_answers_1_2_3.py` — no
-access to your code, your answers, or your conversation. It gets the questions from
+directory holding only the data, the loader, and an empty `claude_answers_1_2_3.py` . 
+It has no access to your code, your answers, or your conversation. It gets the questions from
 `questions.md`, word for word, so that every student's Claude is asked the same thing.
 
 Read what it wrote before you go on.
@@ -160,7 +157,9 @@ talking through approaches is fine, and name anyone who helped. Keep your repo p
 | **Working with Claude** | 5 | Honest answers about what you asked for and what you could not verify. |
 | | **100** | |
 
-## If something is different
+## Talk to me if...
+
+**You notice something is odd or confusing.** This activity is our first Claude experiment!
 
 **You would rather not use Claude.** Talk to me by Fri Sep 11; there is no grade effect.
 
