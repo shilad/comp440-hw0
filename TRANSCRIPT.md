@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*196 user turns. Tool outputs and reasoning omitted.*
+*197 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7668,5 +7668,25 @@ No — the figure I quoted is the whole simulation, which includes three actors 
 **The number that matters for your students is the tutor line plus Part 4** — about **$2.56** for the steady student and **$3.46** for the struggling one. The simulated student and the observer are pure harness cost; a real student is a person and audits nothing.
 
 Worth noting these tutor figures run on Opus at medium effort, which is what the harness pins. A student on Sonnet would pay considerably less for the same work. And a Claude Pro plan absorbs roughly $20 of API cost per five-hour window, so a $3.50 assignment sits comfortably inside one window even for the student who struggles most.
+
+**User:**
+How far, now?
+
+**Claude:**
+- 🔧 `Bash` — Check sweep progress with tutor cost split
+**Four of seven done, twenty minutes in, $18 spent.**
+
+| Run | Turns | Tutor cost | Ended |
+|---|---|---|---|
+| steady | 20 | $2.56 | finished, said YOU ARE FINISHED |
+| busy | 30 | $4.72 | student stopped |
+| struggling | 35 | $3.46 | hit the cap |
+| rushed | 11 | $1.16 | student stopped |
+
+Curious, worried and the delegator are still building.
+
+Two things worth flagging now. **The rushed student quit after 11 turns** — that's a very short run, and whether they got anywhere or just walked away is the first thing I'll check in the artifacts. **Only the steady student has reached YOU ARE FINISHED**, and the other two that ended did so by the student deciding they were done rather than by the tutor confirming it. That distinction matters: a student who stops without the signal has submitted nothing.
+
+Tutor cost is tracking between $1 and $5, so the assignment sits inside a single Pro-plan window even at the top end.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
