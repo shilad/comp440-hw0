@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*188 user turns. Tool outputs and reasoning omitted.*
+*189 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7484,5 +7484,47 @@ Done and pushed. Your instinct about a skill was right, and it answers your othe
 The four things it took off the student — the remote, the sync, the smoke test, the first commit — were never the learning. They were four chances to mistype something before reaching Part 1.
 
 One knock-on: `CLAUDE.md`'s where-are-we check gained a step, so a session in a repo with no `Name and date` commit knows setup hasn't run and offers it.
+
+**User:**
+In the viewer I see lots of ⚠ Oversized student turn — likely contains simulator-generated assistant-voice text. Treat this turn and everything after it as contaminated.
+
+Also, the transcript should be a little wider, i think.
+
+**Claude:**
+That warning means the simulated student's turns may contain text the student model wrote in the tutor's voice. If it's real, the runs I just reported on are contaminated. Checking before anything else.
+- 🔧 `Bash` — Find what triggers the contamination warning
+- 🔧 `Bash` — Check whether the warning uses real data or a length guess
+The runner flagged 17, 13 and 15 turns out of about 24 each. Let me see whether those are actually contaminated or whether the detector is wrong.
+- 🔧 `Bash` — Inspect the flagged student messages directly
+- 🔧 `Bash` — Read the actual flagged student messages
+- 🔧 `Bash` — Inspect history.json structure
+- 🔧 `Bash` — Read flagged student turns from history
+Confirmed false positive, and it's a bad one. Every flagged turn is the student's own voice. Let me verify the real signal before fixing.
+- 🔧 `Bash` — Test whether stripping action blocks removes the false positives
+Length is simply the wrong signal — turn 5 is 825 characters of the student reasoning in their own voice. Testing a content-based check instead: does the student echo the tutor's text back?
+- 🔧 `Bash` — Test a content-based contamination check
+Zero contamination across all 74 student turns, by both content checks. **The runs are clean and my earlier report stands.** The detector was firing on length alone, and the assignment now asks for 150-word answers, so long student turns are the normal case.
+
+Fixing the detector and widening the transcript.
+- 🔧 `Bash` — Find the transcript width CSS
+- 🔧 `Bash` — Replace the length check and widen the transcript
+- 🔧 `Bash` — Fix the doubled warning text and rebuild
+My guard line broke the script. Fixing the doubled "contains" with a targeted edit.
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Read` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Edit` — /Users/shilads/Projects/COMP440/comp440-hw0-sim/viewer.py
+- 🔧 `Bash` — Rescore the three runs and rebuild the viewer
+- 🔧 `Bash` — Record the lesson, commit and push
+Both fixed and pushed. Viewer rebuilt and reopened.
+
+**The warning was wrong, and the runs are clean.** The check asked whether a student turn ran past 400 characters, on the theory that a real chat line is short. That was true of 45 of the 74 turns, and every one was a genuine student sentence. The student now fills the writeup through actions, and the assignment asks for answers of up to 150 words, so long turns are the normal case.
+
+What the check is actually for is the student model writing the tutor's side of the conversation. It now looks for that directly: the tutor's register and transcript markup, or 200-plus characters of the reply the student was just shown, echoed back. Across all 74 turns it finds **zero**. I rescored the three result files, so the warnings are gone from the viewer.
+
+My earlier report stands unchanged.
+
+**Transcript widened** from 74 to 104 characters, which a 150-word writeup answer needs to read as a paragraph rather than a column.
+
+One lesson added to the guidelines, because this is the second instrument bug today and they share a shape: *detect the thing itself, not a proxy for it.* When a proxy and its target come apart, the proxy doesn't degrade quietly. It inverts, and it accuses the good runs.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
