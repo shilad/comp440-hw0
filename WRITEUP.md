@@ -116,6 +116,11 @@ XXXX
 
 XXXX
 
+**Where did this assignment slow you down for a reason that was its fault, not yours? Point at
+the step. Or "nowhere." One or two sentences:**
+
+XXXX
+
 **Hours spent:** XXXX
 
 **Anyone who helped you, or "no one":** XXXX
