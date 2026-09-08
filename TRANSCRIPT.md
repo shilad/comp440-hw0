@@ -2344,7 +2344,7 @@ No response requested.
 <!-- transcript-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 | 2026-09-06T15:17:05.681Z -->
 ## Session `cd596ab4` — 2026-09-06 15:17:05
 
-*194 user turns. Tool outputs and reasoning omitted.*
+*195 user turns. Tool outputs and reasoning omitted.*
 
 **User:**
 what kind of model is being used for the "ask claude to complete the same task" in the activity?
@@ -7631,5 +7631,23 @@ how far along?
 The three running are the steady, struggling and busy students, at three at a time. The remaining four queue behind them.
 
 Based on this afternoon's runs, expect roughly 20 to 30 minutes per cell and something like an hour and a half total for all seven. I'll report when the delegate has the results, or sooner if something stalls.
+
+**User:**
+once more?
+
+**Claude:**
+- 🔧 `Bash` — Re-check sweep progress
+- 🔧 `Bash` — Check if either finished run reached the completion signal
+**Two of seven done, ten minutes in, $9.27 so far.**
+
+| Run | Result |
+|---|---|
+| steady | done at 20 turns, $3.74, student signalled finished |
+| struggling | hit the 35-turn cap, $5.53 |
+| busy, curious, worried | building |
+
+**The steady student reached YOU ARE FINISHED**, with zero blanks left in the writeup. That's the first end-to-end completion of the restructured assignment, and it answers the question the turn bump was meant to test. It finished in 20 turns, well under the old 25-turn cap, so the earlier runs were being cut short by something other than length.
+
+The struggling student used all 35 and didn't get there, which is the expected shape for that character rather than a problem.
 
 <!-- end-session: cd596ab4-7ebc-4142-95aa-78e434a9a359 -->
