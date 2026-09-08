@@ -35,6 +35,8 @@ Code: `human_part2.py`.
 
 **My rule:** XXXX
 
+**One rule I considered and rejected, and why:** XXXX
+
 **Top 10 under my rule:**
 
 XXXX
@@ -50,6 +52,8 @@ Code: `human_part3.py`.
 **My adjective:** XXXX
 
 **My definition** (one sentence, precise enough that a classmate could code it)**:** XXXX
+
+**One definition I considered and rejected, and why:** XXXX
 
 **Top 5 under my definition:**
 
@@ -75,15 +79,15 @@ XXXX
 
 XXXX
 
-**Did Claude say it was making a choice, or present its rule as the answer?**
+**Read what Claude wrote about its rule. Does it anywhere admit the rule was a choice, and that a different rule was possible? Or does it give its answer as simply the answer? Quote the sentence that decides it:**
 
 XXXX
 
-**Where your two top-10 lists differ, and why:**
+**Your Part 2 top 10 and Claude's Part 2 top 10 — not the Part 1(d) lists. Where do they differ, and why?**
 
 XXXX
 
-**Whose rule is better for what, in at most 150 words. You may conclude yours, its, or neither:**
+**Better for what purpose? Name a situation where your rule is the right one and a situation where Claude's is. At most 150 words. You may conclude yours, its, or neither:**
 
 XXXX
 

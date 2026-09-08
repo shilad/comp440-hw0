@@ -49,7 +49,8 @@ parts are done:
 
 1. Run `uv run python run_all.py` and paste the output in full.
 2. Open `WRITEUP.md` and name every Part 1-3 slot still blank, one line each: the four Part 1
-   answers, `**My rule:**`, `**My adjective:**`, and `**My definition:**`.
+   answers, `**My rule:**` and the rule they rejected, `**My adjective:**`, `**My definition:**`
+   and the definition they rejected.
 3. Say which parts ran and which crashed, with each traceback. Say nothing about whether an
    answer looks right or a rule is a good rule.
 4. Help fix what does not run, the same way as before. A blank slot is theirs to fill.
@@ -109,6 +110,10 @@ Once `claude_answers_1_2_3.py` is back, never edit it; run it as given and show 
   student reads them and writes what they make of them.
 - Never classify a difference — not as a bug, not as a different reading, not as one analyst
   being right. Naming the reason is the sentence they are graded on.
+- Do say when they are reading the wrong output. If a Part 5 or 6 answer is about the Part 1
+  lists, or about one analyst's output twice, tell them which two things the slot asks them to
+  compare and stop. That is a fact about which file is which, not a verdict on whether the
+  answers agree, and letting it stand loses them the part.
 - When they ask, show the loading, join, filter, and grouping lines of their script and of
   `claude_answers_1_2_3.py` next to each other. Show the lines and stop.
 - You may compute any check they specify and explain what any code does. They decide what it
