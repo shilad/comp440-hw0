@@ -3569,9 +3569,9 @@ The effort level is the one I would change first: your own written policy says t
 
 **Hooks and memory sync are entirely absent here.** The other directory runs three hook systems: memory sync (`~/toolbox/bin/claude-memory-sync`), session logging, and marketplace instrumentation. The practical consequence is that the memory files I wrote today, under `~/.claude-home/projects/.../memory/`, are not being copied into your memory git repository at `~/.claude/memory-repo/`, so other sessions will not see them. If you want that, the memory-sync hook entries from the other settings file need to come across.
 
-**Plugins differ too.** The other directory enables the GitLab plugin and an internal Indeed marketplace plugin; this one enables the document skills instead.
+**Plugins differ too.** The other directory enables the GitLab plugin and a work-only marketplace plugin; this one enables the document skills instead.
 
-**Not worth pulling: the fleet-setup skill.** It bootstraps your worker machines and assumes it is running on the Indeed host, reaching workers over ssh. It would not do anything useful from this Mac.
+**Not worth pulling: the fleet-setup skill.** It bootstraps your worker machines and assumes it is running on a work machine, reaching workers over ssh. It would not do anything useful from this Mac.
 
 I stopped short of editing your global settings file or your toolbox copy of the instructions, since those change every session on this machine. Say the word and I will apply the effort level, the permission setting, and the memory-sync hooks.
 
@@ -5457,7 +5457,7 @@ That second one is the real cost of the split, and it's not an accident of today
 
 I've got an agent checking the documented mechanics — whether there's a first-class account switcher, how usage attributes across two accounts on one machine, and whether anything shares state that shouldn't. I'd rather give you a recommendation grounded in the docs than in what I've inferred from your keychain.
 
-The question I'd want your answer to meanwhile: **is the split by account, or by purpose?** If `~/.claude` is Indeed and `~/.claude-home` is personal, the divergence is correct and the fix is just making the current one visible. If they're the same account and the split is historical, you'd be better off collapsing them.
+The question I'd want your answer to meanwhile: **is the split by account, or by purpose?** If `~/.claude` is work and `~/.claude-home` is personal, the divergence is correct and the fix is just making the current one visible. If they're the same account and the split is historical, you'd be better off collapsing them.
 
 **User:**
 <task-notification>
